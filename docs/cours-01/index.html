@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cours 01 · Gestion des versions et intégration continue</title>
+    <meta
+      name="description"
+      content="Première page de cours placeholder avec démonstration Mermaid."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-5xl px-6 py-10 lg:px-8">
+      <header class="flex flex-col gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <a href="../" class="text-sm font-medium text-sky-700 hover:text-sky-800">← Retour à l'accueil</a>
+          <p class="mt-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Cours 01</p>
+          <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            Introduction à Git, GitHub et GitHub Pages
+          </h1>
+          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600">
+            Cette page sert de placeholder pour la première séance. Elle pourra être remplacée progressivement par le
+            contenu réel du cours.
+          </p>
+        </div>
+        <span class="inline-flex w-fit rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">
+          Version initiale
+        </span>
+      </header>
+
+      <main class="space-y-8 py-10">
+        <section class="grid gap-6 md:grid-cols-2">
+          <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 class="text-xl font-semibold text-slate-900">Objectifs</h2>
+            <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+              <li>• Comprendre les principes de base de la gestion de versions.</li>
+              <li>• Identifier le rôle de Git dans un flux de travail collaboratif.</li>
+              <li>• Découvrir GitHub et le principe de publication avec GitHub Pages.</li>
+            </ul>
+          </article>
+
+          <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <h2 class="text-xl font-semibold text-slate-900">Programme</h2>
+            <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+              <li>• Pourquoi versionner le code et les supports.</li>
+              <li>• Dépôt local, commits, branches et synchronisation distante.</li>
+              <li>• Publication d'un site statique avec GitHub Pages.</li>
+            </ul>
+          </article>
+        </section>
+
+        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 class="text-xl font-semibold text-slate-900">Ressources</h2>
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            <div class="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+              <p class="font-medium text-slate-900">Support de séance</p>
+              <p class="mt-2">Placeholder pour les diapositives, consignes et documents de référence.</p>
+            </div>
+            <div class="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+              <p class="font-medium text-slate-900">Travaux pratiques</p>
+              <p class="mt-2">Placeholder pour les exercices guidés et les activités de mise en pratique.</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 class="text-xl font-semibold text-slate-900">Diagramme Mermaid de validation</h2>
+              <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+                Ce bloc charge un flowchart placeholder depuis un fichier Markdown séparé pour valider le rendu Mermaid
+                dans GitHub Pages.
+              </p>
+            </div>
+            <span class="rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
+              Source externe .md
+            </span>
+          </div>
+
+          <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div
+              data-mermaid-src="../mermaid/flowchart-introduction.md"
+              class="mermaid-host min-h-32 rounded-xl border border-dashed border-slate-300 bg-white p-4"
+            >
+              <p class="text-sm text-slate-500">Chargement du diagramme…</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <h2 class="text-xl font-semibold text-slate-900">Exercices</h2>
+          <ol class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+            <li>1. Créer un dépôt Git local et effectuer un premier commit.</li>
+            <li>2. Publier un dépôt sur GitHub.</li>
+            <li>3. Observer la structure du site généré pour GitHub Pages.</li>
+          </ol>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="../assets/js/mermaid-loader.js"></script>
+  </body>
+</html>

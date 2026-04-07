@@ -1,6 +1,6 @@
 # Support de cours · Gestion des versions et intégration continue
 
-> [**Lien du cours**](https://gvi2026.github.io/cours/)
+> :bulb: [**Lien du cours**](https://gvi2026.github.io/cours/)
 
 Ce dépôt sert de base pour héberger le support du cours **Gestion des versions et intégration continue**.
 

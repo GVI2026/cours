@@ -11,69 +11,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-900">
-    <div
-      class="mx-auto flex min-h-screen max-w-6xl flex-col px-6 py-10 lg:px-8"
-    >
-      <header
-        class="flex items-center justify-between border-b border-slate-200 pb-6"
-      >
-        <div>
-          <p
-            class="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700"
-          >
-            IG2I · Support de cours
-          </p>
-          <h1 class="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">
-            Gestion des versions et intégration continue
-          </h1>
-        </div>
-      </header>
+    <main class="mx-auto max-w-3xl px-6 py-16 lg:px-8">
+      <p class="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">
+        IG2I · Support de cours
+      </p>
+      <h1 class="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+        Gestion des versions et intégration continue
+      </h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-slate-600">
+        Support de cours en ligne pour retrouver les différentes séances et leurs ressources.
+      </p>
 
-      <main class="flex-1 py-12">
-        <section class="grid gap-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
-          <div
-            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
-          >
-            <p
-              class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500"
+      <section class="mt-10">
+        <h2 class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+          Liste des cours
+        </h2>
+        <ul class="mt-4 space-y-3">
+          <li>
+            <a
+              href="./cours-01/index.html"
+              class="block rounded-xl border border-slate-200 bg-white px-4 py-4 text-base font-medium text-slate-900 transition hover:border-sky-200 hover:text-sky-800"
             >
-              Contenu initial
-            </p>
-            <div class="mt-6 space-y-4">
-              <a
-                href="./cours-01/index.html"
-                class="group block"
-              >
-                <article
-                  class="rounded-xl border border-slate-200 bg-slate-50 p-4 transition-colors duration-200 group-hover:border-sky-200 group-hover:bg-sky-50/50 group-hover:shadow-md"
-                >
-                  <p class="text-sm font-medium text-sky-700">Cours 01</p>
-                  <h3 class="mt-2 text-lg font-semibold text-slate-900">
-                    Gestion de versions, Git et DevOps
-                  </h3>
-                  <p class="mt-2 text-sm leading-6 text-slate-600">
-                    Page de cours placeholder avec objectifs, programme,
-                    ressources et démonstration Mermaid.
-                  </p>
-                </article>
-              </a>
-              <article
-                class="rounded-xl border border-dashed border-slate-300 p-4"
-              >
-                <p class="text-sm font-medium text-slate-500">Cours suivants</p>
-                <p class="mt-2 text-sm leading-6 text-slate-500">
-                  Espace réservé pour les prochaines séances, travaux pratiques
-                  et supports complémentaires.
-                </p>
-              </article>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer class="border-t border-slate-200 pt-6 text-sm text-slate-500">
-        Support de cours initialisé pour GitHub Pages · Avril 2026
-      </footer>
-    </div>
+              Cours 01 · Introduction au versioning avec Git et GitHub
+            </a>
+          </li>
+        </ul>
+      </section>
+    </main>
   </body>
 </html>

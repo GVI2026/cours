@@ -1,100 +1,1099 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cours 01 · Gestion des versions et intégration continue</title>
+    <title>Cours 01 · Introduction au versioning avec Git et GitHub</title>
     <meta
       name="description"
-      content="Première page de cours placeholder avec démonstration Mermaid."
+      content="Support interactif du cours 01 : versioning, Git, GitHub, collaboration, pull requests et résolution de conflits."
     />
+    <meta name="course:id" content="cours-01" />
+    <meta
+      name="course:title"
+      content="Introduction au versioning avec Git et GitHub"
+    />
+    <meta name="course:duration-total-minutes" content="210" />
+    <meta
+      name="course:sections"
+      content="introduction,versioning,git-model,local-workflow,tp1,remotes,tp2,teamwork,tp3,conflicts,release,semver,conventional-commits"
+    />
+    <script id="course-metadata" type="application/json">
+      {
+        "courseId": "cours-01",
+        "title": "Introduction au versioning avec Git et GitHub",
+        "totalDurationMinutes": 210,
+        "sections": [
+          {
+            "id": "introduction",
+            "title": "Lancement de séance",
+            "durationMinutes": 10
+          },
+          {
+            "id": "versioning",
+            "title": "Pourquoi versionner",
+            "durationMinutes": 15
+          },
+          {
+            "id": "git-model",
+            "title": "Modèle mental Git",
+            "durationMinutes": 10
+          },
+          {
+            "id": "local-workflow",
+            "title": "Commandes de base en local",
+            "durationMinutes": 20
+          },
+          {
+            "id": "tp1",
+            "title": "TP 1 guidé en local",
+            "durationMinutes": 15
+          },
+          {
+            "id": "remotes",
+            "title": "Dépôts distants et GitHub",
+            "durationMinutes": 15
+          },
+          { "id": "tp2", "title": "TP 2 anarchique", "durationMinutes": 20 },
+          {
+            "id": "teamwork",
+            "title": "Git en équipe et pull requests",
+            "durationMinutes": 20
+          },
+          { "id": "tp3", "title": "TP 3 outillé", "durationMinutes": 15 },
+          {
+            "id": "conflicts",
+            "title": "Résolution de conflits",
+            "durationMinutes": 30
+          },
+          {
+            "id": "release",
+            "title": "Notion de release",
+            "durationMinutes": 10
+          },
+          {
+            "id": "semver",
+            "title": "Semantic Versioning",
+            "durationMinutes": 15
+          },
+          {
+            "id": "conventional-commits",
+            "title": "Conventional Commits",
+            "durationMinutes": 15
+          }
+        ]
+      }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="min-h-screen bg-slate-50 text-slate-900">
-    <div class="mx-auto max-w-5xl px-6 py-10 lg:px-8">
-      <header class="flex flex-col gap-4 border-b border-slate-200 pb-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <a href="../index.html" class="text-sm font-medium text-sky-700 hover:text-sky-800">← Retour à l'accueil</a>
-          <p class="mt-4 text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Cours 01</p>
-          <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-            Introduction à Git, GitHub et GitHub Pages
-          </h1>
-          <p class="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-            Cette page sert de placeholder pour la première séance. Elle pourra être remplacée progressivement par le
-            contenu réel du cours.
-          </p>
-        </div>
-        <span class="inline-flex w-fit rounded-full bg-emerald-100 px-3 py-1 text-sm font-medium text-emerald-700">
-          Version initiale
-        </span>
+    <div class="mx-auto max-w-6xl px-6 py-10 lg:px-8 xl:max-w-7xl">
+      <header class="border-b border-slate-200 pb-8">
+        <a
+          href="../index.html"
+          class="text-base font-medium text-sky-700 transition hover:text-sky-800"
+          >← Retour à l'accueil</a
+        >
+        <p
+          class="mt-6 text-base font-semibold uppercase tracking-[0.22em] text-slate-500"
+        >
+          Cours 01
+        </p>
+        <h1
+          class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
+        >
+          Introduction au versioning avec Git et GitHub
+        </h1>
+        <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
+          Cette séance pose le socle du module. On commence par comprendre
+          pourquoi on versionne, on pratique Git en local, puis on vit une vraie
+          collaboration sur GitHub avant de traiter les conflits, les releases
+          et les conventions de commits.
+        </p>
+
+        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
+          <li>
+            Comprendre ce que le versioning apporte avant même de parler
+            d'outillage.
+          </li>
+          <li>
+            Prendre en main Git seul, puis dans un contexte collaboratif réel.
+          </li>
+          <li>
+            Savoir reconnaître un conflit, le résoudre et vérifier son
+            historique.
+          </li>
+          <li>
+            Terminer avec une première vue d'ensemble sur releases, SemVer et
+            Conventional Commits.
+          </li>
+        </ul>
       </header>
 
-      <main class="space-y-8 py-10">
-        <section class="grid gap-6 md:grid-cols-2">
-          <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 class="text-xl font-semibold text-slate-900">Objectifs</h2>
-            <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-              <li>• Comprendre les principes de base de la gestion de versions.</li>
-              <li>• Identifier le rôle de Git dans un flux de travail collaboratif.</li>
-              <li>• Découvrir GitHub et le principe de publication avec GitHub Pages.</li>
-            </ul>
-          </article>
+      <nav class="py-8">
+        <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
+        <ul class="mt-4 space-y-3 text-lg leading-8">
+          <li>
+            <a href="#introduction" class="text-sky-700 hover:text-sky-800"
+              >Démarrage</a
+            >
+          </li>
+          <li>
+            <a href="#versioning" class="text-sky-700 hover:text-sky-800"
+              >Pourquoi versionner</a
+            >
+          </li>
+          <li>
+            <a href="#git-model" class="text-sky-700 hover:text-sky-800"
+              >Le modèle mental Git</a
+            >
+          </li>
+          <li>
+            <a href="#local-workflow" class="text-sky-700 hover:text-sky-800"
+              >Git en local</a
+            >
+          </li>
+          <li>
+            <a href="#remotes" class="text-sky-700 hover:text-sky-800"
+              >GitHub et dépôts distants</a
+            >
+          </li>
+          <li>
+            <a href="#teamwork" class="text-sky-700 hover:text-sky-800"
+              >Branches et pull requests</a
+            >
+          </li>
+          <li>
+            <a href="#conflicts" class="text-sky-700 hover:text-sky-800"
+              >Conflits</a
+            >
+          </li>
+          <li>
+            <a href="#release" class="text-sky-700 hover:text-sky-800"
+              >Release et versionnage</a
+            >
+          </li>
+        </ul>
+      </nav>
 
-          <article class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 class="text-xl font-semibold text-slate-900">Programme</h2>
-            <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-              <li>• Pourquoi versionner le code et les supports.</li>
-              <li>• Dépôt local, commits, branches et synchronisation distante.</li>
-              <li>• Publication d'un site statique avec GitHub Pages.</li>
-            </ul>
-          </article>
-        </section>
+      <main class="space-y-10 pb-12">
+        <section
+          id="introduction"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">Démarrage</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            L'idée n'est pas de faire un cours magistral long, mais de
+            construire un rythme simple : une notion, une question, une
+            manipulation, puis un débrief. Le site est visible dès le début,
+            donc les réponses de correction sont présentes mais cachées quand
+            c'est utile.
+          </p>
 
-        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 class="text-xl font-semibold text-slate-900">Ressources</h2>
-          <div class="mt-4 grid gap-4 md:grid-cols-2">
-            <div class="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-              <p class="font-medium text-slate-900">Support de séance</p>
-              <p class="mt-2">Placeholder pour les diapositives, consignes et documents de référence.</p>
-            </div>
-            <div class="rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-              <p class="font-medium text-slate-900">Travaux pratiques</p>
-              <p class="mt-2">Placeholder pour les exercices guidés et les activités de mise en pratique.</p>
-            </div>
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">Prérequis</h3>
+            <ul class="space-y-3 text-lg leading-8 text-slate-700">
+              <li>Avoir un compte GitHub actif avant le cours.</li>
+              <li>Pouvoir ouvrir un terminal sur sa machine.</li>
+              <li>
+                Avoir Git installé et un éditeur prêt à modifier des fichiers
+                texte.
+              </li>
+              <li>
+                VS Code ou GitHub Desktop peuvent servir à comparer ligne de
+                commande et interface graphique.
+              </li>
+            </ul>
           </div>
         </section>
 
-        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-            <div>
-              <h2 class="text-xl font-semibold text-slate-900">Diagramme Mermaid de validation</h2>
-              <p class="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
-                Ce bloc charge un flowchart placeholder depuis un fichier Markdown séparé pour valider le rendu Mermaid
-                dans GitHub Pages.
+        <section
+          id="versioning"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Pourquoi versionner
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le versioning sert à enregistrer, suivre et organiser l'évolution
+            d'un projet. Il permet de revenir en arrière, de comprendre qui a
+            fait quoi et de travailler à plusieurs sans perdre la mémoire du
+            projet.
+          </p>
+
+          <div class="space-y-4 text-lg leading-8 text-slate-700">
+            <p>
+              On s'en sert pour mémoriser les changements, garder une trace des
+              décisions et retrouver un état fiable si une régression apparaît.
+            </p>
+            <p>
+              On s'en sert aussi pour éviter les copies de dossiers confuses qui
+              finissent en
+              <span class="font-semibold text-slate-900"
+                >v-finale-bis-cette-fois</span
+              >.
+            </p>
+            <p>
+              Historiquement, RCS, CVS puis Subversion ont préparé le terrain.
+              Git a ensuite imposé une logique distribuée, rapide et adaptée au
+              travail collaboratif moderne.
+            </p>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Qu'est-ce que vous gagnez vraiment par rapport à un dossier copié
+              à la main ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                On gagne un historique lisible, des points de retour clairs, des
+                auteurs identifiés et un cadre robuste pour collaborer.
+              </p>
+              <p>
+                Autrement dit, on remplace des copies de dossiers confuses par
+                une évolution traçable du projet.
               </p>
             </div>
-            <span class="rounded-full bg-sky-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-700">
-              Source externe .md
-            </span>
-          </div>
+          </details>
 
-          <div class="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <div class="border-t border-slate-200 pt-6">
+            <p class="mb-4 text-lg leading-8 text-slate-700">
+              Une vue d'historique aide souvent à comprendre le principe en
+              quelques secondes.
+            </p>
             <div
-              data-mermaid-src="../mermaid/flowchart-introduction.md"
-              class="mermaid-host min-h-32 rounded-xl border border-dashed border-slate-300 bg-white p-4"
+              data-mermaid-src="../mermaid/cours-01-version-history.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
             >
-              <p class="text-sm text-slate-500">Chargement du diagramme…</p>
+              <p class="text-base text-slate-500">Chargement du gitGraph…</p>
             </div>
           </div>
         </section>
 
-        <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 class="text-xl font-semibold text-slate-900">Exercices</h2>
-          <ol class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
-            <li>1. Créer un dépôt Git local et effectuer un premier commit.</li>
-            <li>2. Publier un dépôt sur GitHub.</li>
-            <li>3. Observer la structure du site généré pour GitHub Pages.</li>
+        <section
+          id="git-model"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Le modèle mental Git
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Git n'est pas juste une liste de commandes. Il manipule une zone de
+            travail, une zone de transit et un historique de commits. Tant que
+            ce schéma n'est pas clair, les commandes ressemblent à des recettes.
+            Quand il devient clair, elles deviennent logiques.
+          </p>
+
+          <div
+            data-mermaid-src="../mermaid/cours-01-working-tree-flow.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du flowchart…</p>
+          </div>
+
+          <div
+            class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <p>
+              <span class="font-semibold text-slate-900">Working tree</span> :
+              l'état courant des fichiers sur le disque.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900"
+                >Index / staging area</span
+              >
+              : l'endroit où l'on prépare le prochain commit.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Commit graph</span> :
+              le graphe des instantanés successifs.
+            </p>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Tree / Blob / DAG / Ref : que faut-il retenir aujourd'hui ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                <span class="font-semibold text-slate-900">Blob</span> : le
+                contenu d'un fichier versionné.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Tree</span> : une vue
+                d'arborescence qui relie dossiers et blobs.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">DAG</span> : la forme
+                de l'historique des commits.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Ref</span> : un nom
+                qui pointe vers un commit, comme une branche ou un tag.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
+          id="local-workflow"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Git en local : les commandes de base
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            On commence sans branches, sans PR et sans conflit. Il faut d'abord
+            maîtriser le cycle minimal : créer un dépôt, observer l'état,
+            sélectionner ce qu'on valide et créer un commit propre.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Initialiser un dépôt
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git init</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Transforme un dossier ordinaire en dépôt Git en créant le
+                répertoire caché <code>.git/</code>.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Observer l'état
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git status</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Montre les fichiers suivis, non suivis, modifiés et prêts pour
+                le prochain commit.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Préparer puis valider
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git add mon-fichier.txt
+git add .
+git commit -m "Premier commit"</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                On place le bon contenu dans l'index, puis on crée un point de
+                sauvegarde dans l'historique.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Lire l'historique
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git log --oneline --decorate</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Cette commande donne une vue compacte des commits et des
+                références qui pointent vers eux.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Garder le dépôt propre avec <code>.gitignore</code>
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>*.log
+/temp/
+secret.txt
+node_modules/</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Le fichier <code>.gitignore</code> évite de versionner des
+                secrets, dépendances ou fichiers temporaires.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="tp1"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 1 : exercice guidé en local
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le but est d'enchaîner une première boucle complète sans difficulté
+            artificielle. Vous devez sortir de ce bloc avec un dépôt propre et
+            un historique compréhensible.
+          </p>
+
+          <ol
+            class="space-y-3 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              Créer un nouveau dossier de travail et l'initialiser avec
+              <code>git init</code>.
+            </li>
+            <li>
+              Créer un fichier texte avec quelques lignes puis observer
+              <code>git status</code>.
+            </li>
+            <li>
+              Préparer le fichier avec <code>git add</code>, vérifier à nouveau
+              l'état.
+            </li>
+            <li>
+              Créer un premier commit, puis afficher l'historique avec
+              <code>git log --oneline</code>.
+            </li>
+            <li>
+              Ajouter un <code>.gitignore</code> simple et expliquer à quoi il
+              sert dans un vrai projet.
+            </li>
           </ol>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Vérifiez votre résultat
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Après <code>git init</code>, le dossier contient désormais un
+                répertoire <code>.git/</code>.
+              </p>
+              <p>
+                Après création du fichier, <code>git status</code> doit signaler
+                un fichier non suivi.
+              </p>
+              <p>
+                Après <code>git add</code>, ce même fichier doit apparaître
+                comme prêt à être validé.
+              </p>
+              <p>
+                Après le commit, l'arbre de travail doit redevenir propre et
+                l'historique doit montrer un commit.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
+          id="remotes"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            GitHub et les dépôts distants
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Une fois la boucle locale maîtrisée, on ajoute un dépôt distant.
+            C'est là qu'entrent en jeu GitHub, les clés SSH, les remotes et la
+            synchronisation entre le travail local et le serveur.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Mise en route GitHub
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git config --global user.name "Votre Nom"
+git config --global user.email "vous@example.com"
+
+ssh-keygen -t ed25519 -C "vous@example.com"
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Copier ensuite la clé publique dans GitHub puis relier un dépôt
+                local à une remote avec <code>git remote add origin</code>.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Commandes à connaître
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Ici, il faut distinguer deux situations très différentes : soit
+                vous avez déjà un dépôt local et vous voulez le connecter à
+                GitHub, soit le dépôt existe déjà sur GitHub et vous voulez le
+                récupérer sur votre machine.
+              </p>
+
+              <div class="space-y-6 border-t border-slate-200 pt-6">
+                <div>
+                  <h4 class="text-xl font-semibold text-slate-950">
+                    Cas 1 : vous avez déjà un dépôt local
+                  </h4>
+                  <pre
+                    class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>git remote add origin git@github.com:compte/repo.git</code></pre>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Cette commande ajoute un dépôt distant à votre dépôt local.
+                    Le nom <code>origin</code> n'a rien de magique : c'est juste
+                    le nom conventionnel qu'on donne au dépôt distant principal.
+                    À ce stade, rien n'est encore envoyé sur GitHub : vous dites
+                    seulement à Git où se trouve le serveur distant.
+                  </p>
+                </div>
+
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>git remote -v</code></pre>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Cette commande sert à vérifier les URLs configurées pour le
+                    fetch et le push. C'est un bon réflexe de contrôle : avant
+                    d'envoyer quoi que ce soit, vous vérifiez que vous pointez
+                    bien vers le bon dépôt.
+                  </p>
+                </div>
+
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>git push -u origin main</code></pre>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Ici, vous envoyez votre branche locale <code>main</code> sur
+                    le dépôt distant nommé <code>origin</code>. L'option
+                    <code>-u</code> crée le lien de suivi entre la branche locale
+                    et la branche distante. Concrètement, après ce premier push,
+                    vous pourrez souvent vous contenter d'un simple
+                    <code>git push</code> ou <code>git pull</code>.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 class="text-xl font-semibold text-slate-950">
+                    Cas 2 : le dépôt existe déjà sur GitHub
+                  </h4>
+                  <pre
+                    class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>git clone git@github.com:compte/repo.git</code></pre>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Cette commande crée un nouveau dossier local contenant une
+                    copie du dépôt distant, avec l'historique, les branches et
+                    la remote <code>origin</code> déjà configurée. C'est la bonne
+                    commande quand vous partez d'un projet déjà hébergé sur
+                    GitHub et que vous voulez le récupérer prêt à l'emploi.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Clarifier fetch et pull
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                <code>git fetch</code> met à jour la connaissance du distant,
+                alors que <code>git pull</code> récupère puis intègre ces
+                changements dans la branche courante.
+              </p>
+              <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  Avec <code>git fetch</code>, vous regardez d'abord ce qui a
+                  changé sans modifier immédiatement vos fichiers locaux.
+                </p>
+                <p>
+                  Avec <code>git pull</code>, vous demandez à Git de récupérer
+                  les nouveautés puis de les intégrer directement dans votre
+                  branche courante.
+                </p>
+                <p>
+                  En pratique, <code>fetch</code> est plus prudent quand vous
+                  voulez observer avant d'intégrer ; <code>pull</code> est plus
+                  direct quand vous savez que vous voulez vous mettre à jour.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Si vous hésitez entre `fetch` et `pull`, que devez-vous retenir ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                <code>git fetch</code> = je regarde ce qui a changé à distance
+                sans modifier directement mon travail local.
+              </p>
+              <p>
+                <code>git pull</code> = je fais un fetch puis j'intègre le
+                résultat, le plus souvent via un merge ou un rebase selon la
+                configuration.
+              </p>
+              <p>
+                Formule courte utile :
+                <span class="font-semibold text-slate-900"
+                  >pull = fetch + intégration</span
+                >.
+              </p>
+            </div>
+          </details>
+
+          <div class="border-t border-slate-200 pt-6">
+            <p class="mb-4 text-lg leading-8 text-slate-700">
+              Un gitGraph simple permet de visualiser l'écart entre travail
+              local, branche de feature et intégration.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-01-branching-pr.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du gitGraph…</p>
+            </div>
+          </div>
+
+          <p
+            class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            Côté interface graphique, VS Code est suffisant pour montrer les
+            changements locaux, la branche courante, les commits et la
+            synchronisation. GitHub Desktop peut être également utilisé.
+          </p>
+        </section>
+
+        <section
+          id="tp2"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 2 : expérience collective anarchique
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Tout le monde intervient sur le même README public, dans un ordre
+            imposé pendant le cours. Le dépôt est volontairement peu protégé
+            pour rendre visibles les limites d'une collaboration sans méthode.
+          </p>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/git-anarchique"
+              class="font-semibold text-sky-700 hover:text-sky-800"
+              >GVI2026/git-anarchique</a
+            >
+          </p>
+
+          <ol
+            class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              Cloner ou forker le dépôt selon l'organisation choisie en séance.
+            </li>
+            <li>
+              Ajouter une unique courte ligne signée sous le commentaire
+              existant dans le README.
+            </li>
+            <li>Respecter l'ordre de passage imposé pendant le cours.</li>
+            <li>
+              Observer ce qui se passe quand plusieurs personnes travaillent
+              sans garde-fous suffisants.
+            </li>
+          </ol>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              À débriefer juste après
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Sans méthode, on voit vite apparaître des collisions, des
+                retards, des incompréhensions et des risques d'écrasement.
+              </p>
+              <p>
+                Le dépôt public agit ici comme un laboratoire : il rend visibles
+                les raisons d'introduire branches, PR, reviews et règles de
+                protection.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
+          id="teamwork"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Branches, checkout, switch et pull requests
+          </h2>
+          <div class="space-y-3 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900"
+                >Créer une branche</span
+              >
+              : <code>git branch nom-de-branche</code>.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900"
+                >Basculer proprement</span
+              >
+              : <code>git switch nom-de-branche</code> ou, historiquement,
+              <code>git checkout nom-de-branche</code>.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900"
+                >Créer et basculer en une fois</span
+              >
+              : <code>git switch -c ma-feature</code> ou
+              <code>git checkout -b ma-feature</code>.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900"
+                >Explorer un commit passé</span
+              >
+              : <code>git checkout &lt;identifiant-de-commit&gt;</code> pour
+              lire un état en detached HEAD.
+            </p>
+          </div>
+
+          <div
+            class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <p>
+              La pull request devient utile dès que plusieurs personnes
+              travaillent ensemble : elle isole une proposition de changement,
+              permet une relecture et s'associe naturellement aux protections
+              GitHub.
+            </p>
+          </div>
+
+          <div
+            data-mermaid-src="../mermaid/cours-01-teamwork-flow.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du gitGraph…</p>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Dans VS Code, on peut rendre visible une partie de ce flux :
+            changements locaux, branche courante, commit, synchronisation puis
+            ouverture d'une PR via GitHub.
+          </p>
+        </section>
+
+        <section
+          id="tp3"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 3 : rejouer l'expérience avec une méthode
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le dépôt suivant reprend le même esprit que TP-2 mais dans un cadre
+            plus structuré. C'est le bon moment pour parler de branches
+            personnelles, de PR, de revue et de règles GitHub.
+          </p>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/git-moins-anarchique"
+              class="font-semibold text-sky-700 hover:text-sky-800"
+              >GVI2026/git-moins-anarchique</a
+            >
+          </p>
+
+          <ul
+            class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>Une branche de travail personnelle.</li>
+            <li>Une PR pour proposer le changement.</li>
+            <li>Des règles de protection et des rôles plus explicites.</li>
+            <li>
+              Un flux de travail reproductible plutôt qu'un simple réflexe
+              opportuniste.
+            </li>
+          </ul>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Qu'est-ce qui change pour vous par rapport au TP-2 ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                La méthode fait baisser le chaos visible, améliore la
+                traçabilité et rend les conflits plus gérables.
+              </p>
+              <p>
+                Le coût est un peu plus de formalisme, mais ce formalisme
+                devient rentable dès qu'on travaille à plusieurs.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
+          id="conflicts"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Résoudre des conflits Git individuellement
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Les conflits ne doivent pas rester une abstraction. On les travaille
+            ici en local, sur des branches déjà préparées, avec un exercice de
+            merge puis un exercice de rebase.
+          </p>
+
+          <div
+            data-mermaid-src="../mermaid/cours-01-conflict-merge.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du gitGraph…</p>
+          </div>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 1 : conflit avec merge
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Dépôt support :
+                <a
+                  href="https://github.com/GVI2026/git-moins-anarchique"
+                  class="font-semibold text-sky-700 hover:text-sky-800"
+                  >git-moins-anarchique</a
+                >
+              </p>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git clone https://github.com/GVI2026/git-moins-anarchique.git
+cd git-moins-anarchique
+git checkout ex/merge-depart
+git checkout -b mon-merge
+git merge ex/merge-a-integrer</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Résoudre ensuite le conflit dans
+                <code>docs/planning-sprint.txt</code>, puis valider avec
+                <code>git add</code> et <code>git commit</code>.
+              </p>
+              <details class="mt-4">
+                <summary
+                  class="cursor-pointer text-lg font-semibold text-slate-950"
+                >
+                  Vérification et annulation
+                </summary>
+                <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                  <p>
+                    Contrôle : <code>git status</code> puis
+                    <code>git log --graph --oneline --decorate -5</code>.
+                  </p>
+                  <p>
+                    Résultat attendu : plus de marqueurs
+                    <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, un fichier
+                    cohérent et un commit de merge.
+                  </p>
+                  <p>Annulation si besoin : <code>git merge --abort</code>.</p>
+                </div>
+              </details>
+            </div>
+
+            <div class="border-t border-slate-200 pt-6">
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 2 : conflit avec rebase
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git checkout ex/rebase-feature
+git checkout -b mon-rebase
+git rebase ex/rebase-base</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Résoudre le conflit dans <code>docs/notes-version.txt</code>,
+                ajouter le fichier puis continuer avec
+                <code>git rebase --continue</code>.
+              </p>
+              <details class="mt-4">
+                <summary
+                  class="cursor-pointer text-lg font-semibold text-slate-950"
+                >
+                  Vérification et annulation
+                </summary>
+                <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                  <p>
+                    Contrôle : <code>git status</code> puis
+                    <code>git log --graph --oneline --decorate -5</code>.
+                  </p>
+                  <p>
+                    Résultat attendu : plus de conflit, aucun marqueur restant
+                    et un historique linéaire sans commit de merge.
+                  </p>
+                  <p>Annulation si besoin : <code>git rebase --abort</code>.</p>
+                </div>
+              </details>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Si vous bloquez, affichez ces conseils de résolution
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Lire les deux versions avant de supprimer les marqueurs
+                <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>,
+                <code>=======</code> et
+                <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>.
+              </p>
+              <p>
+                Vérifier le sens métier du texte final, pas seulement la
+                disparition du conflit.
+              </p>
+              <p>
+                Utiliser <code>git diff</code> après résolution pour contrôler
+                le résultat réel.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
+          id="release"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Release, Semantic Versioning et Conventional Commits
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            On termine en prenant un peu de hauteur : comment nommer
+            correctement une version, ce qu'est une release et pourquoi une
+            convention de message peut aider toute l'équipe.
+          </p>
+
+          <div
+            class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <p>
+              <span class="font-semibold text-slate-900">Release</span> : une
+              version identifiable, partageable et souvent livrable du projet.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">SemVer</span> :
+              Major.Minor.Patch, donc compatibilité cassée, nouvelle
+              fonctionnalité compatible, puis correctif.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900"
+                >Conventional Commits</span
+              >
+              : une convention simple pour donner du sens aux commits et
+              préparer plus facilement changelog et automatisations futures.
+            </p>
+          </div>
+
+          <div id="semver" class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Défi Semantic Versioning
+            </h3>
+            <p class="mt-3 text-lg leading-8 text-slate-700">
+              À partir de <code>v3.6.12</code>, quelle version annoncer si l'on
+              ajoute un correctif, une fonctionnalité ou une rupture de
+              compatibilité ?
+            </p>
+
+            <details class="mt-4">
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
+                Vérifiez vos réponses
+              </summary>
+              <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  Correctif seul :
+                  <span class="font-semibold text-slate-900">v3.6.13</span>.
+                </p>
+                <p>
+                  Nouvelle fonctionnalité compatible :
+                  <span class="font-semibold text-slate-900">v3.7.0</span>.
+                </p>
+                <p>
+                  Correctif + fonctionnalité :
+                  <span class="font-semibold text-slate-900">v3.7.0</span>.
+                </p>
+                <p>
+                  Correctif majeur de sécurité et changement cassant :
+                  <span class="font-semibold text-slate-900">v4.0.0</span>.
+                </p>
+              </div>
+            </details>
+          </div>
+
+          <div id="conventional-commits" class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Exemples de messages utiles
+            </h3>
+            <pre
+              class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+            ><code>feat: ajoute une fonctionnalité X
+fix: corrige un conflit d'accès à une ressource
+docs: clarifie les consignes du TP 2
+chore: optimise la récupération des données</code></pre>
+          </div>
+        </section>
+
+        <section
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Pour aller plus loin
+          </h2>
+          <div class="space-y-3 text-lg leading-8 text-slate-700">
+            <p>
+              <a
+                href="https://gitbybit.com/"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >gitbybit.com</a
+              >
+              pour revisiter Git avec d'autres explications et visuels.
+            </p>
+            <p>
+              <a
+                href="https://blog.stephane-robert.info/docs/developper/version/git/vocabulaire-git/"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >Le vocabulaire Git de Stéphane Robert</a
+              >
+              pour revenir sur les notions Tree, Blob, DAG et Ref.
+            </p>
+            <p>
+              <a
+                href="https://education.github.com/git-cheat-sheet-education.pdf"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >Git cheat sheet GitHub Education</a
+              >
+              pour garder les commandes à portée de main.
+            </p>
+          </div>
+          <p
+            class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            La suite logique n'est pas encore le DevOps complet. Le prochain pas
+            consiste à structurer des flows de développement : quand brancher,
+            quand relire, quand intégrer et comment garder une base stable en
+            équipe.
+          </p>
         </section>
       </main>
     </div>

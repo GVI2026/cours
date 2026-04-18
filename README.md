@@ -36,11 +36,20 @@ Utiliser à la place un petit serveur HTTP local à la racine du dépôt :
 ```bash
 python3 -m http.server 8000 --directory docs
 ```
-
 Puis ouvrir :
 
 - `http://localhost:8000/`
-- `http://localhost:8000/cours-01/index.html`
+
+
+
+ou pour activer un Live Preview :
+```bash
+npx browser-sync start --server 'docs' --files 'docs/**/*'
+```
+Puis ouvrir :
+
+- `http://localhost:3000/`
+
 
 En mode HTTP local :
 

@@ -1,0 +1,1356 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cours 02 · Flows de développement</title>
+    <meta
+      name="description"
+      content="Support interactif du cours 02 : Docker, GitHub Flow, Git Flow et pratique en binôme sur des dépôts dédiés."
+    />
+    <meta name="course:id" content="cours-02" />
+    <meta
+      name="course:title"
+      content="Flows de développement"
+    />
+    <meta name="course:duration-total-minutes" content="220" />
+    <meta
+      name="course:sections"
+      content="qcm,transition,docker,tp1-docker,github-flow,tp1-github-flow,git-flow,tp2-git-flow,pour-aller-plus-loin"
+    />
+    <script id="course-metadata" type="application/json">
+      {
+        "courseId": "cours-02",
+        "title": "Flows de développement",
+        "totalDurationMinutes": 220,
+        "sections": [
+          {
+            "id": "qcm",
+            "title": "QCM d'ouverture",
+            "durationMinutes": 20
+          },
+          {
+            "id": "transition",
+            "title": "Commit, tag et release",
+            "durationMinutes": 15
+          },
+          {
+            "id": "docker",
+            "title": "Docker : introduction pragmatique",
+            "durationMinutes": 35
+          },
+          {
+            "id": "tp1-docker",
+            "title": "TP 1 Partie 1 — Docker pratique",
+            "durationMinutes": 25
+          },
+          {
+            "id": "github-flow",
+            "title": "GitHub Flow",
+            "durationMinutes": 20
+          },
+          {
+            "id": "tp1-github-flow",
+            "title": "TP 1 Partie 2 — GitHub Flow",
+            "durationMinutes": 30
+          },
+          {
+            "id": "git-flow",
+            "title": "Git Flow",
+            "durationMinutes": 30
+          },
+          {
+            "id": "tp2-git-flow",
+            "title": "TP 2 — Git Flow",
+            "durationMinutes": 35
+          },
+          {
+            "id": "pour-aller-plus-loin",
+            "title": "Pour aller plus loin",
+            "durationMinutes": 5
+          }
+        ]
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-6xl px-6 py-10 lg:px-8 xl:max-w-7xl">
+
+      <header class="border-b border-slate-200 pb-8">
+        <a
+          href="../index.html"
+          class="text-base font-medium text-sky-700 transition hover:text-sky-800"
+          >← Retour à l'accueil</a
+        >
+        <p
+          class="mt-6 text-base font-semibold uppercase tracking-[0.22em] text-slate-500"
+        >
+          Cours 02
+        </p>
+        <h1
+          class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
+        >
+          Flows de développement
+        </h1>
+        <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
+          Cette séance structure le travail en équipe autour de deux workflows
+          majeurs : GitHub Flow, simple et continu, et Git Flow, plus cadré
+          pour les livraisons planifiées. Docker y est introduit de façon
+          pragmatique pour homogénéiser les environnements de développement.
+        </p>
+        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
+          <li>
+            Comprendre pourquoi un workflow structuré est indispensable dès
+            qu'on travaille en équipe.
+          </li>
+          <li>
+            Maîtriser les commandes Docker fondamentales et écrire un
+            Dockerfile simple.
+          </li>
+          <li>
+            Pratiquer GitHub Flow sur un vrai dépôt avec Pull Request.
+          </li>
+          <li>
+            Comprendre et appliquer Git Flow avec ses cinq types de branches.
+          </li>
+        </ul>
+      </header>
+
+      <nav class="py-8">
+        <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
+        <ul class="mt-4 space-y-3 text-lg leading-8">
+          <li>
+            <a href="#qcm" class="text-sky-700 hover:text-sky-800"
+              >QCM d'ouverture</a
+            >
+          </li>
+          <li>
+            <a href="#transition" class="text-sky-700 hover:text-sky-800"
+              >Commit, tag et release</a
+            >
+          </li>
+          <li>
+            <a href="#docker" class="text-sky-700 hover:text-sky-800"
+              >Docker</a
+            >
+          </li>
+          <li>
+            <a href="#tp1-docker" class="text-sky-700 hover:text-sky-800"
+              >TP 1 Partie 1 — Docker pratique</a
+            >
+          </li>
+          <li>
+            <a href="#github-flow" class="text-sky-700 hover:text-sky-800"
+              >GitHub Flow</a
+            >
+          </li>
+          <li>
+            <a
+              href="#tp1-github-flow"
+              class="text-sky-700 hover:text-sky-800"
+              >TP 1 Partie 2 — GitHub Flow</a
+            >
+          </li>
+          <li>
+            <a href="#git-flow" class="text-sky-700 hover:text-sky-800"
+              >Git Flow</a
+            >
+          </li>
+          <li>
+            <a href="#tp2-git-flow" class="text-sky-700 hover:text-sky-800"
+              >TP 2 — Git Flow</a
+            >
+          </li>
+          <li>
+            <a
+              href="#pour-aller-plus-loin"
+              class="text-sky-700 hover:text-sky-800"
+              >Pour aller plus loin</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main class="space-y-10 pb-12">
+
+        <!-- ═══════════════════════════════════════ QCM ═══════════════════════════════════════ -->
+        <section
+          id="qcm"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            QCM d'ouverture
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            La séance commence par 20 minutes de QCM sur papier. Les questions
+            portent sur le cours-01 : versioning, Git en local, dépôts
+            distants, branches, conflits, releases et Conventional Commits.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Posez le stylo quand le temps est écoulé. La correction sera
+            évoquée brièvement avant de passer au nouveau contenu.
+          </p>
+        </section>
+
+        <!-- ═══════════════════════════════════ TRANSITION ═══════════════════════════════════ -->
+        <section
+          id="transition"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Commit, tag et release — et après ?
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Avant d'aborder les workflows, revenons sur trois notions du
+            cours-01 qui en sont le socle.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">Commit</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Un commit est l'<span class="font-semibold text-slate-900"
+                  >unité de modification</span
+                >
+                du code, identifiée par un hash SHA. Il enregistre un
+                instantané précis du projet à un moment donné. L'historique
+                d'un dépôt est un enchaînement de commits.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">Tag</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Un tag est un
+                <span class="font-semibold text-slate-900"
+                  >pointeur nommé vers un commit précis</span
+                >. Il sert à marquer une version (<code>v1.0.0</code>,
+                <code>v2.3.1</code>…) et ne bouge plus une fois posé,
+                contrairement à une branche.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">Release</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Une release est une
+                <span class="font-semibold text-slate-900">notion métier</span>
+                qui s'appuie sur un tag et représente une version prête à être
+                diffusée. Sur GitHub, elle peut contenir des binaires, des
+                notes de version et un changelog.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Exemple :
+                <a
+                  href="https://github.com/GVI2025/SimpleWMS/releases/tag/v1.0.0"
+                  class="font-semibold text-sky-700 hover:text-sky-800"
+                  >github.com/GVI2025/SimpleWMS/releases/tag/v1.0.0</a
+                >
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Vers des releases automatisées
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                La création d'une release peut être automatisée. Des outils
+                comme
+                <span class="font-semibold text-slate-900">release-please</span>
+                (Google) analysent les messages de Conventional Commits,
+                génèrent un changelog et créent une Pull Request dédiée. Au
+                merge de cette PR, la release est publiée automatiquement sur
+                GitHub.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Ce mécanisme illustre pourquoi les conventions de commit vues
+                en cours-01 ont une valeur concrète : elles alimentent des
+                automatisations réelles.
+              </p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quelle est la différence entre un tag Git et une release GitHub ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Un
+                <span class="font-semibold text-slate-900">tag</span> est un
+                pointeur Git sur un commit précis. Il vit dans le dépôt Git.
+              </p>
+              <p>
+                Une
+                <span class="font-semibold text-slate-900">release</span> est
+                une notion GitHub construite sur un tag. Elle permet d'y
+                associer des binaires téléchargeables, des notes de version
+                rédigées et un changelog lisible.
+              </p>
+              <p>
+                Toute release repose sur un tag. Mais un tag n'implique pas
+                forcément une release.
+              </p>
+            </div>
+          </details>
+
+          <div class="border-t border-slate-200 pt-6">
+            <p class="text-lg leading-8 text-slate-700">
+              Ces trois notions posent le cadre. Mais une question se pose
+              rapidement dans une équipe :
+              <span class="font-semibold text-slate-900"
+                >dans quel ordre et sur quelle branche doit-on travailler ?</span
+              >
+            </p>
+            <p class="mt-3 text-lg leading-8 text-slate-700">
+              Sans règles communes, les équipes poussent directement sur
+              <code>main</code>, les conflits s'accumulent, les livraisons
+              deviennent imprévisibles et les correctifs urgents sont
+              impossibles à isoler. C'est ce que viennent résoudre les
+              workflows Git.
+            </p>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════ DOCKER ═══════════════════════════════════════ -->
+        <section
+          id="docker"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Docker : introduction pragmatique
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Avant de pratiquer les workflows Git sur de vraies applications, il
+            faut un environnement de développement commun. Docker résout le
+            problème classique :
+            <span class="font-semibold text-slate-900"
+              >« ça marche sur ma machine »</span
+            >.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            En encapsulant l'application et son environnement dans une unité
+            portable, Docker garantit que le comportement sera identique sur
+            toutes les machines de l'équipe — et sur les serveurs.
+          </p>
+
+          <div class="space-y-8 border-t border-slate-200 pt-6">
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Trois concepts fondamentaux
+              </h3>
+              <div class="mt-4 space-y-4 text-lg leading-8 text-slate-700">
+                <p>
+                  <span class="font-semibold text-slate-900">Image</span> :
+                  instantané immuable d'un système de fichiers avec un
+                  environnement d'exécution. On la construit une fois, on la
+                  distribue via un registry. Elle ne tourne pas toute seule.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Conteneur</span> :
+                  instance en cours d'exécution d'une image. Plusieurs
+                  conteneurs peuvent tourner à partir de la même image, isolés
+                  les uns des autres.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Registry</span> :
+                  entrepôt d'images. Docker Hub est le registry public de
+                  référence —
+                  <code>docker pull node:24-alpine</code> télécharge depuis
+                  Docker Hub.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Cycle de vie
+              </h3>
+              <div
+                data-mermaid-src="../mermaid/cours-02-docker-lifecycle.md"
+                class="mermaid-host mt-4 overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+              >
+                <p class="text-base text-slate-500">
+                  Chargement du diagramme…
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Commandes essentielles
+              </h3>
+              <div class="mt-4 space-y-5 text-lg leading-8 text-slate-700">
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker pull node:24-alpine</code></pre>
+                  <p class="mt-2">
+                    Télécharger une image depuis Docker Hub.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker images</code></pre>
+                  <p class="mt-2">
+                    Lister les images disponibles localement.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker build -t mon-image .</code></pre>
+                  <p class="mt-2">
+                    Construire une image depuis le Dockerfile du répertoire
+                    courant et lui donner le nom <code>mon-image</code>.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker run -p 3000:3000 mon-image</code></pre>
+                  <p class="mt-2">
+                    Créer et démarrer un conteneur. L'option
+                    <code>-p 3000:3000</code> expose le port 3000 du conteneur
+                    sur le port 3000 de la machine hôte.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker ps</code></pre>
+                  <p class="mt-2">
+                    Lister les conteneurs actifs. Ajouter
+                    <code>-a</code> pour voir aussi les conteneurs arrêtés.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker stop &lt;id&gt;
+docker rm &lt;id&gt;</code></pre>
+                  <p class="mt-2">
+                    Arrêter puis supprimer un conteneur. L'arrêt doit précéder
+                    la suppression.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker rmi mon-image</code></pre>
+                  <p class="mt-2">
+                    Supprimer une image locale. Elle ne doit plus être utilisée
+                    par aucun conteneur.
+                  </p>
+                </div>
+                <div>
+                  <pre
+                    class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>docker push mon-compte/mon-image</code></pre>
+                  <p class="mt-2">
+                    Publier une image vers un registry (Docker Hub ou autre).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Le Dockerfile
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Un Dockerfile décrit comment construire une image. Chaque
+                instruction crée une couche supplémentaire dans l'image finale.
+              </p>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>FROM node:24-alpine
+
+WORKDIR /app
+
+COPY . .
+
+RUN npm install
+
+EXPOSE 3000
+
+CMD ["node", "index.js"]</code></pre>
+              <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  <span class="font-semibold text-slate-900">FROM</span> :
+                  image parente à utiliser comme base. Point de départ
+                  obligatoire de tout Dockerfile.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">WORKDIR</span> :
+                  répertoire de travail dans le conteneur. Toutes les
+                  instructions suivantes s'y exécutent.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">COPY</span> :
+                  copier des fichiers depuis la machine hôte dans l'image.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">RUN</span> :
+                  exécuter une commande pendant la construction de l'image
+                  (installation de dépendances, compilation…).
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">EXPOSE</span> :
+                  déclarer le port sur lequel l'application écoute. C'est
+                  surtout de la documentation — le port doit quand même être
+                  mappé avec <code>-p</code> au lancement du conteneur.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">CMD</span> :
+                  commande exécutée au démarrage du conteneur. Un seul
+                  <code>CMD</code> par Dockerfile.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quelle est la différence entre une image et un conteneur ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Une
+                <span class="font-semibold text-slate-900">image</span> est un
+                modèle immuable — comme une classe en programmation orientée
+                objet. Elle ne tourne pas.
+              </p>
+              <p>
+                Un
+                <span class="font-semibold text-slate-900">conteneur</span>
+                est une instance en cours d'exécution d'une image. On peut
+                lancer plusieurs conteneurs indépendants à partir de la même
+                image.
+              </p>
+              <p>
+                Analogie :
+                <span class="font-semibold text-slate-900"
+                  >image = plan d'appartement, conteneur = appartement
+                  construit et habité</span
+                >.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ══════════════════════════════════ TP 1 DOCKER ═══════════════════════════════════ -->
+        <section
+          id="tp1-docker"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 1 — Partie 1 : Docker pratique
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Cette partie est indépendante du reste du projet. Elle se fait
+            entièrement dans le sous-dossier <code>docker-practice/</code>. Le
+            but est de manipuler les commandes Docker fondamentales sur un cas
+            très simple : un serveur HTTP minimaliste en Node.js pur.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support (à
+            <span class="font-semibold text-slate-900">forker</span> sur GitHub
+            avant de cloner) :
+            <a
+              href="https://github.com/GVI2026/tp-github-flow"
+              class="font-semibold text-sky-700 hover:text-sky-800"
+              >github.com/GVI2026/tp-github-flow</a
+            >
+          </p>
+
+          <ol
+            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>Forker le dépôt sur GitHub, puis le cloner localement.</li>
+            <li>
+              Se placer dans le sous-dossier
+              <code>docker-practice/</code>.
+            </li>
+            <li>
+              Ouvrir <code>index.js</code> — lire ce que fait ce serveur HTTP
+              avant de continuer.
+            </li>
+            <li>
+              Ouvrir <code>Dockerfile</code> — compléter chaque section guidée
+              par les commentaires (<code>FROM</code>, <code>WORKDIR</code>,
+              <code>COPY</code>, <code>EXPOSE</code>, <code>CMD</code>).
+            </li>
+            <li>
+              Construire l'image :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>docker build -t hello-docker .</code></pre>
+            </li>
+            <li>
+              Vérifier que l'image apparaît localement :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>docker images</code></pre>
+            </li>
+            <li>
+              Lancer un conteneur :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>docker run -p 3000:3000 hello-docker</code></pre>
+            </li>
+            <li>
+              Dans un autre terminal, vérifier que l'application répond :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>curl http://localhost:3000</code></pre>
+              Vous devez obtenir :
+              <code>Hello depuis Docker !</code>
+            </li>
+            <li>
+              Trouver l'ID du conteneur actif, puis l'arrêter :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>docker ps
+docker stop &lt;id&gt;</code></pre>
+            </li>
+            <li>
+              Supprimer le conteneur :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>docker rm &lt;id&gt;</code></pre>
+            </li>
+            <li>
+              Supprimer l'image locale et vérifier le nettoyage :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>docker rmi hello-docker
+docker images</code></pre>
+              L'image <code>hello-docker</code> ne doit plus apparaître.
+            </li>
+          </ol>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Ce que vous devez être capable d'expliquer à la fin
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>Quelle est la différence entre une image et un conteneur ?</p>
+              <p>
+                Que fait la ligne <code>FROM</code> dans un Dockerfile ?
+              </p>
+              <p>
+                Pourquoi utilise-t-on <code>-p 3000:3000</code> dans
+                <code>docker run</code> ?
+              </p>
+              <p>
+                Quel est l'ordre correct :
+                <span class="font-semibold text-slate-900"
+                  >build → run → stop → rm → rmi</span
+                >
+                ?
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ══════════════════════════════════ GITHUB FLOW ═══════════════════════════════════ -->
+        <section
+          id="github-flow"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">GitHub Flow</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            GitHub Flow est le workflow le plus simple. Il repose sur
+            <span class="font-semibold text-slate-900"
+              >une seule branche stable</span
+            >
+            (<code>main</code>) et des branches de fonctionnalité à durée
+            courte. Tout changement passe par une Pull Request avant
+            d'intégrer <code>main</code>.
+          </p>
+
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Le flux en cinq étapes
+            </h3>
+            <ol
+              class="list-decimal mt-4 space-y-4 pl-5 text-lg leading-8 text-slate-700"
+            >
+              <li>
+                Créer une branche descriptive depuis <code>main</code> :
+                <pre
+                  class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                ><code>git checkout -b feature/ma-fonctionnalite</code></pre>
+              </li>
+              <li>
+                Faire des commits fréquents et lisibles (Conventional
+                Commits) :
+                <pre
+                  class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                ><code>git commit -m "feat: ajout du filtrage par statut"</code></pre>
+              </li>
+              <li>
+                Pousser la branche sur GitHub :
+                <pre
+                  class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                ><code>git push origin feature/ma-fonctionnalite</code></pre>
+              </li>
+              <li>
+                Ouvrir une Pull Request, traiter les retours de relecture et
+                mettre à jour la branche si besoin.
+              </li>
+              <li>
+                Fusionner dans <code>main</code> et supprimer la branche.
+              </li>
+            </ol>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <div
+              data-mermaid-src="../mermaid/cours-02-github-flow.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">
+                Chargement du gitGraph…
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Options de merge sur GitHub
+            </h3>
+            <p class="mt-3 text-lg leading-8 text-slate-700">
+              Au moment de fusionner une PR, trois options sont disponibles :
+            </p>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                <span class="font-semibold text-slate-900">Merge commit</span>
+                : conserve tous les commits de la branche et ajoute un commit
+                de merge — historique complet mais parfois verbeux.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900"
+                  >Squash and merge</span
+                >
+                : regroupe tous les commits en un seul avant la fusion —
+                historique de <code>main</code> propre et linéaire.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900"
+                  >Rebase and merge</span
+                >
+                : rejoue les commits en linéaire sur <code>main</code> sans
+                commit de merge.
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Avantages et limites
+            </h3>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>✅ Simple à apprendre et à appliquer dès le premier jour.</p>
+              <p>
+                ✅ Adapté aux petites équipes et aux projets web ou SaaS.
+              </p>
+              <p>
+                ✅ Idéal pour un déploiement fréquent et l'intégration
+                continue.
+              </p>
+              <p>
+                ⚠️ Moins adapté aux livraisons en batch avec une QA manuelle
+                longue.
+              </p>
+              <p>
+                ⚠️ Pas de séparation explicite entre code « en intégration »
+                et code « en production ».
+              </p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Pourquoi ne développe-t-on pas directement sur
+              <code>main</code> dans GitHub Flow ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                <code>main</code> représente le code livrable à tout moment.
+                Développer directement dessus introduit du code instable ou
+                partiel dans l'état de référence de l'équipe.
+              </p>
+              <p>
+                Une branche courte permet d'isoler les modifications jusqu'à
+                ce qu'elles soient validées — par les tests automatiques et la
+                revue de code — avant d'intégrer <code>main</code>.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ═════════════════════════════ TP 1 GITHUB FLOW ═══════════════════════════════════ -->
+        <section
+          id="tp1-github-flow"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 1 — Partie 2 : GitHub Flow
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Cette partie se fait sur le
+            <span class="font-semibold text-slate-900">même fork</span> que la
+            Partie 1 — cette fois à la racine du projet, pas dans
+            <code>docker-practice/</code>.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Objectif : implémenter la route
+            <code>GET /tasks?done=true</code> qui retourne uniquement les
+            tâches terminées, en suivant le GitHub Flow complet.
+          </p>
+
+          <ol
+            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              S'assurer d'être sur <code>main</code> et à jour :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git checkout main
+git pull</code></pre>
+            </li>
+            <li>
+              Créer une branche de travail :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git checkout -b feature/add-task-filter</code></pre>
+            </li>
+            <li>
+              Implémenter le filtrage par statut dans
+              <code>TasksService</code> et <code>TasksController</code>. Le
+              paramètre <code>done</code> attendu est documenté dans le README
+              du dépôt.
+            </li>
+            <li>
+              Vérifier que tous les tests passent :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>npm test</code></pre>
+            </li>
+            <li>
+              Committer proprement :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git add .
+git commit -m "feat: filter tasks by done status"</code></pre>
+            </li>
+            <li>
+              Pousser la branche :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git push origin feature/add-task-filter</code></pre>
+            </li>
+            <li>
+              Ouvrir une Pull Request vers <code>main</code> sur GitHub.
+              Rédiger un titre explicite et une courte description.
+            </li>
+            <li>
+              Traiter une remarque simulée ou réelle — adapter le code ou le
+              test en conséquence.
+            </li>
+            <li>
+              Faire approuver la Pull Request et la fusionner dans
+              <code>main</code>.
+            </li>
+            <li>
+              Vérifier que <code>main</code> reste dans un état fonctionnel
+              après la fusion.
+            </li>
+          </ol>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Pour les plus rapides — extension pagination
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Implémenter la pagination sur <code>GET /tasks</code> via les
+                query params <code>?page=</code> et <code>?limit=</code>.
+              </p>
+              <p>
+                Exemple :
+                <code>GET /tasks?page=1&amp;limit=10</code>
+              </p>
+              <p>
+                Même démarche : nouvelle branche
+                <code>feature/add-pagination</code>, Pull Request vers
+                <code>main</code>, merge.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ════════════════════════════════════ GIT FLOW ════════════════════════════════════ -->
+        <section
+          id="git-flow"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">Git Flow</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Git Flow est un workflow plus structuré, popularisé par Vincent
+            Driessen en 2010. Il convient aux équipes qui
+            <span class="font-semibold text-slate-900"
+              >livrent par versions planifiées</span
+            >
+            plutôt qu'en continu. Il introduit une séparation explicite entre
+            le code en production et le code en cours d'intégration.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Branches principales
+              </h3>
+              <div class="mt-4 space-y-4 text-lg leading-8 text-slate-700">
+                <p>
+                  <code class="font-semibold text-slate-900">main</code> :
+                  code en production. Chaque commit y est tagué et correspond
+                  à une release. Intouchable sauf pour les hotfix.
+                </p>
+                <p>
+                  <code class="font-semibold text-slate-900">develop</code> :
+                  code stabilisé, non encore livré. Reçoit les merges des
+                  branches <code>feature/*</code> et sert de base aux branches
+                  <code>release/*</code>.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Branches secondaires
+              </h3>
+              <div class="mt-4 space-y-4 text-lg leading-8 text-slate-700">
+                <p>
+                  <code class="font-semibold text-slate-900">feature/*</code>
+                  : issue de <code>develop</code>. Contient le développement
+                  d'une fonctionnalité. Fusionnée dans <code>develop</code>
+                  une fois terminée, puis supprimée.
+                </p>
+                <p>
+                  <code class="font-semibold text-slate-900">release/*</code>
+                  : issue de <code>develop</code>. Permet uniquement des
+                  corrections mineures avant la livraison. Fusionnée dans
+                  <code>main</code>
+                  <span class="font-semibold text-slate-900">et</span> dans
+                  <code>develop</code> à la fin.
+                </p>
+                <p>
+                  <code class="font-semibold text-slate-900">hotfix/*</code> :
+                  issue de <code>main</code>. Correction urgente d'un bug en
+                  production. Fusionnée dans <code>main</code>
+                  <span class="font-semibold text-slate-900">et</span> dans
+                  <code>develop</code>.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <div
+              data-mermaid-src="../mermaid/cours-02-git-flow.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">
+                Chargement du gitGraph…
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Récapitulatif des règles
+            </h3>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                <code class="font-semibold text-slate-900">feature/*</code> :
+                part de <code>develop</code>, retourne dans
+                <code>develop</code>.
+              </p>
+              <p>
+                <code class="font-semibold text-slate-900">release/*</code> :
+                part de <code>develop</code>, retourne dans
+                <code>main</code> + <code>develop</code>.
+              </p>
+              <p>
+                <code class="font-semibold text-slate-900">hotfix/*</code> :
+                part de <code>main</code>, retourne dans <code>main</code> +
+                <code>develop</code>.
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Avantages et limites
+            </h3>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>✅ Idéal pour les équipes avec des livraisons planifiées.</p>
+              <p>
+                ✅ Séparation claire entre code de production et code en
+                intégration.
+              </p>
+              <p>
+                ✅ Gestion explicite des correctifs urgents avec
+                <code>hotfix/*</code>.
+              </p>
+              <p>
+                ⚠️ Trop lourd pour un déploiement continu — trop de branches
+                en parallèle.
+              </p>
+              <p>
+                ⚠️ Le retour de <code>release/*</code> et
+                <code>hotfix/*</code> dans <code>develop</code> est souvent
+                oublié, ce qui crée des divergences.
+              </p>
+              <p>
+                ⚠️ Moins adapté aux petites équipes qui livrent très
+                fréquemment.
+              </p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Depuis quelle branche crée-t-on une branche
+              <code>feature/*</code> dans Git Flow ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Depuis
+                <code class="font-semibold text-slate-900">develop</code>. On
+                ne part jamais de <code>main</code> pour une feature.
+              </p>
+              <p>
+                <code>main</code> représente uniquement ce qui est en
+                production. Le développement courant vit sur
+                <code>develop</code>.
+              </p>
+            </div>
+          </details>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Que doit-on faire quand une branche
+              <code>release/*</code> est finalisée ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                La fusionner dans
+                <span class="font-semibold text-slate-900">main</span> avec un
+                tag de version, pour marquer la livraison en production.
+              </p>
+              <p>
+                La fusionner
+                <span class="font-semibold text-slate-900"
+                  >aussi dans develop</span
+                >
+                pour que le développement en cours hérite des éventuelles
+                corrections faites pendant la stabilisation.
+              </p>
+              <p>
+                Oublier le retour vers <code>develop</code> est l'erreur la
+                plus fréquente dans Git Flow.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ══════════════════════════════════ TP 2 GIT FLOW ═════════════════════════════════ -->
+        <section
+          id="tp2-git-flow"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 2 : Git Flow
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Objectif : pratiquer le cycle complet de Git Flow — feature,
+            intégration dans <code>develop</code>, préparation d'une release
+            et livraison dans <code>main</code>.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support (à
+            <span class="font-semibold text-slate-900">forker</span> sur GitHub
+            avant de cloner) :
+            <a
+              href="https://github.com/GVI2026/tp-git-flow"
+              class="font-semibold text-sky-700 hover:text-sky-800"
+              >github.com/GVI2026/tp-git-flow</a
+            >
+          </p>
+
+          <div class="space-y-8 border-t border-sky-200 pt-6">
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Étape 0 — Mise en place
+              </h3>
+              <ol
+                class="list-decimal mt-4 space-y-4 pl-5 text-lg leading-8 text-slate-700"
+              >
+                <li>
+                  Forker le dépôt sur GitHub, puis le cloner localement.
+                </li>
+                <li>
+                  Vérifier que les deux branches permanentes existent :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git branch -a</code></pre>
+                  Vous devez voir <code>main</code> et
+                  <code>origin/develop</code>.
+                </li>
+                <li>
+                  Se placer sur <code>develop</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git checkout develop</code></pre>
+                </li>
+              </ol>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Étape 1 — Créer et intégrer une feature
+              </h3>
+              <ol
+                class="list-decimal mt-4 space-y-4 pl-5 text-lg leading-8 text-slate-700"
+              >
+                <li>
+                  Créer une branche depuis <code>develop</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git checkout -b feature/add-task-stats</code></pre>
+                </li>
+                <li>
+                  Implémenter <code>GET /tasks/stats</code> qui retourne
+                  <code>{ total, done, pending }</code>.
+                </li>
+                <li>
+                  Décommenter le bloc TODO dans
+                  <code>tasks.service.spec.ts</code> et adapter le test.
+                </li>
+                <li>
+                  Vérifier que tous les tests passent :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>npm test</code></pre>
+                </li>
+                <li>
+                  Committer :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git add .
+git commit -m "feat: add task stats endpoint"</code></pre>
+                </li>
+                <li>
+                  Fusionner dans <code>develop</code> et supprimer la branche
+                  :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git checkout develop
+git merge feature/add-task-stats
+git branch -d feature/add-task-stats</code></pre>
+                </li>
+              </ol>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Étape 2 — Préparer la release
+              </h3>
+              <ol
+                class="list-decimal mt-4 space-y-4 pl-5 text-lg leading-8 text-slate-700"
+              >
+                <li>
+                  Créer une branche de release depuis <code>develop</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git checkout -b release/1.1.0</code></pre>
+                </li>
+                <li>
+                  Mettre à jour le fichier <code>VERSION</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>1.1.0</code></pre>
+                </li>
+                <li>
+                  Committer cette préparation :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git commit -am "chore: prepare release 1.1.0"</code></pre>
+                </li>
+              </ol>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Étape 3 — Finaliser la release
+              </h3>
+              <ol
+                class="list-decimal mt-4 space-y-4 pl-5 text-lg leading-8 text-slate-700"
+              >
+                <li>
+                  Pousser la branche de release :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git push origin release/1.1.0</code></pre>
+                </li>
+                <li>
+                  Ouvrir une Pull Request
+                  <code>release/1.1.0 → main</code> sur GitHub et la faire
+                  merger.
+                </li>
+                <li>
+                  Après merge, créer un tag sur <code>main</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git checkout main
+git pull
+git tag v1.1.0
+git push origin v1.1.0</code></pre>
+                </li>
+                <li>
+                  Répercuter la release dans <code>develop</code> — étape
+                  critique à ne pas oublier :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                  ><code>git checkout develop
+git merge main
+git push origin develop</code></pre>
+                </li>
+              </ol>
+            </div>
+          </div>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Pour les plus rapides — exercice hotfix
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Simuler un correctif urgent en production. La validation du
+                champ <code>title</code> est incomplète : un
+                <code>POST /tasks</code> avec
+                <code>{ "title": "" }</code> accepte une chaîne vide.
+              </p>
+              <ol
+                class="list-decimal mt-3 space-y-3 pl-5"
+              >
+                <li>
+                  Créer une branche depuis <code>main</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-3 text-base text-slate-100"
+                  ><code>git checkout main
+git checkout -b hotfix/fix-title-validation</code></pre>
+                </li>
+                <li>
+                  Corriger dans <code>CreateTaskDto</code> et écrire un test
+                  vérifiant que le titre vide est rejeté.
+                </li>
+                <li>
+                  Merger dans <code>main</code> avec un tag
+                  <code>v1.1.1</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-3 text-base text-slate-100"
+                  ><code>git commit -m "fix: reject empty task title"
+git checkout main
+git merge hotfix/fix-title-validation
+git tag v1.1.1
+git push origin main v1.1.1</code></pre>
+                </li>
+                <li>
+                  Répercuter dans <code>develop</code> :
+                  <pre
+                    class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-3 text-base text-slate-100"
+                  ><code>git checkout develop
+git merge main
+git push origin develop</code></pre>
+                </li>
+              </ol>
+            </div>
+          </details>
+        </section>
+
+        <!-- ════════════════════════════════ POUR ALLER PLUS LOIN ═══════════════════════════ -->
+        <section
+          id="pour-aller-plus-loin"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Pour aller plus loin
+          </h2>
+          <div class="space-y-3 text-lg leading-8 text-slate-700">
+            <p>
+              <a
+                href="https://nvie.com/posts/a-successful-git-branching-model/"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >nvie.com — A successful Git branching model</a
+              >
+              : l'article original de Vincent Driessen qui a popularisé Git
+              Flow.
+            </p>
+            <p>
+              <a
+                href="https://docs.github.com/en/get-started/quickstart/github-flow"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >docs.github.com — GitHub Flow</a
+              >
+              : la documentation officielle de GitHub Flow.
+            </p>
+            <p>
+              <a
+                href="https://github.com/googleapis/release-please"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >github.com/googleapis/release-please</a
+              >
+              : outil d'automatisation des releases à partir des Conventional
+              Commits.
+            </p>
+          </div>
+          <p
+            class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            La séance suivante comparera GitHub Flow et Git Flow avec d'autres
+            workflows (GitLab Flow, Trunk-Based Development) pour identifier
+            quel flow convient à quel contexte d'équipe et de livraison.
+          </p>
+        </section>
+
+      </main>
+    </div>
+
+    <script type="module" src="../assets/js/mermaid-loader.js"></script>
+  </body>
+</html>

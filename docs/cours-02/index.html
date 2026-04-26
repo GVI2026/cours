@@ -188,8 +188,7 @@
             distants, branches, conflits, releases et Conventional Commits.
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            Posez le stylo quand le temps est écoulé. La correction sera
-            évoquée brièvement avant de passer au nouveau contenu.
+            Posez le stylo quand le temps est écoulé.
           </p>
         </section>
 
@@ -396,7 +395,7 @@
                 <div>
                   <pre
                     class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
-                  ><code>docker images</code></pre>
+                  ><code>docker image ls</code></pre>
                   <p class="mt-2">
                     Lister les images disponibles localement.
                   </p>
@@ -598,19 +597,19 @@ CMD ["node", "index.js"]</code></pre>
               Vérifier que l'image apparaît localement :
               <pre
                 class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-              ><code>docker images</code></pre>
+              ><code>docker image ls</code></pre>
             </li>
             <li>
               Lancer un conteneur :
               <pre
                 class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-              ><code>docker run -p 3000:3000 hello-docker</code></pre>
+              ><code>docker run -p 3001:3001 hello-docker</code></pre>
             </li>
             <li>
               Dans un autre terminal, vérifier que l'application répond :
               <pre
                 class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-              ><code>curl http://localhost:3000</code></pre>
+              ><code>curl http://localhost:3001</code></pre>
               Vous devez obtenir :
               <code>Hello depuis Docker !</code>
             </li>
@@ -632,7 +631,7 @@ docker stop &lt;id&gt;</code></pre>
               <pre
                 class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
               ><code>docker rmi hello-docker
-docker images</code></pre>
+docker image ls</code></pre>
               L'image <code>hello-docker</code> ne doit plus apparaître.
             </li>
           </ol>

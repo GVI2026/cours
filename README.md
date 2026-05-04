@@ -88,3 +88,4 @@ Cette première version permet de valider les points suivants :
 - landing page simple et extensible,
 - premier cours dans un dossier séparé,
 - chargement d'un diagramme Mermaid depuis un fichier `.md` externe.
+

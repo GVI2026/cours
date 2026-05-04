@@ -1,0 +1,970 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Cours 03 · Flows de développement — suite, conclusion et transition vers la CI
+    </title>
+    <meta
+      name="description"
+      content="Support interactif du cours 03 : GitLab Flow, Trunk-Based Development, DevOps, CI/CD et TP pratique sur une vraie pipeline CI."
+    />
+    <meta name="course:id" content="cours-03" />
+    <meta
+      name="course:title"
+      content="Flows de développement — suite, conclusion et transition vers la CI"
+    />
+    <meta name="course:duration-total-minutes" content="210" />
+    <meta
+      name="course:sections"
+      content="qcm,gitlab-flow,demo-gitlab-flow,trunk-based,mono-poly,comparatif,ci-setup,devops-cicd,tp-ci,synthese"
+    />
+    <script id="course-metadata" type="application/json">
+      {
+        "courseId": "cours-03",
+        "title": "Flows de développement — suite, conclusion et transition vers la CI",
+        "totalDurationMinutes": 210,
+        "sections": [
+          {
+            "id": "qcm",
+            "title": "QCM de reprise du cours-02",
+            "durationMinutes": 20
+          },
+          {
+            "id": "gitlab-flow",
+            "title": "GitLab Flow : gérer plusieurs versions actives",
+            "durationMinutes": 20
+          },
+          {
+            "id": "demo-gitlab-flow",
+            "title": "Mini-démo guidée GitLab Flow",
+            "durationMinutes": 10
+          },
+          {
+            "id": "trunk-based",
+            "title": "Trunk-Based Development : teaser stratégique",
+            "durationMinutes": 10
+          },
+          {
+            "id": "mono-poly",
+            "title": "Monorepo vs polyrepo",
+            "durationMinutes": 10
+          },
+          {
+            "id": "comparatif",
+            "title": "Tableau comparatif final des flows",
+            "durationMinutes": 10
+          },
+          {
+            "id": "ci-setup",
+            "title": "Prise en main du dépôt CI pédagogique",
+            "durationMinutes": 20
+          },
+          {
+            "id": "devops-cicd",
+            "title": "Pont vers DevOps et CI/CD",
+            "durationMinutes": 40
+          },
+          {
+            "id": "tp-ci",
+            "title": "TP : corriger une CI cassée",
+            "durationMinutes": 60
+          },
+          {
+            "id": "synthese",
+            "title": "Synthèse et marge pédagogique",
+            "durationMinutes": 10
+          }
+        ]
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-6xl px-6 py-10 lg:px-8 xl:max-w-7xl">
+      <header class="border-b border-slate-200 pb-8">
+        <a
+          href="../index.html"
+          class="text-base font-medium text-sky-700 transition hover:text-sky-800"
+          >← Retour à l'accueil</a
+        >
+        <p
+          class="mt-6 text-base font-semibold uppercase tracking-[0.22em] text-slate-500"
+        >
+          Cours 03
+        </p>
+        <h1
+          class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
+        >
+          Flows de développement — suite, conclusion et transition vers la CI
+        </h1>
+        <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
+          Cette séance termine le module sur les flows commencés au cours-02,
+          puis montre pourquoi ces flows amènent naturellement à parler de
+          DevOps, d'intégration continue et de pipelines. Vous allez comparer
+          plusieurs stratégies de branches, puis manipuler une vraie CI sur un
+          dépôt NestJS simple.
+        </p>
+        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
+          <li>
+            Comprendre quand GitLab Flow devient pertinent face à GitHub Flow
+            ou Git Flow.
+          </li>
+          <li>
+            Relier les flows de développement aux environnements et au besoin
+            d'automatisation.
+          </li>
+          <li>
+            Stabiliser le vocabulaire minimal autour de DevOps, CI, Delivery,
+            Deployment et pipeline.
+          </li>
+          <li>
+            Diagnostiquer et corriger une chaîne CI cassée à partir de logs et
+            d'un workflow GitHub Actions réel.
+          </li>
+        </ul>
+      </header>
+
+      <nav class="py-8">
+        <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
+        <ul class="mt-4 space-y-3 text-lg leading-8">
+          <li>
+            <a href="#qcm" class="text-sky-700 hover:text-sky-800"
+              >QCM de reprise du cours-02</a
+            >
+          </li>
+          <li>
+            <a href="#gitlab-flow" class="text-sky-700 hover:text-sky-800"
+              >GitLab Flow</a
+            >
+          </li>
+          <li>
+            <a
+              href="#demo-gitlab-flow"
+              class="text-sky-700 hover:text-sky-800"
+              >Mini-démo guidée GitLab Flow</a
+            >
+          </li>
+          <li>
+            <a href="#trunk-based" class="text-sky-700 hover:text-sky-800"
+              >Trunk-Based Development</a
+            >
+          </li>
+          <li>
+            <a href="#mono-poly" class="text-sky-700 hover:text-sky-800"
+              >Monorepo vs polyrepo</a
+            >
+          </li>
+          <li>
+            <a href="#comparatif" class="text-sky-700 hover:text-sky-800"
+              >Comparatif final des flows</a
+            >
+          </li>
+          <li>
+            <a href="#ci-setup" class="text-sky-700 hover:text-sky-800"
+              >Prise en main du dépôt CI</a
+            >
+          </li>
+          <li>
+            <a href="#devops-cicd" class="text-sky-700 hover:text-sky-800"
+              >Pont vers DevOps et CI/CD</a
+            >
+          </li>
+          <li>
+            <a href="#tp-ci" class="text-sky-700 hover:text-sky-800"
+              >TP : corriger une CI cassée</a
+            >
+          </li>
+          <li>
+            <a href="#synthese" class="text-sky-700 hover:text-sky-800"
+              >Synthèse et marge pédagogique</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main class="space-y-10 pb-12">
+        <!-- ═══════════════════════════════════════ QCM ═══════════════════════════════════════ -->
+        <section
+          id="qcm"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            QCM de reprise du cours-02
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            La séance commence par 20 minutes de QCM sur papier. Les questions
+            portent sur les notions du cours-02 : Docker, GitHub Flow, Git
+            Flow, Pull Requests, release branches, hotfixes et logique globale
+            des workflows étudiés.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Une fois le QCM terminé, nous repartons du point où le cours-02
+            s'arrêtait : que se passe-t-il quand un projet doit maintenir
+            plusieurs versions actives et quand la coordination Git devient plus
+            coûteuse ?
+          </p>
+        </section>
+
+        <!-- ═══════════════════════════════════ GITLAB FLOW ══════════════════════════════════ -->
+        <section
+          id="gitlab-flow"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">GitLab Flow</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            GitHub Flow fonctionne très bien tant qu'on intègre en continu sur
+            une seule ligne courante. Mais certains produits doivent aussi
+            continuer à corriger une version plus ancienne déjà déployée chez
+            des clients. C'est là qu'un flow de type GitLab Flow devient
+            intéressant.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Deux lignes actives, deux contraintes différentes
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Dans le dépôt de démonstration, <code>main</code> représente la
+                ligne courante du produit, alors que
+                <code>production/v1</code> représente une version plus ancienne
+                encore supportée. Une nouvelle fonctionnalité part de
+                <code>main</code>. Un correctif urgent pour les utilisateurs de
+                la v1 part de <code>production/v1</code>.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Lien rapide avec les environnements
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Ce type de flow fait rapidement apparaître des contextes de
+                diffusion différents : environnement de développement pour la
+                ligne courante, environnement de validation intermédiaire, puis
+                production pour une version donnée. Nous resterons aujourd'hui
+                sur trois repères utiles : <span class="font-semibold text-slate-900">DEV</span>,
+                <span class="font-semibold text-slate-900">STAGING</span> et
+                <span class="font-semibold text-slate-900">PROD</span>.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Le coût caché : coordonner les correctifs
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Dès qu'un bug existe à la fois sur la version maintenue et sur la
+                ligne courante, il faut le reporter aussi sur
+                <code>main</code> après correction sur
+                <code>production/v1</code>. Cela peut se faire par
+                <code>cherry-pick</code> ou par correction équivalente, mais dans
+                tous les cas cela augmente le coût de coordination.
+              </p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Si vous devez ajouter une nouvelle fonctionnalité, quelle branche
+              cible devez-vous choisir ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Vous devez partir de <code>main</code>, car une fonctionnalité
+                nouvelle concerne la ligne courante du produit.
+              </p>
+              <p>
+                Une branche de maintenance comme <code>production/v1</code> sert
+                d'abord à corriger une version plus ancienne déjà utilisée, pas
+                à enrichir la version courante.
+              </p>
+            </div>
+          </details>
+
+          <div class="border-t border-slate-200 pt-6">
+            <p class="mb-4 text-lg leading-8 text-slate-700">
+              Ce <code>gitGraph</code> donne la lecture minimale à retenir pour
+              la séance.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-03-gitlab-flow.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du gitGraph…</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ═════════════════════════════════ MINI DEMO ═════════════════════════════════════ -->
+        <section
+          id="demo-gitlab-flow"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Mini-démo guidée — dépôt GitLab Flow
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/tp-gitlab-flow"
+              class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
+              >GVI2026/tp-gitlab-flow</a
+            >
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Cette démo doit durer 10 minutes. L'objectif n'est pas de refaire un
+            TP complet, mais de rendre visible un besoin que GitHub Flow ou Git
+            Flow couvrent moins bien : maintenir une ancienne version tout en
+            développant la suivante.
+          </p>
+
+          <ol
+            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              Vérifier l'existence des deux branches permanentes :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git branch -a</code></pre>
+            </li>
+            <li>
+              Montrer une nouvelle fonctionnalité sur la ligne courante avec
+              l'endpoint <code>GET /tasks/stats</code>, à implémenter depuis
+              <code>feature/add-task-stats</code>.
+            </li>
+            <li>
+              Basculer ensuite sur la ligne de maintenance et ouvrir un hotfix
+              depuis <code>production/v1</code> pour corriger la validation du
+              champ <code>title</code>.
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git checkout production/v1
+git checkout -b hotfix/fix-title-validation</code></pre>
+            </li>
+            <li>
+              Finir par verbaliser le vrai message du flow : une correction
+              critique ne reste pas enfermée sur une seule branche si le bug
+              existe aussi sur la ligne courante.
+            </li>
+          </ol>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Pourquoi cette démo prépare-t-elle bien la transition vers la CI ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Parce qu'à partir du moment où plusieurs lignes de travail sont
+                actives, chaque correctif ou chaque intégration doit être
+                sécurisée plus vite et plus souvent.
+              </p>
+              <p>
+                Plus le flow se complexifie, plus l'automatisation devient un
+                moyen concret de garder confiance dans les changements.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ═══════════════════════════════ TRUNK BASED DEVELOPMENT ═════════════════════════ -->
+        <section
+          id="trunk-based"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Trunk-Based Development — teaser stratégique
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le Trunk-Based Development n'est pas le sujet pratique d'aujourd'hui.
+            Nous le regardons comme une direction possible pour des équipes qui
+            intègrent très fréquemment et qui disposent déjà d'une CI/CD solide.
+          </p>
+
+          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Principe :</span>
+              une branche principale unique, souvent <code>main</code> ou
+              <code>trunk</code>, sur laquelle les intégrations sont très
+              fréquentes.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Feature flags :</span>
+              ils permettent de masquer une fonctionnalité incomplète sans la
+              garder éternellement sur une branche longue.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Merge queues :</span>
+              elles sérialisent les intégrations pour réduire le risque de casser
+              la branche principale au moment du merge.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Point clé :</span>
+              sans pipeline fiable, rapide et lisible, ce mode de travail devient
+              très difficile à tenir.
+            </p>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Pourquoi le Trunk-Based Development est-il présenté comme la suite
+              du module, et non comme un flow à pratiquer tout de suite ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Parce qu'il suppose déjà une maturité CI/CD importante : tests
+                rapides, build fiable, feedback court et forte discipline
+                d'intégration.
+              </p>
+              <p>
+                Les prochains cours sur la CI/CD sont justement ce qui permettra
+                de comprendre comment atteindre cette maturité.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ═══════════════════════════════ MONOREPO VS POLYREPO ════════════════════════════ -->
+        <section
+          id="mono-poly"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Monorepo vs polyrepo — comparaison brève
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Cette comparaison n'est pas un chapitre autonome. Elle sert seulement
+            à enrichir la conclusion : selon le contexte, la gestion des versions,
+            des permissions et des pipelines peut devenir plus ou moins simple.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">Monorepo</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Tout le code vit dans un seul dépôt. On y gagne souvent en
+                cohérence, mais on complexifie plus vite la gestion des droits,
+                la lecture des pipelines et la question des versions compatibles
+                entre plusieurs composants.
+              </p>
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">Polyrepo</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Chaque service ou composant a son dépôt. On gagne en isolation,
+                mais la synchronisation entre versions et la gestion des
+                compatibilités demandent un outillage et une discipline plus
+                visibles.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════ COMPARATIF FLOWS ═══════════════════════════════ -->
+        <section
+          id="comparatif"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Tableau comparatif final des flows
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Aucun flow n'est universel. Un projet peut très bien évoluer d'un
+            mode très simple vers un flow plus structuré à mesure que la taille
+            de l'équipe, le nombre de versions supportées et l'exigence qualité
+            augmentent.
+          </p>
+
+          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Sans flow réel :</span>
+              acceptable au tout début d'un prototype individuel, mais fragile.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">GitHub Flow :</span>
+              bon point d'entrée dès qu'on veut intégrer souvent sur une ligne
+              courante claire.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">GitLab Flow :</span>
+              pertinent dès qu'il faut gérer plusieurs versions actives d'un
+              même produit.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Trunk-Based Development :</span>
+              logique quand la maturité CI/CD permet des intégrations très
+              fréquentes sur un tronc unique.
+            </p>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <p class="mb-4 text-lg leading-8 text-slate-700">
+              Cette trajectoire synthétise la progression réaliste d'un projet.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-03-flow-trajectories.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du schéma…</p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quelle idée devez-vous retenir avant de passer à la CI ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Plus un flow vise des intégrations fréquentes ou la gestion de
+                plusieurs versions, plus l'automatisation devient indispensable.
+              </p>
+              <p>
+                La CI n'arrive donc pas comme un nouveau sujet déconnecté : elle
+                répond à une difficulté déjà visible dans les flows.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ══════════════════════════════ PRISE EN MAIN DEPOT CI ═══════════════════════════ -->
+        <section
+          id="ci-setup"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Dépôt CI pédagogique — temps 1 : prise en main guidée
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/tp-ci-api"
+              class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
+              >GVI2026/tp-ci-api</a
+            >
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Ce premier temps dure 20 minutes. Le but n'est pas encore de corriger
+            la pipeline, mais de stabiliser l'environnement de travail et de
+            rendre le dépôt familier avant le cours sur la CI/CD.
+          </p>
+
+          <ol
+            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              Cloner le dépôt puis l'ouvrir dans VS Code. Si le DevContainer est
+              proposé, l'accepter pour homogénéiser l'environnement.
+            </li>
+            <li>
+              Lancer l'application :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>npm run start:dev</code></pre>
+              Vérifier ensuite que Swagger répond sur
+              <code>http://localhost:3000/api</code>.
+            </li>
+            <li>
+              Repérer trois fichiers utiles pour la suite :
+              <code>.github/workflows/ci.yml</code>, <code>package.json</code>
+              et le dossier <code>src/</code>.
+            </li>
+            <li>
+              Faire une première lecture du workflow pour identifier ce qui sera
+              discuté ensuite : triggers, jobs, steps, ordre des vérifications.
+            </li>
+          </ol>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Pourquoi insiste-t-on sur la prise en main avant la théorie ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Parce qu'un dépôt inconnu rend le vocabulaire CI abstrait. Si
+                vous avez déjà vu l'application, le workflow et l'arborescence,
+                les notions théoriques deviennent beaucoup plus concrètes.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ════════════════════════════════ DEVOPS ET CI/CD ════════════════════════════════ -->
+        <section
+          id="devops-cicd"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Pont vers DevOps et CI/CD
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le pont logique est le suivant : plus une équipe livre souvent ou
+            maintient plusieurs lignes en parallèle, plus elle doit détecter tôt
+            les problèmes. DevOps et la CI/CD cherchent précisément à réduire ce
+            délai entre un changement et la confiance qu'on peut lui accorder.
+          </p>
+
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">DevOps</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                L'idée n'est pas de fusionner tous les métiers, mais de mieux
+                relier développement, livraison et exploitation. On s'intéresse
+                donc à la vitesse de mise à disposition, à la stabilité et à la
+                capacité à restaurer rapidement un service quand un problème
+                survient.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Les métriques DORA en lecture rapide
+              </h3>
+              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  <span class="font-semibold text-slate-900">Deployment Frequency :</span>
+                  à quelle cadence l'équipe déploie.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Lead Time for Changes :</span>
+                  temps entre un changement validé et sa mise en service.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">MTTR :</span>
+                  temps moyen nécessaire pour restaurer le service après un
+                  incident.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Change Failure Rate :</span>
+                  part des changements qui provoquent un problème en production.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Reliability :</span>
+                  capacité à tenir les objectifs de service.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Environnements utiles aujourd'hui
+              </h3>
+              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  <span class="font-semibold text-slate-900">DEV :</span>
+                  environnement de travail et d'expérimentation. Dans ce cours,
+                  nous allons surtout manipuler un environnement local.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">STAGING :</span>
+                  environnement de validation proche de la production, utile
+                  avant une mise en service réelle.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">PROD :</span>
+                  environnement utilisé par les vrais utilisateurs.
+                </p>
+                <p>
+                  SIT, UAT et PREPROD existent aussi, mais ils ne sont pas notre
+                  sujet principal aujourd'hui.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                CI, Continuous Delivery, Continuous Deployment
+              </h3>
+              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  <span class="font-semibold text-slate-900">Continuous Integration :</span>
+                  on vérifie automatiquement qu'un changement s'intègre bien au
+                  reste du projet.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Continuous Delivery :</span>
+                  l'application reste dans un état livrable, mais la mise en
+                  production peut rester manuelle.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Continuous Deployment :</span>
+                  le passage en production est lui aussi automatisé.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Anatomie minimale d'une pipeline
+              </h3>
+              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  <span class="font-semibold text-slate-900">Trigger :</span>
+                  événement qui lance le workflow, par exemple un
+                  <code>push</code> ou une <code>pull_request</code>.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Workflow :</span>
+                  orchestration globale décrite dans un fichier YAML.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Job :</span>
+                  bloc logique d'exécution, par exemple formatage, tests ou
+                  build.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Step :</span>
+                  action unitaire exécutée dans un job.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Runner :</span>
+                  machine qui exécute les steps.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Logs :</span>
+                  source principale de diagnostic quand une étape échoue.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Fail-fast :</span>
+                  on place les vérifications les plus rentables tôt pour arrêter
+                  rapidement une chaîne déjà invalide.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">DAG :</span>
+                  graphe d'exécution qui rend visibles les dépendances entre
+                  jobs et les possibilités de parallélisation.
+                </p>
+                <p>
+                  <span class="font-semibold text-slate-900">Secrets masqués :</span>
+                  les outils de CI évitent d'afficher les valeurs sensibles dans
+                  les logs, même si leur gestion reste un sujet sérieux.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-200 pt-6">
+            <p class="mb-4 text-lg leading-8 text-slate-700">
+              Voici le graphe minimal à retenir pour lire la pipeline du dépôt
+              pédagogique.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-03-ci-pipeline.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du graphe CI…</p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quel vocabulaire devez-vous absolument maîtriser avant le TP ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Vous devez savoir distinguer un workflow, un job et un step,
+                puis savoir où lire les logs et comprendre ce que signifie
+                l'ordre des jobs dans une logique fail-fast.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ════════════════════════════════════ TP CI ══════════════════════════════════════ -->
+        <section
+          id="tp-ci"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Dépôt CI pédagogique — temps 2 : exercices et correction
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le but est maintenant de diagnostiquer puis corriger une CI cassée.
+            Vous travaillez en binôme. Le dépôt a été conçu pour que les pannes
+            soient réalistes, lisibles et rapides à interpréter.
+          </p>
+
+          <div class="space-y-6 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Pipeline de référence à garder en tête
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>install → format-lint → tests → build → security</code></pre>
+              <p class="mt-3">
+                L'ordre n'est pas arbitraire. Il sert à détecter vite les erreurs
+                les moins coûteuses à diagnostiquer avant de mobiliser des étapes
+                plus longues.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Commandes utiles pendant le TP
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>npm run format:check
+npm run lint
+npm run test:ci
+npm run build
+act
+act -j format-lint
+act -j tests</code></pre>
+            </div>
+          </div>
+
+          <div class="space-y-8 border-t border-sky-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 1 — corriger une étape qualité simple
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Branche : <code>exercise/01-format-lint</code>. L'objectif est de
+                lire le bon log, puis de corriger un problème de formatage ou de
+                lint sans modifier inutilement le reste du projet.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 2 — réparer un test unitaire
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Branche : <code>exercise/02-test-failure</code>. L'échec est
+                volontairement simple à comprendre : vous devez repérer le test,
+                relire l'intention puis corriger soit le test, soit le code testé.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 3 — remettre la pipeline dans un ordre fail-fast
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Branche : <code>exercise/03-pipeline-order</code>. Le travail
+                consiste à réorganiser les dépendances de jobs dans
+                <code>.github/workflows/ci.yml</code> pour retrouver une chaîne
+                logique et lisible.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 4 — lire les logs et trouver la bonne cause
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Branche : <code>exercise/04-log-reading</code>. Ici, l'enjeu n'est
+                pas seulement de corriger : il faut surtout savoir lire le bon job,
+                la bonne step et le bon message d'erreur.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Exercice 5 — stabiliser la chaîne complète
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Branche : <code>exercise/05-stabilize</code>. Cette branche sert à
+                vérifier que vous savez appliquer un ordre de diagnostic cohérent
+                jusqu'au retour complet au vert.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Bonus — paralléliser une partie simple du DAG
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Branche : <code>bonus/parallelization</code>. Ce bonus s'adresse
+                aux binômes les plus rapides. Le but est de séparer proprement des
+                vérifications indépendantes sans rendre la lecture du graphe
+                inutilement compliquée.
+              </p>
+            </div>
+          </div>
+
+          <details class="border-t border-sky-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quel ordre de diagnostic devez-vous appliquer quand tout semble
+              cassé ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Commencez par les étapes qualité les plus précoces, puis les
+                tests, puis le build, puis le reste. L'idée n'est pas d'ouvrir
+                tous les fronts à la fois, mais d'éliminer les causes visibles
+                dans l'ordre où la pipeline les rencontre.
+              </p>
+            </div>
+          </details>
+
+          <div class="border-t border-sky-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Correction collective et débrief
+            </h3>
+            <ul class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <li>Quels échecs étaient visibles en premier ?</li>
+              <li>Dans quel job fallait-il lire les logs ?</li>
+              <li>Pourquoi l'ordre des jobs n'est-il pas arbitraire ?</li>
+              <li>Qu'est-ce qu'une parallélisation utile, et qu'est-ce qui ne l'est pas ?</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ════════════════════════════════════ SYNTHESE ═══════════════════════════════════ -->
+        <section
+          id="synthese"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Synthèse et marge pédagogique
+          </h2>
+          <div class="space-y-3 text-lg leading-8 text-slate-700">
+            <p>
+              En trois séances, vous êtes passés d'un usage local de Git à des
+              workflows d'équipe, puis à la question suivante : comment garder
+              confiance dans les changements quand les branches, les versions et
+              les intégrations se multiplient ?
+            </p>
+            <p>
+              La réponse du jour est claire : avant de parler de déploiement, il
+              faut déjà savoir intégrer, vérifier, diagnostiquer et corriger
+              rapidement. C'est exactement le rôle de la CI.
+            </p>
+            <p>
+              Les 10 dernières minutes servent de marge pédagogique : questions,
+              retard éventuel, reprise d'un point du TP ou reformulation d'une
+              notion de vocabulaire si nécessaire.
+            </p>
+          </div>
+          <p
+            class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            Pour la suite du module, gardez cette idée directrice : plus on veut
+            intégrer souvent et livrer vite, plus il faut raccourcir le temps
+            entre un changement et le retour fiable que donne la pipeline.
+          </p>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="../assets/js/mermaid-loader.js"></script>
+  </body>
+</html>

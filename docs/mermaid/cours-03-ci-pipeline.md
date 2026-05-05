@@ -4,6 +4,8 @@ flowchart LR
     C --> D[tests]
     D --> E[build]
     E --> F[security]
-    C -. fail-fast .-> X[stop]
+    C -. fail-fast .-> X["Stop"]
     D -. fail-fast .-> X
     E -. fail-fast .-> X
+    classDef stopStyle fill:#ef4444,stroke:#dc2626,color:#ffffff,font-weight:bold
+    class X stopStyle

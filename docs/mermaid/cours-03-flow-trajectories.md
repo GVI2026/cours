@@ -1,9 +1,9 @@
 flowchart TD
     A[Demarrage sans flow reel] --> B[GitHub Flow]
+    B -.->|contexte type| G[Equipe petite\nune ligne courante claire]
     B --> C[GitLab Flow]
-    C --> D{Contexte produit}
-    D -->|Plusieurs versions a maintenir| E[GitLab Flow conserve]
+    C -.->|concretement| H[Versions actives en parallele\nbranches liees aux environnements\nex: main -> STAGING\nproduction/v1 -> PROD]
+    C --> D{Evolution du contexte}
+    D -->|Plusieurs versions supportees| E[GitLab Flow conserve]
     D -->|Integrations tres frequentes| F[Trunk-Based Development]
-    B --> G[Equipe petite, une ligne courante claire]
-    C --> H[Versions actives en parallele]
-    F --> I[CI/CD mature + feature flags + merge queue]
+    I[Prerequis: CI/CD mature\nfeature flags + merge queue] --> F

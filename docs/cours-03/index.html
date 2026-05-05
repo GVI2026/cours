@@ -73,8 +73,8 @@
           },
           {
             "id": "synthese",
-            "title": "Synthèse et marge pédagogique",
-            "durationMinutes": 10
+            "title": "Conclusion et ouverture",
+            "durationMinutes": 5
           }
         ]
       }
@@ -106,24 +106,6 @@
           plusieurs stratégies de branches, puis manipuler une vraie CI sur un
           dépôt NestJS simple.
         </p>
-        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
-          <li>
-            Comprendre quand GitLab Flow devient pertinent face à GitHub Flow
-            ou Git Flow.
-          </li>
-          <li>
-            Relier les flows de développement aux environnements et au besoin
-            d'automatisation.
-          </li>
-          <li>
-            Stabiliser le vocabulaire minimal autour de DevOps, CI, Delivery,
-            Deployment et pipeline.
-          </li>
-          <li>
-            Diagnostiquer et corriger une chaîne CI cassée à partir de logs et
-            d'un workflow GitHub Actions réel.
-          </li>
-        </ul>
       </header>
 
       <nav class="py-8">
@@ -178,7 +160,7 @@
           </li>
           <li>
             <a href="#synthese" class="text-sky-700 hover:text-sky-800"
-              >Synthèse et marge pédagogique</a
+              >Conclusion et ouverture</a
             >
           </li>
         </ul>
@@ -317,10 +299,9 @@
             >
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            Cette démo doit durer 10 minutes. L'objectif n'est pas de refaire un
-            TP complet, mais de rendre visible un besoin que GitHub Flow ou Git
-            Flow couvrent moins bien : maintenir une ancienne version tout en
-            développant la suivante.
+            L'objectif n'est pas de refaire un TP complet, mais de rendre
+            visible un besoin que GitHub Flow ou Git Flow couvrent moins bien :
+            maintenir une ancienne version tout en développant la suivante.
           </p>
 
           <ol
@@ -357,17 +338,21 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pourquoi cette démo prépare-t-elle bien la transition vers la CI ?
+              Qu'est-ce qui deviendrait difficile à gérer manuellement dès que
+              les deux branches sont actives en même temps ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Parce qu'à partir du moment où plusieurs lignes de travail sont
-                actives, chaque correctif ou chaque intégration doit être
-                sécurisée plus vite et plus souvent.
+                S'assurer qu'un bug corrigé sur <code>production/v1</code>
+                est bien aussi reporté sur <code>main</code>. Sans
+                automatisation ni processus explicite, ce cherry-pick peut
+                être oublié et le bug réapparaître dans la prochaine version.
               </p>
               <p>
-                Plus le flow se complexifie, plus l'automatisation devient un
-                moyen concret de garder confiance dans les changements.
+                Plus généralement, valider que les deux lignes restent stables
+                et cohérentes l'une avec l'autre devient un travail de
+                coordination à part entière — c'est exactement là que
+                l'automatisation des vérifications commence à avoir de la valeur.
               </p>
             </div>
           </details>
@@ -441,9 +426,9 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             Monorepo vs polyrepo — comparaison brève
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Cette comparaison n'est pas un chapitre autonome. Elle sert seulement
-            à enrichir la conclusion : selon le contexte, la gestion des versions,
-            des permissions et des pipelines peut devenir plus ou moins simple.
+            L'organisation du code en un ou plusieurs dépôts influence
+            directement la complexité des pipelines, la gestion des droits et
+            la cohérence des versions entre composants.
           </p>
 
           <div class="space-y-6 border-t border-slate-200 pt-6">
@@ -521,16 +506,24 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Quelle idée devez-vous retenir avant de passer à la CI ?
+              Git Flow n'apparaît pas dans ce diagramme — où se placerait-il
+              selon vous, et pourquoi ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Plus un flow vise des intégrations fréquentes ou la gestion de
-                plusieurs versions, plus l'automatisation devient indispensable.
+                Git Flow se placerait entre GitHub Flow et GitLab Flow. Comme
+                GitHub Flow, il part d'une ligne courante unique ; comme GitLab
+                Flow, il gère des branches de maintenance (hotfix, release).
+                Mais son modèle de branches longues et son processus de release
+                formalisé le rendent plus lourd que GitHub Flow sans aller
+                jusqu'à la gestion de versions indépendantes de GitLab Flow.
               </p>
               <p>
-                La CI n'arrive donc pas comme un nouveau sujet déconnecté : elle
-                répond à une difficulté déjà visible dans les flows.
+                Il occupe donc une niche particulière : les projets avec des
+                cycles de release planifiés et une équipe suffisamment grande
+                pour justifier ce niveau de formalisme — mais sans nécessairement
+                maintenir plusieurs versions en parallèle pour des clients
+                différents.
               </p>
             </div>
           </details>
@@ -553,9 +546,9 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             >
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            Ce premier temps dure 20 minutes. Le but n'est pas encore de corriger
-            la pipeline, mais de stabiliser l'environnement de travail et de
-            rendre le dépôt familier avant le cours sur la CI/CD.
+            Le but n'est pas encore de corriger la pipeline, mais de stabiliser
+            l'environnement de travail et de rendre le dépôt familier avant
+            d'analyser la CI en détail.
           </p>
 
           <ol
@@ -588,13 +581,21 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pourquoi insiste-t-on sur la prise en main avant la théorie ?
+              Dans <code>.github/workflows/ci.yml</code>, combien de jobs
+              repérez-vous, et lequel s'exécute en premier ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Parce qu'un dépôt inconnu rend le vocabulaire CI abstrait. Si
-                vous avez déjà vu l'application, le workflow et l'arborescence,
-                les notions théoriques deviennent beaucoup plus concrètes.
+                Le workflow contient quatre jobs : <code>format-lint</code>,
+                <code>tests</code>, <code>build</code> et
+                <code>security</code>. Le premier à s'exécuter est
+                <code>format-lint</code>, car les autres en dépendent via
+                <code>needs:</code>.
+              </p>
+              <p>
+                Repérer cet ordre avant le cours permet de suivre directement
+                l'explication du principe fail-fast sans avoir à chercher dans
+                le fichier en même temps.
               </p>
             </div>
           </details>
@@ -757,7 +758,7 @@ git checkout -b hotfix/fix-title-validation</code></pre>
           <!-- ── C. CI / Continuous Delivery / Continuous Deployment ── -->
           <div class="space-y-4 border-t border-slate-200 pt-6">
             <h3 class="text-2xl font-semibold text-slate-950">
-              CI, Continuous Delivery et Continuous Deployment
+              CI, Continuous Delivery et Continuous Deployment (CD)
             </h3>
             <p class="text-lg leading-8 text-slate-700">
               Ces trois pratiques forment un spectre progressif : chaque niveau
@@ -943,24 +944,6 @@ git checkout -b hotfix/fix-title-validation</code></pre>
               immédiatement. Un retour en 45 minutes implique un changement de
               contexte mental qui multiplie le temps de correction réel.
             </p>
-
-            <h4 class="pt-4 text-xl font-semibold text-slate-950">
-              Exercice rapide (2 min, en solo)
-            </h4>
-            <p class="text-lg leading-8 text-slate-700">
-              Ouvrez le fichier
-              <code>.github/workflows/ci.yml</code> du dépôt
-              <code>tp-ci-api</code>. Pour chacun des types d'erreurs
-              suivants, identifiez dans quel job vous verriez l'échec et
-              pourquoi l'ordre actuel est logique :
-            </p>
-            <ul class="list-disc space-y-2 pl-6 text-lg leading-8 text-slate-700">
-              <li>Une indentation incorrecte dans un fichier TypeScript</li>
-              <li>Une fonction qui retourne <code>undefined</code> au lieu d'un objet</li>
-              <li>Une variable TypeScript déclarée avec le mauvais type</li>
-              <li>Une dépendance npm avec une CVE critique connue</li>
-            </ul>
-          </div>
 
           <details class="border-t border-slate-200 pt-6">
             <summary class="cursor-pointer text-lg font-semibold text-slate-950">
@@ -1204,32 +1187,30 @@ act -j tests</code></pre>
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Synthèse et marge pédagogique
+            Conclusion et ouverture
           </h2>
           <div class="space-y-3 text-lg leading-8 text-slate-700">
             <p>
               En trois séances, vous êtes passés d'un usage local de Git à des
-              workflows d'équipe, puis à la question suivante : comment garder
-              confiance dans les changements quand les branches, les versions et
-              les intégrations se multiplient ?
+              workflows d'équipe structurés, puis à la question que tous ces
+              flows soulèvent : comment garder confiance dans les changements
+              quand les branches, les versions et les intégrations se multiplient ?
             </p>
             <p>
-              La réponse du jour est claire : avant de parler de déploiement, il
-              faut déjà savoir intégrer, vérifier, diagnostiquer et corriger
-              rapidement. C'est exactement le rôle de la CI.
-            </p>
-            <p>
-              Les 10 dernières minutes servent de marge pédagogique : questions,
-              retard éventuel, reprise d'un point du TP ou reformulation d'une
-              notion de vocabulaire si nécessaire.
+              La CI répond à la première partie de cette question : détecter
+              vite, corriger tôt, intégrer en confiance. L'autre partie —
+              livrer en production de façon fiable et automatisée — sera
+              l'objet du prochain cours, consacré au
+              <span class="font-semibold text-slate-900">Continuous Delivery
+              et au déploiement continu</span>.
             </p>
           </div>
           <p
             class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
           >
-            Pour la suite du module, gardez cette idée directrice : plus on veut
-            intégrer souvent et livrer vite, plus il faut raccourcir le temps
-            entre un changement et le retour fiable que donne la pipeline.
+            Idée directrice à emporter : une pipeline CI qui ne renvoie pas
+            de retour en quelques minutes ne change pas les comportements.
+            La vitesse du feedback est aussi importante que sa fiabilité.
           </p>
         </section>
       </main>

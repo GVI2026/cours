@@ -15,7 +15,7 @@
       name="course:title"
       content="Flows de développement — suite, conclusion et transition vers la CI"
     />
-    <meta name="course:duration-total-minutes" content="210" />
+    <meta name="course:duration-total-minutes" content="225" />
     <meta
       name="course:sections"
       content="qcm,gitlab-flow,demo-gitlab-flow,trunk-based,mono-poly,comparatif,ci-setup,devops-cicd,tp-ci,synthese"
@@ -24,7 +24,7 @@
       {
         "courseId": "cours-03",
         "title": "Flows de développement — suite, conclusion et transition vers la CI",
-        "totalDurationMinutes": 210,
+        "totalDurationMinutes": 225,
         "sections": [
           {
             "id": "qcm",
@@ -63,8 +63,8 @@
           },
           {
             "id": "devops-cicd",
-            "title": "Pont vers DevOps et CI/CD",
-            "durationMinutes": 40
+            "title": "DevOps et CI/CD",
+            "durationMinutes": 55
           },
           {
             "id": "tp-ci",
@@ -168,7 +168,7 @@
           </li>
           <li>
             <a href="#devops-cicd" class="text-sky-700 hover:text-sky-800"
-              >Pont vers DevOps et CI/CD</a
+              >DevOps et CI/CD</a
             >
           </li>
           <li>
@@ -603,161 +603,279 @@ git checkout -b hotfix/fix-title-validation</code></pre>
         <!-- ════════════════════════════════ DEVOPS ET CI/CD ════════════════════════════════ -->
         <section
           id="devops-cicd"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+          class="space-y-10 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Pont vers DevOps et CI/CD
+            DevOps et CI/CD
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Le pont logique est le suivant : plus une équipe livre souvent ou
-            maintient plusieurs lignes en parallèle, plus elle doit détecter tôt
-            les problèmes. DevOps et la CI/CD cherchent précisément à réduire ce
-            délai entre un changement et la confiance qu'on peut lui accorder.
+            Les flows que vous venez de voir posent tous la même question en
+            filigrane : comment garder confiance dans les changements quand
+            plusieurs branches, plusieurs versions et plusieurs personnes sont
+            actives en même temps ? DevOps et la CI/CD sont précisément la
+            réponse industrielle à cette question.
           </p>
 
-          <div class="space-y-6 border-t border-slate-200 pt-6">
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">DevOps</h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                L'idée n'est pas de fusionner tous les métiers, mais de mieux
-                relier développement, livraison et exploitation. On s'intéresse
-                donc à la vitesse de mise à disposition, à la stabilité et à la
-                capacité à restaurer rapidement un service quand un problème
-                survient.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Les métriques DORA en lecture rapide
-              </h3>
-              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
-                <p>
-                  <span class="font-semibold text-slate-900">Deployment Frequency :</span>
-                  à quelle cadence l'équipe déploie.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Lead Time for Changes :</span>
-                  temps entre un changement validé et sa mise en service.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">MTTR :</span>
-                  temps moyen nécessaire pour restaurer le service après un
-                  incident.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Change Failure Rate :</span>
-                  part des changements qui provoquent un problème en production.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Reliability :</span>
-                  capacité à tenir les objectifs de service.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Environnements utiles aujourd'hui
-              </h3>
-              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
-                <p>
-                  <span class="font-semibold text-slate-900">DEV :</span>
-                  environnement de travail et d'expérimentation. Dans ce cours,
-                  nous allons surtout manipuler un environnement local.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">STAGING :</span>
-                  environnement de validation proche de la production, utile
-                  avant une mise en service réelle.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">PROD :</span>
-                  environnement utilisé par les vrais utilisateurs.
-                </p>
-                <p>
-                  SIT, UAT et PREPROD existent aussi, mais ils ne sont pas notre
-                  sujet principal aujourd'hui.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                CI, Continuous Delivery, Continuous Deployment
-              </h3>
-              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
-                <p>
-                  <span class="font-semibold text-slate-900">Continuous Integration :</span>
-                  on vérifie automatiquement qu'un changement s'intègre bien au
-                  reste du projet.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Continuous Delivery :</span>
-                  l'application reste dans un état livrable, mais la mise en
-                  production peut rester manuelle.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Continuous Deployment :</span>
-                  le passage en production est lui aussi automatisé.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Anatomie minimale d'une pipeline
-              </h3>
-              <div class="mt-3 space-y-3 text-lg leading-8 text-slate-700">
-                <p>
-                  <span class="font-semibold text-slate-900">Trigger :</span>
-                  événement qui lance le workflow, par exemple un
-                  <code>push</code> ou une <code>pull_request</code>.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Workflow :</span>
-                  orchestration globale décrite dans un fichier YAML.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Job :</span>
-                  bloc logique d'exécution, par exemple formatage, tests ou
-                  build.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Step :</span>
-                  action unitaire exécutée dans un job.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Runner :</span>
-                  machine qui exécute les steps.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Logs :</span>
-                  source principale de diagnostic quand une étape échoue.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Fail-fast :</span>
-                  on place les vérifications les plus rentables tôt pour arrêter
-                  rapidement une chaîne déjà invalide.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">DAG :</span>
-                  graphe d'exécution qui rend visibles les dépendances entre
-                  jobs et les possibilités de parallélisation.
-                </p>
-                <p>
-                  <span class="font-semibold text-slate-900">Secrets masqués :</span>
-                  les outils de CI évitent d'afficher les valeurs sensibles dans
-                  les logs, même si leur gestion reste un sujet sérieux.
-                </p>
-              </div>
+          <!-- ── A. DevOps : briser les silos ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              DevOps : briser les silos
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Pendant longtemps, développement et exploitation fonctionnaient
+              en silos séparés avec des objectifs mesurés différemment. Les
+              développeurs étaient évalués sur la quantité de fonctionnalités
+              livrées ; les équipes d'exploitation sur la stabilité du
+              système. Résultat : chaque mise en production devenait un moment
+              de friction, de ralentissement et de méfiance mutuelle.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              DevOps est d'abord une réponse <span class="font-semibold text-slate-900">culturelle et organisationnelle</span> :
+              aligner les équipes sur un objectif commun — livrer de la valeur
+              rapidement <em>et</em> de façon fiable. L'outillage (CI/CD,
+              monitoring, infrastructure as code) vient ensuite rendre cette
+              collaboration concrète et répétable.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              Le cycle DevOps est continu : on planifie, on code, on vérifie,
+              on package, on déploie, on configure, on surveille… et on
+              replanifie à partir de ce qu'on observe en production.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-03-devops-lifecycle.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du cycle DevOps…</p>
             </div>
           </div>
 
-          <div class="border-t border-slate-200 pt-6">
-            <p class="mb-4 text-lg leading-8 text-slate-700">
-              Voici le graphe minimal à retenir pour lire la pipeline du dépôt
-              pédagogique.
+          <details class="border-t border-slate-200 pt-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              Que se passe-t-il quand un bug critique est découvert en
+              production si Dev et Ops ont des objectifs mesurés séparément ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                L'équipe Dev peut considérer que le bug est "en prod donc
+                c'est un problème Ops". L'équipe Ops peut refuser de déployer
+                un correctif précipité qui risquerait de déstabiliser le
+                système. Personne n'est incité à résoudre rapidement, car la
+                responsabilité partagée n'est pas mesurée.
+              </p>
+              <p>
+                DevOps supprime cette friction en rendant les deux équipes
+                co-responsables du même résultat : un service stable et
+                évolutif.
+              </p>
+            </div>
+          </details>
+
+          <!-- ── B. Métriques DORA ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Mesurer pour progresser : les métriques DORA
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Sans mesure, l'amélioration reste une intuition. Le programme
+              DORA (DevOps Research and Assessment), mené par Google Cloud
+              depuis plus de dix ans sur 40 000+ professionnels, a identifié
+              cinq métriques qui prédisent la performance organisationnelle
+              réelle.
+            </p>
+
+            <p class="text-lg leading-8 text-slate-700">
+              Ces métriques se regroupent en deux axes :
+            </p>
+
+            <div class="space-y-4 pt-2">
+              <div>
+                <p class="text-lg font-semibold text-slate-900">Débit — jusqu'où va la chaîne de livraison ?</p>
+                <p class="mt-2 text-lg leading-8 text-slate-700">
+                  <span class="font-semibold text-slate-900">Deployment Frequency :</span>
+                  à quelle cadence l'équipe déploie en production. Un déploiement
+                  par mois est très différent de plusieurs par jour.
+                </p>
+                <p class="mt-2 text-lg leading-8 text-slate-700">
+                  <span class="font-semibold text-slate-900">Change Lead Time :</span>
+                  temps entre le moment où un développeur commite du code et le
+                  moment où ce code est en production. Cet indicateur révèle
+                  tous les goulots d'étranglement du processus.
+                </p>
+                <p class="mt-2 text-lg leading-8 text-slate-700">
+                  <span class="font-semibold text-slate-900">Failed Deployment Recovery Time :</span>
+                  temps nécessaire pour revenir à un état stable après un
+                  déploiement qui a provoqué un incident.
+                </p>
+              </div>
+
+              <div class="border-t border-slate-100 pt-4">
+                <p class="text-lg font-semibold text-slate-900">Stabilité — est-ce que ça tient ?</p>
+                <p class="mt-2 text-lg leading-8 text-slate-700">
+                  <span class="font-semibold text-slate-900">Change Fail Rate :</span>
+                  proportion des déploiements qui nécessitent une intervention
+                  immédiate — rollback ou hotfix. Un taux élevé signale que la
+                  pipeline ne filtre pas assez.
+                </p>
+                <p class="mt-2 text-lg leading-8 text-slate-700">
+                  <span class="font-semibold text-slate-900">Deployment Rework Rate :</span>
+                  proportion des déploiements non planifiés résultant d'un
+                  incident en production.
+                </p>
+              </div>
+            </div>
+
+            <p class="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">Insight clé de la recherche DORA :</span>
+              rapidité et stabilité ne sont <em>pas</em> en opposition. Les
+              équipes les plus performantes déploient <em>plus souvent</em>
+              <em>et</em> ont <em>moins</em> d'incidents. L'amélioration de
+              l'une tire l'autre vers le haut.
+            </p>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              Pensez-vous qu'il est possible de déployer très souvent
+              <em>et</em> d'avoir peu d'incidents en production ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Oui — et c'est précisément ce que valide la recherche DORA.
+                Déployer souvent force à réduire la taille de chaque
+                changement. Des petits changements sont plus faciles à
+                comprendre, à tester et à réverter si quelque chose cloche.
+              </p>
+              <p>
+                C'est le principe des petits lots (<em>small batches</em>) :
+                moins on accumule de changements avant un déploiement, moins
+                la probabilité d'un incident complexe à diagnostiquer est
+                élevée.
+              </p>
+            </div>
+          </details>
+
+          <!-- ── C. CI / Continuous Delivery / Continuous Deployment ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              CI, Continuous Delivery et Continuous Deployment
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Ces trois pratiques forment un spectre progressif : chaque niveau
+              automatise davantage, et chaque niveau suppose que le précédent
+              fonctionne de façon fiable.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">Intégration Continue (CI) :</span>
+              chaque commit déclenche automatiquement une vérification —
+              formatage, lint, tests, build. L'objectif est de détecter
+              immédiatement si le changement casse quelque chose dans le
+              projet. Sans CI solide, les deux pratiques suivantes n'ont pas
+              de fondation.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">Continuous Delivery :</span>
+              la CI est complétée par une automatisation du packaging et de la
+              préparation à la mise en production. L'artefact est toujours
+              prêt à être déployé. Le déploiement lui-même reste déclenché
+              manuellement — souvent pour des raisons métier ou réglementaires.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">Continuous Deployment :</span>
+              le déploiement en production est lui aussi automatisé. Dès qu'un
+              commit passe toutes les vérifications, il part en production sans
+              intervention humaine. Cela suppose une confiance très élevée dans
+              la pipeline et dans les tests.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-03-cicd-spectrum.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du spectre CI/CD…</p>
+            </div>
+          </div>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              Quelle est la différence concrète entre Continuous Delivery et
+              Continuous Deployment ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Dans les deux cas, l'artefact est automatiquement construit,
+                testé et prêt à partir. La différence est dans la <em>dernière
+                étape</em> : en Continuous Delivery, un humain appuie sur le
+                bouton "déployer". En Continuous Deployment, la pipeline le
+                fait toute seule.
+              </p>
+              <p>
+                Continuous Delivery est souvent préféré dans des contextes
+                réglementés, ou quand une validation métier est requise avant
+                chaque mise en production.
+              </p>
+            </div>
+          </details>
+
+          <!-- ── D. Anatomie d'une pipeline ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Anatomie d'une pipeline GitHub Actions
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Vous pushez un commit. Voici ce qui se passe concrètement côté
+              GitHub Actions.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              Un <span class="font-semibold text-slate-900">événement</span>
+              (<code>push</code>, <code>pull_request</code>, ou encore un
+              planning <code>schedule</code>) déclenche l'exécution d'un
+              <span class="font-semibold text-slate-900">workflow</span> —
+              un fichier YAML dans <code>.github/workflows/</code>. Ce
+              workflow décrit un ensemble de
+              <span class="font-semibold text-slate-900">jobs</span>.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              Chaque job s'exécute sur sa propre machine virtuelle fraîche,
+              appelée <span class="font-semibold text-slate-900">runner</span>.
+              À l'intérieur d'un job, les
+              <span class="font-semibold text-slate-900">steps</span>
+              s'enchaînent séquentiellement. Un step est soit un script
+              shell (<code>run: npm test</code>), soit une
+              <span class="font-semibold text-slate-900">action</span>
+              réutilisable (<code>uses: actions/checkout@v4</code>).
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              Les jobs peuvent avoir des dépendances entre eux via
+              <code>needs:</code>. L'ensemble des jobs et de leurs dépendances
+              forme un <span class="font-semibold text-slate-900">DAG</span>
+              (Directed Acyclic Graph) — un graphe orienté sans cycle. Ce
+              graphe rend visibles à la fois les dépendances obligatoires et
+              les opportunités de parallélisation.
+            </p>
+            <div
+              data-mermaid-src="../mermaid/cours-03-pipeline-anatomy.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement de l'anatomie pipeline…</p>
+            </div>
+
+            <h4 class="pt-2 text-xl font-semibold text-slate-950">
+              Le principe fail-fast
+            </h4>
+            <p class="text-lg leading-8 text-slate-700">
+              Placer les vérifications les plus rapides et les moins coûteuses
+              <em>en premier</em> dans la chaîne n'est pas arbitraire : c'est
+              le principe <span class="font-semibold text-slate-900">fail-fast</span>.
+              Un job qui échoue arrête immédiatement tous les jobs qui en
+              dépendent. Inutile de compiler si le formatage du code est déjà
+              incorrect. Inutile de scanner les dépendances si les tests
+              unitaires échouent.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              Voici la pipeline du dépôt pédagogique. Lisez-la de gauche à
+              droite : chaque flèche en pointillés indique qu'un échec ici
+              stoppera tous les jobs à droite. Les nœuds dans l'ordre
+              représentent le coût croissant du diagnostic — du plus cheap
+              (lint) au plus lourd (scan de sécurité).
             </p>
             <div
               data-mermaid-src="../mermaid/cours-03-ci-pipeline.md"
@@ -767,17 +885,169 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             </div>
           </div>
 
+          <!-- ── E. Shift-left ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Shift-left : détecter tôt, corriger moins cher
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Dans un modèle traditionnel, les vérifications arrivent tard :
+              les tests manuels et les audits de sécurité interviennent juste
+              avant la mise en production. À ce stade, corriger un bug est
+              entre 10 et 100 fois plus coûteux qu'en phase de développement,
+              parce que l'auteur du code a changé de contexte, que d'autres
+              fonctionnalités ont été empilées dessus, et que l'impact d'un
+              correctif est plus difficile à isoler.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              Le <span class="font-semibold text-slate-900">shift-left</span>
+              consiste à avancer toutes les vérifications possibles vers la
+              gauche du cycle de vie du code — le plus tôt possible.
+              Idéalement, une erreur de formatage est détectée
+              <em>avant même le commit</em>, un test cassé est détecté
+              <em>dès le push</em>, et une vulnérabilité critique est
+              détectée <em>avant la mise en production</em>.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              La pipeline du dépôt pédagogique applique explicitement ce
+              principe :
+            </p>
+            <div class="space-y-3 pt-2">
+              <p class="text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">1. format-lint</span> —
+                vérification syntaxique et analyse statique. Coût de correction :
+                quelques secondes, aucun contexte perdu.
+              </p>
+              <p class="text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">2. tests</span> —
+                validation du comportement du code. Coût de correction :
+                modéré, mais encore dans le contexte frais du développeur.
+              </p>
+              <p class="text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">3. build</span> —
+                vérification que le code compile réellement. Coût de correction :
+                erreurs de types parfois subtiles à tracer.
+              </p>
+              <p class="text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">4. security</span> —
+                scan des dépendances. Coût de correction : potentiellement
+                élevé si une dépendance critique doit être remplacée, mais
+                au moins détecté avant la prod.
+              </p>
+            </div>
+            <p class="mt-2 rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">Le feedback loop :</span>
+              la valeur d'une pipeline ne se mesure pas seulement à ce qu'elle
+              détecte, mais à la vitesse à laquelle elle renvoie l'information
+              au développeur. Un retour en 2 minutes permet de corriger
+              immédiatement. Un retour en 45 minutes implique un changement de
+              contexte mental qui multiplie le temps de correction réel.
+            </p>
+
+            <h4 class="pt-4 text-xl font-semibold text-slate-950">
+              Exercice rapide (2 min, en solo)
+            </h4>
+            <p class="text-lg leading-8 text-slate-700">
+              Ouvrez le fichier
+              <code>.github/workflows/ci.yml</code> du dépôt
+              <code>tp-ci-api</code>. Pour chacun des types d'erreurs
+              suivants, identifiez dans quel job vous verriez l'échec et
+              pourquoi l'ordre actuel est logique :
+            </p>
+            <ul class="list-disc space-y-2 pl-6 text-lg leading-8 text-slate-700">
+              <li>Une indentation incorrecte dans un fichier TypeScript</li>
+              <li>Une fonction qui retourne <code>undefined</code> au lieu d'un objet</li>
+              <li>Une variable TypeScript déclarée avec le mauvais type</li>
+              <li>Une dépendance npm avec une CVE critique connue</li>
+            </ul>
+          </div>
+
           <details class="border-t border-slate-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Quel vocabulaire devez-vous absolument maîtriser avant le TP ?
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              À quelle étape de la pipeline est-il le moins coûteux de
+              détecter une erreur ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Vous devez savoir distinguer un workflow, un job et un step,
-                puis savoir où lire les logs et comprendre ce que signifie
-                l'ordre des jobs dans une logique fail-fast.
+                Le plus tôt possible — idéalement dans le job
+                <code>format-lint</code>. Une erreur attrapée là prend
+                quelques secondes à corriger : on édite le fichier, on
+                relance. Aucun contexte n'est perdu.
+              </p>
+              <p>
+                À l'inverse, une erreur qui n'est détectée qu'en production
+                oblige à analyser des logs en direct, à réverter un
+                déploiement, parfois à réveiller des personnes. Le coût
+                humain et technique est sans commune mesure.
+              </p>
+            </div>
+          </details>
+
+          <!-- ── Environnements ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Environnements : DEV, STAGING, PROD
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Une pipeline mène le code d'un environnement à l'autre. Trois
+              repères suffisent pour aujourd'hui :
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">DEV :</span>
+              environnement local de développement. C'est ici que vous
+              écrivez et testez manuellement. La pipeline part de ce que vous
+              poussez depuis cet environnement.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">STAGING :</span>
+              environnement de validation proche de la production. Sert à
+              vérifier le comportement réel de l'application dans des
+              conditions proches des vraies avant une mise en service.
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              <span class="font-semibold text-slate-900">PROD :</span>
+              l'environnement utilisé par les vrais utilisateurs. Une
+              erreur ici a un impact immédiat et visible.
+            </p>
+          </div>
+
+          <!-- ── Vocabulaire à maîtriser ── -->
+          <details class="border-t border-slate-200 pt-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              Quel vocabulaire devez-vous maîtriser avant d'entrer dans le TP ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                <span class="font-semibold text-slate-900">Event / Trigger :</span>
+                événement qui déclenche la pipeline (push, pull_request, schedule…).
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Workflow :</span>
+                orchestration complète décrite dans un fichier YAML sous <code>.github/workflows/</code>.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Job :</span>
+                unité d'exécution logique tournant sur son propre runner.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Step :</span>
+                action unitaire à l'intérieur d'un job — script shell ou action réutilisable.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Runner :</span>
+                machine virtuelle fraîche qui exécute un job.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">DAG :</span>
+                graphe de dépendances entre jobs, qui rend visibles l'ordre d'exécution et les parallélisations possibles.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Fail-fast :</span>
+                principe qui consiste à placer les vérifications les moins coûteuses en premier pour stopper la chaîne dès qu'une erreur est détectée.
+              </p>
+              <p>
+                <span class="font-semibold text-slate-900">Shift-left :</span>
+                stratégie qui avance toutes les vérifications possibles vers le début du cycle de vie du code, réduisant le coût de correction.
               </p>
             </div>
           </details>

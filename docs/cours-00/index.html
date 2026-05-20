@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cours 00 · Prérequis techniques</title>
+    <meta
+      name="description"
+      content="Prérequis techniques à vérifier avant le module Gestion des versions et intégration continue."
+    />
+    <meta name="course:id" content="cours-00" />
+    <meta name="course:title" content="Prérequis techniques" />
+    <meta name="course:duration-total-minutes" content="60" />
+    <meta
+      name="course:sections"
+      content="outils,git-github,docker-devcontainers,systemes,ports,checklist"
+    />
+    <script id="course-metadata" type="application/json">
+      {
+        "courseId": "cours-00",
+        "title": "Prérequis techniques",
+        "totalDurationMinutes": 60,
+        "sections": [
+          { "id": "outils", "title": "Outils de base", "durationMinutes": 10 },
+          { "id": "git-github", "title": "Git et GitHub", "durationMinutes": 15 },
+          {
+            "id": "docker-devcontainers",
+            "title": "Docker et Dev Containers",
+            "durationMinutes": 20
+          },
+          { "id": "systemes", "title": "Points système", "durationMinutes": 10 },
+          { "id": "ports", "title": "Ports à connaître", "durationMinutes": 5 },
+          { "id": "checklist", "title": "Checklist finale", "durationMinutes": 5 }
+        ]
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-6xl px-6 py-10 lg:px-8 xl:max-w-7xl">
+      <header class="border-b border-slate-200 pb-8">
+        <a
+          href="../index.html"
+          class="text-base font-medium text-sky-700 transition hover:text-sky-800"
+          >← Retour à l'accueil</a
+        >
+        <p
+          class="mt-6 text-base font-semibold uppercase tracking-[0.22em] text-slate-500"
+        >
+          Cours 00
+        </p>
+        <h1
+          class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
+        >
+          Prérequis techniques
+        </h1>
+        <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
+          Cette page prépare l'environnement nécessaire avant les premières manipulations Git, GitHub, Docker et Dev Containers du module.
+        </p>
+      </header>
+
+      <nav class="py-8">
+        <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
+        <ul class="mt-4 space-y-3 text-lg leading-8">
+          <li>
+            <a href="#outils" class="text-sky-700 hover:text-sky-800"
+              >Outils de base</a
+            >
+          </li>
+          <li>
+            <a href="#git-github" class="text-sky-700 hover:text-sky-800"
+              >Git et GitHub</a
+            >
+          </li>
+          <li>
+            <a
+              href="#docker-devcontainers"
+              class="text-sky-700 hover:text-sky-800"
+              >Docker et Dev Containers</a
+            >
+          </li>
+          <li>
+            <a href="#systemes" class="text-sky-700 hover:text-sky-800"
+              >Points système</a
+            >
+          </li>
+          <li>
+            <a href="#ports" class="text-sky-700 hover:text-sky-800"
+              >Ports à connaître</a
+            >
+          </li>
+          <li>
+            <a href="#checklist" class="text-sky-700 hover:text-sky-800"
+              >Checklist finale</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main class="space-y-10 pb-12">
+        <section
+          id="outils"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Outils de base
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            L'environnement de travail doit permettre d'éditer du code, d'ouvrir
+            un terminal et d'exécuter les commandes utilisées pendant les TP.
+          </p>
+          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">VS Code</span> doit
+              être installé et capable d'ouvrir un dossier complet de projet.
+              L'extension Git intégrée suffit pour suivre les changements, mais
+              le terminal reste indispensable.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Git</span> doit être
+              disponible dans le terminal. La commande suivante doit afficher
+              une version sans erreur :
+            </p>
+            <pre
+              class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+            ><code>git --version</code></pre>
+          </div>
+        </section>
+
+        <section
+          id="git-github"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">Git et GitHub</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Un compte GitHub accessible est nécessaire pour cloner, forker,
+            pousser des branches et ouvrir des Pull Requests pendant les
+            exercices.
+          </p>
+          <div class="space-y-6 border-t border-slate-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Identité Git
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Le nom et l'adresse e-mail configurés dans Git apparaissent dans
+                les commits. Les commandes suivantes permettent de vérifier la
+                configuration globale :
+              </p>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git config --global user.name
+git config --global user.email</code></pre>
+            </div>
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Choix SSH ou HTTPS
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Deux modes d'accès sont possibles. SSH est pratique pour les TP
+                répétés, car la clé installée évite de saisir un jeton à chaque
+                push. HTTPS reste utilisable si l'accès SSH n'est pas prêt, avec
+                un jeton GitHub lorsque Git le demande.
+              </p>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>ssh -T git@github.com</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Si ce test échoue, la fiche
+                <a
+                  href="../fiches-aide/github-bloque/index.html"
+                  class="font-semibold text-sky-700 hover:text-sky-800"
+                  >Je suis bloqué avec GitHub</a
+                >
+                donne les diagnostics rapides.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="docker-devcontainers"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Docker et Dev Containers
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Docker fournit des environnements reproductibles pour les API et les
+            bases de données utilisées dans les TP.
+          </p>
+          <div class="space-y-6 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Docker Desktop</span>
+              doit être installé et lancé avant l'ouverture d'un Dev Container.
+              Sur Linux, Docker Engine ou Docker rootless peut remplacer Docker
+              Desktop si les commandes Docker fonctionnent depuis le terminal.
+            </p>
+            <p>
+              L'extension
+              <span class="font-semibold text-slate-900">Dev Containers</span>
+              de VS Code doit être installée pour rouvrir un projet dans un
+              conteneur de développement.
+            </p>
+            <div>
+              <p>Le test Docker minimal attendu est :</p>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>docker run hello-world</code></pre>
+            </div>
+            <div>
+              <p>
+                Le test Dev Container minimal consiste à ouvrir un projet doté
+                d'un dossier <code>.devcontainer/</code>, puis à choisir
+                <span class="font-semibold text-slate-900"
+                  >Dev Containers: Reopen in Container</span
+                >
+                dans VS Code. L'ouverture doit se terminer sans erreur de build
+                ou de connexion Docker.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="systemes"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">Points système</h2>
+          <div class="space-y-4 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Windows</span> : WSL2
+              doit être activé, car Docker Desktop s'appuie dessus pour fournir
+              un environnement Linux compatible avec les conteneurs.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Linux</span> : le
+              compte utilisateur doit pouvoir exécuter Docker. Deux situations
+              conviennent : appartenance au groupe <code>docker</code> ou
+              installation Docker rootless opérationnelle.
+            </p>
+            <pre
+              class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+            ><code>docker info</code></pre>
+          </div>
+        </section>
+
+        <section
+          id="ports"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Ports à connaître
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Plusieurs services des TP utilisent des ports fixes. Un port déjà
+            occupé provoque souvent une erreur au démarrage d'un conteneur ou
+            d'une API.
+          </p>
+          <div class="overflow-x-auto border-t border-slate-200 pt-6">
+            <table class="min-w-full divide-y divide-slate-200 text-left text-base">
+              <thead class="text-sm uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th class="py-3 pr-6 font-semibold">Port</th>
+                  <th class="py-3 pr-6 font-semibold">Usage courant</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700">
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">3000</td>
+                  <td class="py-3 pr-6">API NestJS ou serveur web de développement.</td>
+                </tr>
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">3001</td>
+                  <td class="py-3 pr-6">Exercice Docker minimal.</td>
+                </tr>
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">4873</td>
+                  <td class="py-3 pr-6">Registry npm local Verdaccio.</td>
+                </tr>
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">2222</td>
+                  <td class="py-3 pr-6">Serveur SSH de cible de déploiement.</td>
+                </tr>
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">5432</td>
+                  <td class="py-3 pr-6">PostgreSQL.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section
+          id="checklist"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Checklist finale
+          </h2>
+          <ul class="space-y-3 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
+            <li>VS Code est installé et le terminal intégré fonctionne.</li>
+            <li><code>git --version</code> affiche une version de Git.</li>
+            <li>Le compte GitHub est accessible depuis le navigateur.</li>
+            <li>Le mode d'accès GitHub est choisi : SSH prêt ou HTTPS avec jeton.</li>
+            <li>Docker est lancé et <code>docker run hello-world</code> réussit.</li>
+            <li>L'extension Dev Containers est installée dans VS Code.</li>
+            <li>Les prérequis Windows ou Linux sont vérifiés selon la machine.</li>
+            <li>Les ports 3000, 3001, 4873, 2222 et 5432 sont identifiés.</li>
+          </ul>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

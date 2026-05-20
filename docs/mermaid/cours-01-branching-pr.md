@@ -1,13 +1,13 @@
 gitGraph
-    commit id: "main: base"
+    commit id: "main stable"
     branch feature
     checkout feature
-    commit id: "travail local"
-    commit id: "ajustements"
+    commit id: "changement isole"
+    commit id: "tests ajustes"
     checkout main
     commit id: "main avance"
     checkout feature
-    commit id: "pret pour PR"
+    commit id: "branche prete"
     checkout main
     merge feature
-    commit id: "integration"
+    commit id: "integration validee"

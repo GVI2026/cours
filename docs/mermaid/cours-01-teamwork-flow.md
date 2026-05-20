@@ -2,11 +2,11 @@ gitGraph
     commit id: "base commune"
     branch alice
     checkout alice
-    commit id: "README signe"
+    commit id: "proposition alice"
     checkout main
     branch bob
     checkout bob
-    commit id: "notes TP"
+    commit id: "proposition bob"
     checkout main
     merge alice
     merge bob

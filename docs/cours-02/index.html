@@ -16,7 +16,7 @@
     <meta name="course:duration-total-minutes" content="220" />
     <meta
       name="course:sections"
-      content="qcm,transition,docker,tp1-docker,github-flow,tp1-github-flow,git-flow,tp2-git-flow,pour-aller-plus-loin"
+      content="qcm,transition,docker,tp1-docker,github-flow,conventional-commits-reminder,tp1-github-flow,git-flow,tp2-git-flow,pour-aller-plus-loin"
     />
     <script id="course-metadata" type="application/json">
       {
@@ -50,9 +50,14 @@
             "durationMinutes": 20
           },
           {
+            "id": "conventional-commits-reminder",
+            "title": "Rappel Conventional Commits",
+            "durationMinutes": 5
+          },
+          {
             "id": "tp1-github-flow",
             "title": "TP 1 Partie 2 — GitHub Flow",
-            "durationMinutes": 30
+            "durationMinutes": 25
           },
           {
             "id": "git-flow",
@@ -94,27 +99,8 @@
           Flows de développement
         </h1>
         <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
-          Cette séance structure le travail en équipe autour de deux workflows
-          majeurs : GitHub Flow, simple et continu, et Git Flow, plus cadré
-          pour les livraisons planifiées. Docker y est introduit de façon
-          pragmatique pour homogénéiser les environnements de développement.
+          Après les bases Git et GitHub, cette séance montre comment organiser le travail collectif avec Docker, GitHub Flow et Git Flow.
         </p>
-        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
-          <li>
-            Comprendre pourquoi un workflow structuré est indispensable dès
-            qu'on travaille en équipe.
-          </li>
-          <li>
-            Maîtriser les commandes Docker fondamentales et écrire un
-            Dockerfile simple.
-          </li>
-          <li>
-            Pratiquer GitHub Flow sur un vrai dépôt avec Pull Request.
-          </li>
-          <li>
-            Comprendre et appliquer Git Flow avec ses cinq types de branches.
-          </li>
-        </ul>
       </header>
 
       <nav class="py-8">
@@ -143,6 +129,13 @@
           <li>
             <a href="#github-flow" class="text-sky-700 hover:text-sky-800"
               >GitHub Flow</a
+            >
+          </li>
+          <li>
+            <a
+              href="#conventional-commits-reminder"
+              class="text-sky-700 hover:text-sky-800"
+              >Rappel Conventional Commits</a
             >
           </li>
           <li>
@@ -233,11 +226,28 @@
             <div>
               <h3 class="text-2xl font-semibold text-slate-950">Release</h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Une release est une
-                <span class="font-semibold text-slate-900">notion métier</span>
-                qui s'appuie sur un tag et représente une version prête à être
-                diffusée. Sur GitHub, elle peut contenir des binaires, des
-                notes de version et un changelog.
+                Une release peut être vue comme un
+                <span class="font-semibold text-slate-900"
+                  >état stable de référence</span
+                >
+                : un état précis du code a été validé par les tests, la revue
+                ou la QA, puis considéré comme prêt à l'emploi.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Elle peut aussi être vue comme une
+                <span class="font-semibold text-slate-900">version packagée</span>
+                ou une
+                <span class="font-semibold text-slate-900">version livrable</span>
+                : le code source devient un produit accompagné d'un numéro de
+                version, de notes de version, d'un changelog et parfois
+                d'artefacts téléchargeables.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Enfin, une release porte un engagement de maintenance. Avec
+                Semantic Versioning, son numéro indique si la mise à jour est un
+                correctif, une évolution compatible ou une rupture à anticiper.
+                Le tag sert d'étiquette Git ; la release correspond au jalon de
+                production rendu compréhensible et diffusable.
               </p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Exemple :
@@ -246,26 +256,6 @@
                   class="font-semibold text-sky-700 hover:text-sky-800"
                   >github.com/GVI2025/SimpleWMS/releases/tag/v1.0.0</a
                 >
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Vers des releases automatisées
-              </h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                La création d'une release peut être automatisée. Des outils
-                comme
-                <span class="font-semibold text-slate-900">release-please</span>
-                (Google) analysent les messages de Conventional Commits,
-                génèrent un changelog et créent une Pull Request dédiée. Au
-                merge de cette PR, la release est publiée automatiquement sur
-                GitHub.
-              </p>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Ce mécanisme illustre pourquoi les conventions de commit vues
-                en cours-01 ont une valeur concrète : elles alimentent des
-                automatisations réelles.
               </p>
             </div>
           </div>
@@ -301,7 +291,8 @@
               Ces trois notions posent le cadre. Mais une question se pose
               rapidement dans une équipe :
               <span class="font-semibold text-slate-900"
-                >dans quel ordre et sur quelle branche doit-on travailler ?</span
+                >dans quel ordre et sur quelle branche le travail doit-il être
+                organisé ?</span
               >
             </p>
             <p class="mt-3 text-lg leading-8 text-slate-700">
@@ -346,8 +337,8 @@
                 <p>
                   <span class="font-semibold text-slate-900">Image</span> :
                   instantané immuable d'un système de fichiers avec un
-                  environnement d'exécution. On la construit une fois, on la
-                  distribue via un registry. Elle ne tourne pas toute seule.
+                  environnement d'exécution. Elle est construite une fois, puis
+                  distribuée via un registry. Elle ne tourne pas toute seule.
                 </p>
                 <p>
                   <span class="font-semibold text-slate-900">Conteneur</span> :
@@ -530,8 +521,8 @@ CMD ["node", "index.js"]</code></pre>
               <p>
                 Un
                 <span class="font-semibold text-slate-900">conteneur</span>
-                est une instance en cours d'exécution d'une image. On peut
-                lancer plusieurs conteneurs indépendants à partir de la même
+                est une instance en cours d'exécution d'une image. Plusieurs
+                conteneurs indépendants peuvent être lancés à partir de la même
                 image.
               </p>
               <p>
@@ -610,7 +601,7 @@ CMD ["node", "index.js"]</code></pre>
               <pre
                 class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
               ><code>curl http://localhost:3001</code></pre>
-              Vous devez obtenir :
+              Résultat attendu :
               <code>Hello depuis Docker !</code>
             </li>
             <li>
@@ -636,11 +627,34 @@ docker image ls</code></pre>
             </li>
           </ol>
 
+          <div class="space-y-4 border-t border-sky-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Exercices optionnels rapides
+            </h3>
+            <ul class="space-y-3 text-lg leading-8 text-slate-700">
+              <li>
+                Lire les logs du conteneur avec <code>docker logs &lt;id&gt;</code>.
+              </li>
+              <li>
+                Entrer dans un conteneur actif avec
+                <code>docker exec -it &lt;id&gt; sh</code>.
+              </li>
+              <li>
+                Passer une variable d'environnement au lancement avec
+                <code>docker run -e MESSAGE="Bonjour" ...</code>.
+              </li>
+              <li>
+                Observer le principe d'un Dockerfile multi-stage très simple
+                dans le README du dépôt support.
+              </li>
+            </ul>
+          </div>
+
           <details class="border-t border-sky-200 pt-6">
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Ce que vous devez être capable d'expliquer à la fin
+              Concepts à vérifier à la fin de la manipulation
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>Quelle est la différence entre une image et un conteneur ?</p>
@@ -648,7 +662,7 @@ docker image ls</code></pre>
                 Que fait la ligne <code>FROM</code> dans un Dockerfile ?
               </p>
               <p>
-                Pourquoi utilise-t-on <code>-p 3000:3000</code> dans
+                À quoi sert <code>-p 3000:3000</code> dans
                 <code>docker run</code> ?
               </p>
               <p>
@@ -669,13 +683,18 @@ docker image ls</code></pre>
         >
           <h2 class="text-3xl font-semibold text-slate-950">GitHub Flow</h2>
           <p class="text-lg leading-8 text-slate-700">
-            GitHub Flow est le workflow le plus simple. Il repose sur
+            GitHub Flow est un workflow simple et très courant. Il repose sur
             <span class="font-semibold text-slate-900"
               >une seule branche stable</span
             >
             (<code>main</code>) et des branches de fonctionnalité à durée
             courte. Tout changement passe par une Pull Request avant
             d'intégrer <code>main</code>.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Il n'est pas automatiquement plus simple que le Trunk-Based
+            Development : il est surtout plus facile à introduire quand une
+            équipe découvre les Pull Requests et les protections de branche.
           </p>
 
           <div class="border-t border-slate-200 pt-6">
@@ -736,7 +755,8 @@ docker image ls</code></pre>
               <p>
                 <span class="font-semibold text-slate-900">Merge commit</span>
                 : conserve tous les commits de la branche et ajoute un commit
-                de merge — historique complet mais parfois verbeux.
+                de merge — historique complet, mais lecture parfois compliquée,
+                peu lisible et verbeuse.
               </p>
               <p>
                 <span class="font-semibold text-slate-900"
@@ -783,8 +803,8 @@ docker image ls</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pourquoi ne développe-t-on pas directement sur
-              <code>main</code> dans GitHub Flow ?
+              Pourquoi la branche <code>main</code> doit-elle rester en dehors
+              du développement direct ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -799,6 +819,29 @@ docker image ls</code></pre>
               </p>
             </div>
           </details>
+        </section>
+
+        <section
+          id="conventional-commits-reminder"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Rappel Conventional Commits
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Avant la Pull Request, chaque commit doit résumer l'intention du
+            changement avec un type court et stable.
+          </p>
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>feat: filter tasks by done status
+fix: reject empty task title
+docs: clarify pull request instructions</code></pre>
+          <p class="text-lg leading-8 text-slate-700">
+            Le type <code>feat</code> signale une fonctionnalité, <code>fix</code>
+            un correctif, <code>docs</code> une modification documentaire. Cette
+            convention facilite la relecture et prépare les changelogs futurs.
+          </p>
         </section>
 
         <!-- ═════════════════════════════ TP 1 GITHUB FLOW ═══════════════════════════════════ -->
@@ -884,7 +927,7 @@ git commit -m "feat: filter tasks by done status"</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pour les plus rapides — extension pagination
+              Extension optionnelle — pagination
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -911,8 +954,10 @@ git commit -m "feat: filter tasks by done status"</code></pre>
         >
           <h2 class="text-3xl font-semibold text-slate-950">Git Flow</h2>
           <p class="text-lg leading-8 text-slate-700">
-            Git Flow est un workflow plus structuré, popularisé par Vincent
-            Driessen en 2010. Il convient aux équipes qui
+            Git Flow est un modèle historique et encore utile dans certains
+            contextes, mais ce n'est pas le flow supérieur : son cadre apporte
+            aussi un coût en complexité. Popularisé par Vincent Driessen en
+            2010, il convient aux équipes qui
             <span class="font-semibold text-slate-900"
               >livrent par versions planifiées</span
             >
@@ -1001,6 +1046,13 @@ git commit -m "feat: filter tasks by done status"</code></pre>
                 part de <code>main</code>, retourne dans <code>main</code> +
                 <code>develop</code>.
               </p>
+              <p>
+                Dans ce flow, les branches sont réconciliées avec l'option
+                <span class="font-semibold text-slate-900">Merge commit</span>
+                afin de conserver explicitement les points de jonction entre
+                <code>feature/*</code>, <code>release/*</code>,
+                <code>hotfix/*</code> et les branches permanentes.
+              </p>
             </div>
           </div>
 
@@ -1038,14 +1090,15 @@ git commit -m "feat: filter tasks by done status"</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Depuis quelle branche crée-t-on une branche
-              <code>feature/*</code> dans Git Flow ?
+              Depuis quelle branche une branche <code>feature/*</code> doit-elle
+              être créée dans Git Flow ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
                 Depuis
-                <code class="font-semibold text-slate-900">develop</code>. On
-                ne part jamais de <code>main</code> pour une feature.
+                <code class="font-semibold text-slate-900">develop</code>. Une
+                feature ne part pas de <code>main</code>, car <code>main</code>
+                représente le code livré.
               </p>
               <p>
                 <code>main</code> représente uniquement ce qui est en
@@ -1059,7 +1112,7 @@ git commit -m "feat: filter tasks by done status"</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Que doit-on faire quand une branche
+              Quelle réconciliation est nécessaire lorsqu'une branche
               <code>release/*</code> est finalisée ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
@@ -1125,7 +1178,7 @@ git commit -m "feat: filter tasks by done status"</code></pre>
                   <pre
                     class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
                   ><code>git branch -a</code></pre>
-                  Vous devez voir <code>main</code> et
+                  Résultat attendu : <code>main</code> et
                   <code>origin/develop</code>.
                 </li>
                 <li>
@@ -1255,7 +1308,7 @@ git push origin develop</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pour les plus rapides — exercice hotfix
+              Extension optionnelle — exercice hotfix
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -1328,15 +1381,35 @@ git push origin develop</code></pre>
               >
               : la documentation officielle de GitHub Flow.
             </p>
-            <p>
-              <a
-                href="https://github.com/googleapis/release-please"
-                class="font-semibold text-sky-700 hover:text-sky-800"
-                >github.com/googleapis/release-please</a
-              >
-              : outil d'automatisation des releases à partir des Conventional
-              Commits.
-            </p>
+          </div>
+          <div class="overflow-x-auto border-t border-slate-200 pt-6">
+            <table class="min-w-full divide-y divide-slate-200 text-left text-base">
+              <thead class="text-sm uppercase tracking-wide text-slate-500">
+                <tr>
+                  <th class="py-3 pr-6 font-semibold">Flow</th>
+                  <th class="py-3 pr-6 font-semibold">Branches permanentes</th>
+                  <th class="py-3 pr-6 font-semibold">Contexte adapté</th>
+                  <th class="py-3 pr-6 font-semibold">Avantage principal</th>
+                  <th class="py-3 pr-6 font-semibold">Piège principal</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 text-slate-700">
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">GitHub Flow</td>
+                  <td class="py-3 pr-6">1 : <code>main</code></td>
+                  <td class="py-3 pr-6">Livraison fréquente, PR courtes, CI active.</td>
+                  <td class="py-3 pr-6">Simplicité et boucle de feedback rapide.</td>
+                  <td class="py-3 pr-6">Peu de séparation entre intégration et production.</td>
+                </tr>
+                <tr>
+                  <td class="py-3 pr-6 font-semibold text-slate-900">Git Flow</td>
+                  <td class="py-3 pr-6">2 : <code>main</code> et <code>develop</code></td>
+                  <td class="py-3 pr-6">Versions planifiées, stabilisation dédiée, hotfix explicites.</td>
+                  <td class="py-3 pr-6">Cadre clair pour releases et corrections urgentes.</td>
+                  <td class="py-3 pr-6">Complexité et retours vers <code>develop</code> oubliés.</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <p
             class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"

@@ -16,7 +16,7 @@
     <meta name="course:duration-total-minutes" content="210" />
     <meta
       name="course:sections"
-      content="introduction,versioning,git-model,local-workflow,tp1,remotes,tp2,teamwork,tp3,conflicts,release,semver,conventional-commits"
+      content="introduction,versioning,git-model,local-workflow,tp1,remotes,github-preflight,tp2,teamwork,tp3,conflicts,release,semver,conventional-commits"
     />
     <script id="course-metadata" type="application/json">
       {
@@ -52,13 +52,18 @@
           {
             "id": "remotes",
             "title": "Dépôts distants et GitHub",
-            "durationMinutes": 15
+            "durationMinutes": 10
+          },
+          {
+            "id": "github-preflight",
+            "title": "Préflight GitHub",
+            "durationMinutes": 10
           },
           { "id": "tp2", "title": "TP 2 anarchique", "durationMinutes": 20 },
           {
             "id": "teamwork",
             "title": "Git en équipe et pull requests",
-            "durationMinutes": 20
+            "durationMinutes": 15
           },
           { "id": "tp3", "title": "TP 3 outillé", "durationMinutes": 15 },
           {
@@ -105,29 +110,8 @@
           Introduction au versioning avec Git et GitHub
         </h1>
         <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
-          Cette séance pose le socle du module. On commence par comprendre
-          pourquoi on versionne, on pratique Git en local, puis on vit une vraie
-          collaboration sur GitHub avant de traiter les conflits, les releases
-          et les conventions de commits.
+          Cette première séance installe le socle Git et GitHub nécessaire aux workflows collaboratifs des cours suivants.
         </p>
-
-        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
-          <li>
-            Comprendre ce que le versioning apporte avant même de parler
-            d'outillage.
-          </li>
-          <li>
-            Prendre en main Git seul, puis dans un contexte collaboratif réel.
-          </li>
-          <li>
-            Savoir reconnaître un conflit, le résoudre et vérifier son
-            historique.
-          </li>
-          <li>
-            Terminer avec une première vue d'ensemble sur releases, SemVer et
-            Conventional Commits.
-          </li>
-        </ul>
       </header>
 
       <nav class="py-8">
@@ -159,6 +143,13 @@
             >
           </li>
           <li>
+            <a
+              href="#github-preflight"
+              class="text-sky-700 hover:text-sky-800"
+              >Préflight GitHub</a
+            >
+          </li>
+          <li>
             <a href="#teamwork" class="text-sky-700 hover:text-sky-800"
               >Branches et pull requests</a
             >
@@ -181,29 +172,41 @@
           id="introduction"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
-          <h2 class="text-3xl font-semibold text-slate-950">Démarrage</h2>
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Consignes de séance
+          </h2>
           <p class="text-lg leading-8 text-slate-700">
-            L'idée n'est pas de faire un cours magistral long, mais de
-            construire un rythme simple : une notion, une question, une
-            manipulation, puis un débrief. Le site est visible dès le début,
-            donc les réponses de correction sont présentes mais cachées quand
-            c'est utile.
+            Chaque notion est associée à une manipulation courte afin de relier
+            immédiatement les commandes Git à l'état réel du dépôt.
           </p>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6">
-            <h3 class="text-2xl font-semibold text-slate-950">Prérequis</h3>
+          <div
+            class="space-y-4 rounded-2xl border border-sky-200 bg-sky-50 p-6"
+          >
+            <h3 class="text-2xl font-semibold text-slate-950">
+              À vérifier avant les manipulations
+            </h3>
             <ul class="space-y-3 text-lg leading-8 text-slate-700">
-              <li>Avoir un compte GitHub actif avant le cours.</li>
-              <li>Pouvoir ouvrir un terminal sur sa machine.</li>
+              <li>Un compte GitHub actif doit être accessible.</li>
+              <li>Un terminal doit pouvoir être ouvert sur la machine.</li>
               <li>
-                Avoir Git installé et un éditeur prêt à modifier des fichiers
-                texte.
+                Git doit être installé et un éditeur doit permettre de modifier
+                des fichiers texte.
               </li>
               <li>
-                VS Code ou GitHub Desktop peuvent servir à comparer ligne de
-                commande et interface graphique.
+                VS Code ou GitHub Desktop peuvent compléter la ligne de
+                commande pour observer les changements.
               </li>
             </ul>
+            <p class="text-lg leading-8 text-slate-700">
+              La page
+              <a
+                href="../cours-00/index.html"
+                class="font-semibold text-sky-700 hover:text-sky-800"
+                >Cours 00 · Prérequis techniques</a
+              >
+              détaille les vérifications à faire en autonomie.
+            </p>
           </div>
         </section>
 
@@ -223,15 +226,15 @@
 
           <div class="space-y-4 text-lg leading-8 text-slate-700">
             <p>
-              On s'en sert pour mémoriser les changements, garder une trace des
-              décisions et retrouver un état fiable si une régression apparaît.
+              Les changements, les décisions et les états fiables du projet
+              sont conservés dans un historique consultable.
             </p>
             <p>
-              On s'en sert aussi pour éviter les copies de dossiers confuses qui
-              finissent en
+              Les copies de dossiers confuses qui finissent en
               <span class="font-semibold text-slate-900"
                 >v-finale-bis-cette-fois</span
-              >.
+              >
+              sont remplacées par des versions identifiées.
             </p>
             <p>
               Historiquement, RCS, CVS puis Subversion ont préparé le terrain.
@@ -244,17 +247,18 @@
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Qu'est-ce que vous gagnez vraiment par rapport à un dossier copié
-              à la main ?
+              Quels problèmes de collaboration sont résolus par un historique
+              versionné ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                On gagne un historique lisible, des points de retour clairs, des
-                auteurs identifiés et un cadre robuste pour collaborer.
+                Un historique versionné rend visibles les auteurs, les dates,
+                les intentions et les points de retour utilisables après une
+                erreur.
               </p>
               <p>
-                Autrement dit, on remplace des copies de dossiers confuses par
-                une évolution traçable du projet.
+                La collaboration repose alors sur une évolution traçable du
+                projet plutôt que sur des copies locales difficiles à comparer.
               </p>
             </div>
           </details>
@@ -282,7 +286,7 @@
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Git n'est pas juste une liste de commandes. Il manipule une zone de
-            travail, une zone de transit et un historique de commits. Tant que
+            travail, un index et un historique de commits. Tant que
             ce schéma n'est pas clair, les commandes ressemblent à des recettes.
             Quand il devient clair, elles deviennent logiques.
           </p>
@@ -298,27 +302,25 @@
             class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
           >
             <p>
-              <span class="font-semibold text-slate-900">Working tree</span> :
-              l'état courant des fichiers sur le disque.
+              <span class="font-semibold text-slate-900">Zone de travail</span>
+              : l'état courant des fichiers sur le disque.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Index</span> : la
+              sélection de changements préparée pour le prochain commit.
             </p>
             <p>
               <span class="font-semibold text-slate-900"
-                >Index / staging area</span
+                >Historique de commits</span
               >
-              : l'endroit où l'on prépare le prochain commit.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">Commit graph</span> :
-              le graphe des instantanés successifs.
+              : la suite structurée des instantanés successifs du projet.
             </p>
           </div>
 
-          <details class="border-t border-slate-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Tree / Blob / DAG / Ref : que faut-il retenir aujourd'hui ?
-            </summary>
+          <div class="border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Objets Git à reconnaître
+            </h3>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
                 <span class="font-semibold text-slate-900">Blob</span> : le
@@ -337,7 +339,7 @@
                 qui pointe vers un commit, comme une branche ou un tag.
               </p>
             </div>
-          </details>
+          </div>
         </section>
 
         <section
@@ -348,9 +350,9 @@
             Git en local : les commandes de base
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            On commence sans branches, sans PR et sans conflit. Il faut d'abord
-            maîtriser le cycle minimal : créer un dépôt, observer l'état,
-            sélectionner ce qu'on valide et créer un commit propre.
+            Le cycle minimal doit être maîtrisé avant les branches, les PR et
+            les conflits : créer un dépôt, observer l'état, sélectionner ce qui
+            doit être validé et créer un commit propre.
           </p>
 
           <div class="space-y-6 border-t border-slate-200 pt-6">
@@ -390,8 +392,8 @@
 git add .
 git commit -m "Premier commit"</code></pre>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                On place le bon contenu dans l'index, puis on crée un point de
-                sauvegarde dans l'historique.
+                Le bon contenu est placé dans l'index, puis un point de
+                sauvegarde est créé dans l'historique.
               </p>
             </div>
 
@@ -435,7 +437,7 @@ node_modules/</code></pre>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Le but est d'enchaîner une première boucle complète sans difficulté
-            artificielle. Vous devez sortir de ce bloc avec un dépôt propre et
+            artificielle. Le résultat attendu est un dépôt propre et
             un historique compréhensible.
           </p>
 
@@ -468,7 +470,7 @@ node_modules/</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Vérifiez votre résultat
+              Résultat attendu après la première boucle locale
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -499,7 +501,7 @@ node_modules/</code></pre>
             GitHub et les dépôts distants
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Une fois la boucle locale maîtrisée, on ajoute un dépôt distant.
+            Une fois la boucle locale maîtrisée, un dépôt distant est ajouté.
             C'est là qu'entrent en jeu GitHub, les clés SSH, les remotes et la
             synchronisation entre le travail local et le serveur.
           </p>
@@ -517,10 +519,35 @@ git config --global user.email "vous@example.com"
 ssh-keygen -t ed25519 -C "vous@example.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519</code></pre>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Copier ensuite la clé publique dans GitHub puis relier un dépôt
-                local à une remote avec <code>git remote add origin</code>.
-              </p>
+              <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  <code>git config --global user.name</code> définit le nom qui
+                  apparaît dans les commits.
+                </p>
+                <p>
+                  <code>git config --global user.email</code> définit l'adresse
+                  associée aux commits. L'adresse peut être celle du compte
+                  GitHub ou une adresse GitHub masquée.
+                </p>
+                <p>
+                  <code>ssh-keygen</code> crée une paire de clés SSH. La clé
+                  publique doit ensuite être ajoutée dans GitHub.
+                </p>
+                <p>
+                  <code>eval "$(ssh-agent -s)"</code> démarre l'agent SSH, puis
+                  <code>ssh-add</code> charge la clé privée pour les connexions
+                  GitHub.
+                </p>
+                <p>
+                  En cas de blocage, la fiche
+                  <a
+                    href="../fiches-aide/github-bloque/index.html"
+                    class="font-semibold text-sky-700 hover:text-sky-800"
+                    >Je suis bloqué avec GitHub</a
+                  >
+                  récapitule les diagnostics rapides.
+                </p>
+              </div>
             </div>
 
             <div>
@@ -529,25 +556,25 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
               </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Ici, il faut distinguer deux situations très différentes : soit
-                vous avez déjà un dépôt local et vous voulez le connecter à
-                GitHub, soit le dépôt existe déjà sur GitHub et vous voulez le
-                récupérer sur votre machine.
+                un dépôt local existe déjà et doit être connecté à GitHub, soit
+                le dépôt existe déjà sur GitHub et doit être récupéré sur la
+                machine.
               </p>
 
               <div class="space-y-6 border-t border-slate-200 pt-6">
                 <div>
                   <h4 class="text-xl font-semibold text-slate-950">
-                    Cas 1 : vous avez déjà un dépôt local
+                    Cas 1 : un dépôt local existe déjà
                   </h4>
                   <pre
                     class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
                   ><code>git remote add origin git@github.com:compte/repo.git</code></pre>
                   <p class="mt-3 text-lg leading-8 text-slate-700">
-                    Cette commande ajoute un dépôt distant à votre dépôt local.
+                    Cette commande ajoute un dépôt distant au dépôt local.
                     Le nom <code>origin</code> n'a rien de magique : c'est juste
-                    le nom conventionnel qu'on donne au dépôt distant principal.
-                    À ce stade, rien n'est encore envoyé sur GitHub : vous dites
-                    seulement à Git où se trouve le serveur distant.
+                    le nom conventionnel donné au dépôt distant principal. À ce
+                    stade, rien n'est encore envoyé sur GitHub : Git reçoit
+                    seulement l'adresse du serveur distant.
                   </p>
                 </div>
 
@@ -558,8 +585,7 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
                   <p class="mt-3 text-lg leading-8 text-slate-700">
                     Cette commande sert à vérifier les URLs configurées pour le
                     fetch et le push. C'est un bon réflexe de contrôle : avant
-                    d'envoyer quoi que ce soit, vous vérifiez que vous pointez
-                    bien vers le bon dépôt.
+                    un push, l'URL affichée doit pointer vers le bon dépôt.
                   </p>
                 </div>
 
@@ -568,12 +594,11 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
                     class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
                   ><code>git push -u origin main</code></pre>
                   <p class="mt-3 text-lg leading-8 text-slate-700">
-                    Ici, vous envoyez votre branche locale <code>main</code> sur
-                    le dépôt distant nommé <code>origin</code>. L'option
-                    <code>-u</code> crée le lien de suivi entre la branche locale
-                    et la branche distante. Concrètement, après ce premier push,
-                    vous pourrez souvent vous contenter d'un simple
-                    <code>git push</code> ou <code>git pull</code>.
+                    La branche locale <code>main</code> est envoyée sur le dépôt
+                    distant nommé <code>origin</code>. L'option <code>-u</code>
+                    crée le lien de suivi entre la branche locale et la branche
+                    distante. Après ce premier push, un simple
+                    <code>git push</code> ou <code>git pull</code> suffit souvent.
                   </p>
                 </div>
 
@@ -588,8 +613,8 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
                     Cette commande crée un nouveau dossier local contenant une
                     copie du dépôt distant, avec l'historique, les branches et
                     la remote <code>origin</code> déjà configurée. C'est la bonne
-                    commande quand vous partez d'un projet déjà hébergé sur
-                    GitHub et que vous voulez le récupérer prêt à l'emploi.
+                    commande lorsqu'un projet déjà hébergé sur GitHub doit être
+                    récupéré prêt à l'emploi.
                   </p>
                 </div>
               </div>
@@ -606,18 +631,17 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
               </p>
               <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
                 <p>
-                  Avec <code>git fetch</code>, vous regardez d'abord ce qui a
-                  changé sans modifier immédiatement vos fichiers locaux.
+                  Avec <code>git fetch</code>, les changements distants sont
+                  consultés sans modifier immédiatement les fichiers locaux.
                 </p>
                 <p>
-                  Avec <code>git pull</code>, vous demandez à Git de récupérer
-                  les nouveautés puis de les intégrer directement dans votre
-                  branche courante.
+                  Avec <code>git pull</code>, les nouveautés sont récupérées puis
+                  intégrées directement dans la branche courante.
                 </p>
                 <p>
-                  En pratique, <code>fetch</code> est plus prudent quand vous
-                  voulez observer avant d'intégrer ; <code>pull</code> est plus
-                  direct quand vous savez que vous voulez vous mettre à jour.
+                  En pratique, <code>fetch</code> est plus prudent pour observer
+                  avant d'intégrer ; <code>pull</code> est plus direct lorsque la
+                  branche courante doit être mise à jour immédiatement.
                 </p>
               </div>
             </div>
@@ -627,17 +651,17 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Si vous hésitez entre `fetch` et `pull`, que devez-vous retenir ?
+              Quelle différence conceptuelle sépare <code>fetch</code> et
+              <code>pull</code> ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                <code>git fetch</code> = je regarde ce qui a changé à distance
-                sans modifier directement mon travail local.
+                <code>git fetch</code> met à jour la connaissance du dépôt
+                distant sans intégrer les changements dans la branche courante.
               </p>
               <p>
-                <code>git pull</code> = je fais un fetch puis j'intègre le
-                résultat, le plus souvent via un merge ou un rebase selon la
-                configuration.
+                <code>git pull</code> effectue un fetch puis intègre le résultat,
+                le plus souvent via un merge ou un rebase selon la configuration.
               </p>
               <p>
                 Formule courte utile :
@@ -668,6 +692,60 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             changements locaux, la branche courante, les commits et la
             synchronisation. GitHub Desktop peut être également utilisé.
           </p>
+        </section>
+
+        <section
+          id="github-preflight"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Préflight GitHub avant le TP collectif
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Avant une manipulation collective, la configuration GitHub doit être
+            vérifiée pour éviter de confondre problème de commande et problème
+            d'accès.
+          </p>
+
+          <div class="space-y-6 border-t border-sky-200 pt-6">
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Contrôles rapides
+              </h3>
+              <pre
+                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+              ><code>git --version
+git config --global user.name
+git config --global user.email
+ssh -T git@github.com</code></pre>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Les trois premières commandes vérifient l'installation Git et
+                l'identité de commit. La dernière teste l'authentification SSH
+                auprès de GitHub.
+              </p>
+            </div>
+
+            <div>
+              <h3 class="text-2xl font-semibold text-slate-950">
+                Choix HTTPS ou SSH
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                SSH est recommandé si une clé est installée et acceptée par
+                GitHub. HTTPS reste utilisable avec un jeton d'accès personnel,
+                notamment si la configuration SSH n'est pas terminée au moment
+                du TP.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                En cas d'erreur d'accès, de mauvais remote ou d'éditeur bloqué
+                pendant un commit de merge, utiliser la fiche
+                <a
+                  href="../fiches-aide/github-bloque/index.html"
+                  class="font-semibold text-sky-700 hover:text-sky-800"
+                  >Je suis bloqué avec GitHub</a
+                >.
+              </p>
+            </div>
+          </div>
         </section>
 
         <section
@@ -713,12 +791,12 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              À débriefer juste après
+              À retenir après une collaboration sans méthode
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Sans méthode, on voit vite apparaître des collisions, des
-                retards, des incompréhensions et des risques d'écrasement.
+                Sans méthode, les collisions, les retards, les incompréhensions
+                et les risques d'écrasement apparaissent rapidement.
               </p>
               <p>
                 Le dépôt public agit ici comme un laboratoire : il rend visibles
@@ -770,7 +848,13 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
           >
             <p>
-              La pull request devient utile dès que plusieurs personnes
+              Une Pull Request est une proposition de modification publiée sur
+              GitHub : une branche est comparée à une branche cible, puis la
+              discussion, les tests et la relecture déterminent si le changement
+              peut être intégré.
+            </p>
+            <p>
+              Elle devient utile dès que plusieurs personnes
               travaillent ensemble : elle isole une proposition de changement,
               permet une relecture et s'associe naturellement aux protections
               GitHub.
@@ -785,7 +869,7 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
           </div>
 
           <p class="text-lg leading-8 text-slate-700">
-            Dans VS Code, on peut rendre visible une partie de ce flux :
+            Dans VS Code, une partie de ce flux peut être rendue visible :
             changements locaux, branche courante, commit, synchronisation puis
             ouverture d'une PR via GitHub.
           </p>
@@ -800,8 +884,9 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Le dépôt suivant reprend le même esprit que TP-2 mais dans un cadre
-            plus structuré. C'est le bon moment pour parler de branches
-            personnelles, de PR, de revue et de règles GitHub.
+            plus structuré. Les branches personnelles, les PR, la revue et les
+            règles GitHub transforment une contribution isolée en proposition
+            vérifiable.
           </p>
 
           <p class="text-lg leading-8 text-slate-700">
@@ -829,7 +914,7 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Qu'est-ce qui change pour vous par rapport au TP-2 ?
+              Quels garde-fous rendent une collaboration plus fiable ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -838,7 +923,8 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
               </p>
               <p>
                 Le coût est un peu plus de formalisme, mais ce formalisme
-                devient rentable dès qu'on travaille à plusieurs.
+                devient rentable dès que le travail est partagé par plusieurs
+                personnes.
               </p>
             </div>
           </details>
@@ -852,9 +938,9 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             Résoudre des conflits Git individuellement
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Les conflits ne doivent pas rester une abstraction. On les travaille
-            ici en local, sur des branches déjà préparées, avec un exercice de
-            merge puis un exercice de rebase.
+            Les conflits ne doivent pas rester une abstraction. Ils sont
+            travaillés ici en local, sur des branches déjà préparées, avec un
+            exercice de merge puis un exercice de rebase.
           </p>
 
           <div
@@ -949,7 +1035,7 @@ git rebase ex/rebase-base</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Si vous bloquez, affichez ces conseils de résolution
+              Conseils généraux de résolution
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -966,6 +1052,15 @@ git rebase ex/rebase-base</code></pre>
                 Utiliser <code>git diff</code> après résolution pour contrôler
                 le résultat réel.
               </p>
+              <p>
+                Si l'éditeur reste ouvert pendant le commit de merge, consulter
+                la fiche
+                <a
+                  href="../fiches-aide/github-bloque/index.html#editeur"
+                  class="font-semibold text-sky-700 hover:text-sky-800"
+                  >Je suis bloqué avec GitHub</a
+                >.
+              </p>
             </div>
           </details>
         </section>
@@ -978,7 +1073,7 @@ git rebase ex/rebase-base</code></pre>
             Release, Semantic Versioning et Conventional Commits
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            On termine en prenant un peu de hauteur : comment nommer
+            La séance se termine avec un peu de recul : comment nommer
             correctement une version, ce qu'est une release et pourquoi une
             convention de message peut aider toute l'équipe.
           </p>
@@ -1009,8 +1104,8 @@ git rebase ex/rebase-base</code></pre>
               Défi Semantic Versioning
             </h3>
             <p class="mt-3 text-lg leading-8 text-slate-700">
-              À partir de <code>v3.6.12</code>, quelle version annoncer si l'on
-              ajoute un correctif, une fonctionnalité ou une rupture de
+              À partir de <code>v3.6.12</code>, quelle version annoncer après
+              un correctif, une fonctionnalité ou une rupture de
               compatibilité ?
             </p>
 
@@ -1018,7 +1113,7 @@ git rebase ex/rebase-base</code></pre>
               <summary
                 class="cursor-pointer text-lg font-semibold text-slate-950"
               >
-                Vérifiez vos réponses
+                Réponses attendues
               </summary>
               <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
                 <p>

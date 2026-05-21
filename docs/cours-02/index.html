@@ -1002,7 +1002,9 @@ git commit -m "feat: filter tasks by done status"</code></pre>
                   corrections mineures avant la livraison. Fusionnée dans
                   <code>main</code>
                   <span class="font-semibold text-slate-900">et</span> dans
-                  <code>develop</code> à la fin.
+                  <code>develop</code> à la fin — canoniquement depuis la
+                  branche de release elle-même, afin de propager les commits
+                  de stabilisation sans passer par <code>main</code>.
                 </p>
                 <p>
                   <code class="font-semibold text-slate-900">hotfix/*</code> :
@@ -1124,14 +1126,25 @@ git commit -m "feat: filter tasks by done status"</code></pre>
               <p>
                 La fusionner
                 <span class="font-semibold text-slate-900"
-                  >aussi dans develop</span
+                  >aussi dans <code>develop</code></span
                 >
-                pour que le développement en cours hérite des éventuelles
-                corrections faites pendant la stabilisation.
+                — canoniquement depuis la branche de release elle-même
+                (<code>git merge release/x.x.x</code>) — pour que le
+                développement en cours hérite des éventuelles corrections
+                faites pendant la stabilisation.
               </p>
               <p>
                 Oublier le retour vers <code>develop</code> est l'erreur la
                 plus fréquente dans Git Flow.
+              </p>
+              <p>
+                Dans un flux avec Pull Request sur GitHub (comme dans le TP),
+                la branche de release est généralement supprimée après le merge
+                dans <code>main</code>. Dans ce cas,
+                <code>git checkout develop &amp;&amp; git merge main</code> est
+                l'équivalent pratique : au moment du merge, <code>main</code>
+                et la branche <code>release/*</code> pointent exactement vers
+                le même commit.
               </p>
             </div>
           </details>

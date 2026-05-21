@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fiche d'aide · git commit échoue dans un DevContainer</title>
+    <meta
+      name="description"
+      content="Résolution du message d'erreur git commit dans un DevContainer quand les variables GIT_AUTHOR et GIT_COMMITTER ne sont pas définies."
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-5xl px-6 py-10 lg:px-8">
+      <header class="border-b border-slate-200 pb-8">
+        <a
+          href="../index.html"
+          class="text-base font-medium text-sky-700 transition hover:text-sky-800"
+          >← Retour aux fiches d'aide</a
+        >
+        <p
+          class="mt-6 text-base font-semibold uppercase tracking-[0.22em] text-slate-500"
+        >
+          Fiche d'aide
+        </p>
+        <h1
+          class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
+        >
+          git commit échoue dans un DevContainer
+        </h1>
+        <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
+          Dans un DevContainer, les variables d'environnement d'identité Git ne sont pas toujours
+          propagées depuis l'hôte. Un <code>git commit</code> peut alors échouer ou produire
+          un commit sans auteur valide.
+        </p>
+      </header>
+
+      <nav class="py-8">
+        <h2 class="text-xl font-semibold text-slate-950">Cas traités</h2>
+        <ul class="mt-4 space-y-3 text-lg leading-8">
+          <li>
+            <a href="#symptomes" class="text-sky-700 hover:text-sky-800"
+              >Symptômes</a
+            >
+          </li>
+          <li>
+            <a href="#cause" class="text-sky-700 hover:text-sky-800"
+              >Cause</a
+            >
+          </li>
+          <li>
+            <a href="#correction-rapide" class="text-sky-700 hover:text-sky-800"
+              >Correction rapide — variables d'environnement</a
+            >
+          </li>
+          <li>
+            <a href="#correction-durable" class="text-sky-700 hover:text-sky-800"
+              >Correction durable — configuration git config</a
+            >
+          </li>
+        </ul>
+      </nav>
+
+      <main class="space-y-10 pb-12">
+        <section
+          id="symptomes"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">Symptômes</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Le <code>git commit</code> se termine avec une erreur ou produit un
+            commit dont l'auteur est vide, inconnu ou incorrect. Les messages
+            typiques sont :
+          </p>
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>Author identity unknown
+
+*** Please tell me who you are.
+
+Run
+
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"</code></pre>
+          <p class="text-lg leading-8 text-slate-700">
+            Ou bien le commit réussit, mais <code>git log</code> affiche un auteur
+            vide ou une adresse générique héritée de l'image Docker.
+          </p>
+        </section>
+
+        <section
+          id="cause"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">Cause</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Git utilise quatre variables pour identifier l'auteur et le commiteur
+            d'un commit :
+          </p>
+          <ul class="list-disc pl-6 space-y-2 text-lg leading-8 text-slate-700">
+            <li><code>GIT_AUTHOR_NAME</code> et <code>GIT_AUTHOR_EMAIL</code> — la personne qui a écrit les modifications.</li>
+            <li><code>GIT_COMMITTER_NAME</code> et <code>GIT_COMMITTER_EMAIL</code> — la personne qui enregistre le commit.</li>
+          </ul>
+          <p class="text-lg leading-8 text-slate-700">
+            Dans un DevContainer, le terminal s'ouvre dans un conteneur Docker
+            isolé. Les variables d'environnement de l'hôte (et parfois la
+            configuration globale <code>~/.gitconfig</code> de l'hôte) ne sont
+            pas automatiquement disponibles dans ce contexte, selon la configuration
+            du DevContainer.
+          </p>
+        </section>
+
+        <section
+          id="correction-rapide"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Correction rapide — variables d'environnement
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            La solution immédiate consiste à exporter les variables dans le terminal
+            du DevContainer avant de committer. Remplacer <code>[Name]</code> et
+            <code>[Email]</code> par les valeurs réelles.
+          </p>
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>export GIT_AUTHOR_NAME="[Name]"
+export GIT_AUTHOR_EMAIL="[Email]"
+export GIT_COMMITTER_NAME="[Name]"
+export GIT_COMMITTER_EMAIL="[Email]"</code></pre>
+          <p class="text-lg leading-8 text-slate-700">
+            Ces variables sont actives pour toute la durée de la session du
+            terminal. Elles disparaissent à la fermeture du terminal ou à la
+            reconstruction du conteneur.
+          </p>
+        </section>
+
+        <section
+          id="correction-durable"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Correction durable — git config
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Pour éviter de relancer les exports à chaque session, configurer
+            l'identité Git directement dans le conteneur via <code>git config</code>.
+            Cette configuration est persistée dans le fichier
+            <code>~/.gitconfig</code> à l'intérieur du conteneur (ou dans le
+            volume monté selon la configuration du DevContainer).
+          </p>
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>git config --global user.name "[Name]"
+git config --global user.email "[Email]"</code></pre>
+          <p class="text-lg leading-8 text-slate-700">
+            Pour vérifier la configuration active dans le conteneur :
+          </p>
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>git config --global --list</code></pre>
+          <p class="text-lg leading-8 text-slate-700">
+            Si le DevContainer est reconstruit, la configuration est perdue. Il
+            est alors recommandé d'ajouter les commandes <code>git config</code>
+            dans le script de post-création du DevContainer
+            (<code>postCreateCommand</code> dans <code>devcontainer.json</code>),
+            ou de monter le <code>~/.gitconfig</code> de l'hôte en volume.
+          </p>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

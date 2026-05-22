@@ -18,7 +18,7 @@
     <meta name="course:duration-total-minutes" content="225" />
     <meta
       name="course:sections"
-      content="qcm,gitlab-flow,demo-gitlab-flow,trunk-based,mono-poly,comparatif,ci-setup,devops-cicd,tp-ci,synthese"
+      content="qcm,gitlab-flow,demo-gitlab-flow,trunk-based,comparatif,ci-setup,devops-cicd,tp-ci,synthese"
     />
     <script id="course-metadata" type="application/json">
       {
@@ -28,7 +28,7 @@
         "sections": [
           {
             "id": "qcm",
-            "title": "QCM de reprise du cours-02",
+            "title": "QCM d'ouverture",
             "durationMinutes": 20
           },
           {
@@ -43,12 +43,7 @@
           },
           {
             "id": "trunk-based",
-            "title": "Trunk-Based Development : teaser stratégique",
-            "durationMinutes": 10
-          },
-          {
-            "id": "mono-poly",
-            "title": "Monorepo vs polyrepo",
+            "title": "Trunk-Based Development",
             "durationMinutes": 10
           },
           {
@@ -100,11 +95,7 @@
           Flows de développement — suite, conclusion et transition vers la CI
         </h1>
         <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
-          Cette séance termine le module sur les flows commencés au cours-02,
-          puis montre pourquoi ces flows amènent naturellement à parler de
-          DevOps, d'intégration continue et de pipelines. Vous allez comparer
-          plusieurs stratégies de branches, puis manipuler une vraie CI sur un
-          dépôt NestJS simple.
+          Ce cours conclut le module flows de développement ouvert au cours-02 et pose les premières bases de l'intégration continue.
         </p>
       </header>
 
@@ -113,7 +104,7 @@
         <ul class="mt-4 space-y-3 text-lg leading-8">
           <li>
             <a href="#qcm" class="text-sky-700 hover:text-sky-800"
-              >QCM de reprise du cours-02</a
+              >QCM d'ouverture</a
             >
           </li>
           <li>
@@ -131,11 +122,6 @@
           <li>
             <a href="#trunk-based" class="text-sky-700 hover:text-sky-800"
               >Trunk-Based Development</a
-            >
-          </li>
-          <li>
-            <a href="#mono-poly" class="text-sky-700 hover:text-sky-800"
-              >Monorepo vs polyrepo</a
             >
           </li>
           <li>
@@ -173,7 +159,7 @@
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            QCM de reprise du cours-02
+            QCM d'ouverture
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             La séance commence par 20 minutes de QCM sur papier. Les questions
@@ -182,10 +168,7 @@
             des workflows étudiés.
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            Une fois le QCM terminé, nous repartons du point où le cours-02
-            s'arrêtait : que se passe-t-il quand un projet doit maintenir
-            plusieurs versions actives et quand la coordination Git devient plus
-            coûteuse ?
+            Posez le stylo quand le temps est écoulé.
           </p>
         </section>
 
@@ -196,7 +179,7 @@
         >
           <h2 class="text-3xl font-semibold text-slate-950">GitLab Flow</h2>
           <p class="text-lg leading-8 text-slate-700">
-            GitHub Flow fonctionne très bien tant qu'on intègre en continu sur
+            GitHub Flow fonctionne très bien tant que l'intégration se fait en continu sur
             une seule ligne courante. Mais certains produits doivent aussi
             continuer à corriger une version plus ancienne déjà déployée chez
             des clients. C'est là qu'un flow de type GitLab Flow devient
@@ -226,8 +209,8 @@
                 Ce type de flow fait rapidement apparaître des contextes de
                 diffusion différents : environnement de développement pour la
                 ligne courante, environnement de validation intermédiaire, puis
-                production pour une version donnée. Nous resterons aujourd'hui
-                sur trois repères utiles : <span class="font-semibold text-slate-900">DEV</span>,
+                production pour une version donnée. Trois repères suffiront
+                pour cette séance : <span class="font-semibold text-slate-900">DEV</span>,
                 <span class="font-semibold text-slate-900">STAGING</span> et
                 <span class="font-semibold text-slate-900">PROD</span>.
               </p>
@@ -252,18 +235,22 @@
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Si vous devez ajouter une nouvelle fonctionnalité, quelle branche
-              cible devez-vous choisir ?
+              Pourquoi un flow avec plusieurs branches actives fait-il apparaître
+              un besoin d'automatisation que GitHub Flow ne rend pas aussi visible ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Vous devez partir de <code>main</code>, car une fonctionnalité
-                nouvelle concerne la ligne courante du produit.
+                Avec une seule ligne courante, un correctif appliqué sur
+                <code>main</code> est immédiatement dans la version en cours.
+                Il n'y a aucun risque de l'oublier ailleurs.
               </p>
               <p>
-                Une branche de maintenance comme <code>production/v1</code> sert
-                d'abord à corriger une version plus ancienne déjà utilisée, pas
-                à enrichir la version courante.
+                Dès qu'une branche de maintenance coexiste avec <code>main</code>,
+                chaque correctif doit être reporté manuellement. Ce cherry-pick
+                peut être oublié, mal appliqué ou ne pas compiler dans un
+                contexte légèrement différent. La probabilité d'une erreur de
+                coordination augmente avec le nombre de versions actives —
+                c'est précisément ce qui justifie d'automatiser les vérifications.
               </p>
             </div>
           </details>
@@ -328,8 +315,8 @@
 git checkout -b hotfix/fix-title-validation</code></pre>
             </li>
             <li>
-              Finir par verbaliser le vrai message du flow : une correction
-              critique ne reste pas enfermée sur une seule branche si le bug
+              Observer le message central du flow : un correctif critique ne
+              doit pas rester isolé sur la branche de maintenance si le bug
               existe aussi sur la ligne courante.
             </li>
           </ol>
@@ -338,21 +325,23 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Qu'est-ce qui deviendrait difficile à gérer manuellement dès que
-              les deux branches sont actives en même temps ?
+              Quels critères permettent de décider si un flow multi-branches
+              de type GitLab Flow est réellement justifié ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                S'assurer qu'un bug corrigé sur <code>production/v1</code>
-                est bien aussi reporté sur <code>main</code>. Sans
-                automatisation ni processus explicite, ce cherry-pick peut
-                être oublié et le bug réapparaître dans la prochaine version.
+                La principale question est celle du support : existe-t-il
+                une obligation contractuelle ou réglementaire de maintenir
+                une version plus ancienne en parallèle ? Si oui, pour quels
+                types de correctifs et jusqu'à quelle date ?
               </p>
               <p>
-                Plus généralement, valider que les deux lignes restent stables
-                et cohérentes l'une avec l'autre devient un travail de
-                coordination à part entière — c'est exactement là que
-                l'automatisation des vérifications commence à avoir de la valeur.
+                Si une seule version est active, la complexité de coordination
+                d'un flow multi-branches n'est pas justifiée. Si plusieurs
+                versions doivent recevoir des correctifs de sécurité de façon
+                régulière, la question n'est plus de savoir si ce flow est
+                nécessaire, mais comment automatiser la synchronisation pour
+                en réduire le coût humain.
               </p>
             </div>
           </details>
@@ -364,12 +353,12 @@ git checkout -b hotfix/fix-title-validation</code></pre>
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Trunk-Based Development — teaser stratégique
+            Trunk-Based Development
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Le Trunk-Based Development n'est pas le sujet pratique d'aujourd'hui.
-            Nous le regardons comme une direction possible pour des équipes qui
-            intègrent très fréquemment et qui disposent déjà d'une CI/CD solide.
+            Le Trunk-Based Development est abordé ici comme une direction
+            possible, accessible aux équipes qui intègrent très fréquemment et
+            qui disposent déjà d'une pipeline CI/CD fiable et mature.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
@@ -390,9 +379,9 @@ git checkout -b hotfix/fix-title-validation</code></pre>
               la branche principale au moment du merge.
             </p>
             <p>
-              <span class="font-semibold text-slate-900">Point clé :</span>
-              sans pipeline fiable, rapide et lisible, ce mode de travail devient
-              très difficile à tenir.
+              <span class="font-semibold text-slate-900">Prérequis :</span>
+              une pipeline CI/CD fiable, rapide et lisible est indispensable
+              pour que ce mode de travail soit viable.
             </p>
           </div>
 
@@ -400,57 +389,27 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pourquoi le Trunk-Based Development est-il présenté comme la suite
-              du module, et non comme un flow à pratiquer tout de suite ?
+              Quelle est la différence fondamentale entre le Trunk-Based
+              Development et GitHub Flow ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Parce qu'il suppose déjà une maturité CI/CD importante : tests
-                rapides, build fiable, feedback court et forte discipline
-                d'intégration.
+                Les deux flows partagent une branche principale unique. La
+                différence tient à la durée de vie des branches de travail :
+                GitHub Flow tolère des branches de fonctionnalité relativement
+                longues, revues avant fusion ; le Trunk-Based Development exige
+                des intégrations très fréquentes — typiquement plusieurs fois
+                par jour — avec des branches éphémères ou directement sur le
+                tronc.
               </p>
               <p>
-                Les prochains cours sur la CI/CD sont justement ce qui permettra
-                de comprendre comment atteindre cette maturité.
+                Cette différence implique un niveau de discipline et
+                d'automatisation bien supérieur en Trunk-Based Development :
+                sans tests rapides et fiables, intégrer plusieurs fois par jour
+                sur une branche commune devient trop risqué.
               </p>
             </div>
           </details>
-        </section>
-
-        <!-- ═══════════════════════════════ MONOREPO VS POLYREPO ════════════════════════════ -->
-        <section
-          id="mono-poly"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Monorepo vs polyrepo — comparaison brève
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            L'organisation du code en un ou plusieurs dépôts influence
-            directement la complexité des pipelines, la gestion des droits et
-            la cohérence des versions entre composants.
-          </p>
-
-          <div class="space-y-6 border-t border-slate-200 pt-6">
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">Monorepo</h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Tout le code vit dans un seul dépôt. On y gagne souvent en
-                cohérence, mais on complexifie plus vite la gestion des droits,
-                la lecture des pipelines et la question des versions compatibles
-                entre plusieurs composants.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">Polyrepo</h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Chaque service ou composant a son dépôt. On gagne en isolation,
-                mais la synchronisation entre versions et la gestion des
-                compatibilités demandent un outillage et une discipline plus
-                visibles.
-              </p>
-            </div>
-          </div>
         </section>
 
         <!-- ════════════════════════════════ COMPARATIF FLOWS ═══════════════════════════════ -->
@@ -475,8 +434,8 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             </p>
             <p>
               <span class="font-semibold text-slate-900">GitHub Flow :</span>
-              bon point d'entrée dès qu'on veut intégrer souvent sur une ligne
-              courante claire.
+              bon point d'entrée dès qu'une intégration fréquente sur une ligne
+              courante claire est visée.
             </p>
             <p>
               <span class="font-semibold text-slate-900">GitLab Flow :</span>
@@ -506,8 +465,8 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Git Flow n'apparaît pas dans ce diagramme — où se placerait-il
-              selon vous, et pourquoi ?
+              Git Flow n'apparaît pas dans ce diagramme — quelle place
+              occuperait-il dans cette trajectoire, et pourquoi ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -581,8 +540,8 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Dans <code>.github/workflows/ci.yml</code>, combien de jobs
-              repérez-vous, et lequel s'exécute en premier ?
+              Combien de jobs sont définis dans <code>.github/workflows/ci.yml</code>,
+              et lequel s'exécute en premier d'après sa configuration ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -638,9 +597,10 @@ git checkout -b hotfix/fix-title-validation</code></pre>
               collaboration concrète et répétable.
             </p>
             <p class="text-lg leading-8 text-slate-700">
-              Le cycle DevOps est continu : on planifie, on code, on vérifie,
-              on package, on déploie, on configure, on surveille… et on
-              replanifie à partir de ce qu'on observe en production.
+              Le cycle DevOps est continu : il passe par la planification, le
+              code, la vérification, le packaging, le déploiement, la
+              configuration, la surveillance… puis revient à la planification
+              à partir de ce qui est observé en production.
             </p>
             <div
               data-mermaid-src="../mermaid/cours-03-devops-lifecycle.md"
@@ -736,21 +696,22 @@ git checkout -b hotfix/fix-title-validation</code></pre>
 
           <details class="border-t border-slate-200 pt-6">
             <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Pensez-vous qu'il est possible de déployer très souvent
-              <em>et</em> d'avoir peu d'incidents en production ?
+              Comment la fréquence de déploiement influence-t-elle la stabilité
+              d'un système, et pourquoi cette relation est-elle contre-intuitive ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Oui — et c'est précisément ce que valide la recherche DORA.
-                Déployer souvent force à réduire la taille de chaque
-                changement. Des petits changements sont plus faciles à
-                comprendre, à tester et à réverter si quelque chose cloche.
+                La recherche DORA montre que les équipes qui déploient le plus
+                fréquemment sont aussi celles qui ont le moins d'incidents en
+                production — à l'inverse de l'intuition courante. Déployer
+                souvent force à réduire la taille de chaque changement, ce
+                qui rend chaque problème plus facile à isoler et à réverter.
               </p>
               <p>
                 C'est le principe des petits lots (<em>small batches</em>) :
-                moins on accumule de changements avant un déploiement, moins
-                la probabilité d'un incident complexe à diagnostiquer est
-                élevée.
+                moins les changements sont accumulés avant un déploiement,
+                plus la probabilité d'un incident complexe à diagnostiquer
+                est faible.
               </p>
             </div>
           </details>
@@ -954,8 +915,8 @@ git checkout -b hotfix/fix-title-validation</code></pre>
               <p>
                 Le plus tôt possible — idéalement dans le job
                 <code>format-lint</code>. Une erreur attrapée là prend
-                quelques secondes à corriger : on édite le fichier, on
-                relance. Aucun contexte n'est perdu.
+                quelques secondes à corriger : le fichier est édité et la
+                vérification relancée. Aucun contexte n'est perdu.
               </p>
               <p>
                 À l'inverse, une erreur qui n'est détectée qu'en production
@@ -997,7 +958,7 @@ git checkout -b hotfix/fix-title-validation</code></pre>
           <!-- ── Vocabulaire à maîtriser ── -->
           <details class="border-t border-slate-200 pt-6">
             <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quel vocabulaire devez-vous maîtriser avant d'entrer dans le TP ?
+              Quel vocabulaire est indispensable pour analyser une pipeline CI/CD ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
@@ -1086,6 +1047,7 @@ act -j tests</code></pre>
               <h3 class="text-2xl font-semibold text-slate-950">
                 Exercice 1 — corriger une étape qualité simple
               </h3>
+              <p class="mt-1 text-sm font-medium text-emerald-700">Niveau : Débutant</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/01-format-lint</code>. L'objectif est de
                 lire le bon log, puis de corriger un problème de formatage ou de
@@ -1097,6 +1059,7 @@ act -j tests</code></pre>
               <h3 class="text-2xl font-semibold text-slate-950">
                 Exercice 2 — réparer un test unitaire
               </h3>
+              <p class="mt-1 text-sm font-medium text-emerald-700">Niveau : Débutant</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/02-test-failure</code>. L'échec est
                 volontairement simple à comprendre : vous devez repérer le test,
@@ -1108,6 +1071,7 @@ act -j tests</code></pre>
               <h3 class="text-2xl font-semibold text-slate-950">
                 Exercice 3 — remettre la pipeline dans un ordre fail-fast
               </h3>
+              <p class="mt-1 text-sm font-medium text-amber-700">Niveau : Intermédiaire</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/03-pipeline-order</code>. Le travail
                 consiste à réorganiser les dépendances de jobs dans
@@ -1120,6 +1084,7 @@ act -j tests</code></pre>
               <h3 class="text-2xl font-semibold text-slate-950">
                 Exercice 4 — lire les logs et trouver la bonne cause
               </h3>
+              <p class="mt-1 text-sm font-medium text-amber-700">Niveau : Intermédiaire</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/04-log-reading</code>. Ici, l'enjeu n'est
                 pas seulement de corriger : il faut surtout savoir lire le bon job,
@@ -1131,6 +1096,7 @@ act -j tests</code></pre>
               <h3 class="text-2xl font-semibold text-slate-950">
                 Exercice 5 — stabiliser la chaîne complète
               </h3>
+              <p class="mt-1 text-sm font-medium text-rose-700">Niveau : Avancé</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/05-stabilize</code>. Cette branche sert à
                 vérifier que vous savez appliquer un ordre de diagnostic cohérent
@@ -1142,6 +1108,7 @@ act -j tests</code></pre>
               <h3 class="text-2xl font-semibold text-slate-950">
                 Bonus — paralléliser une partie simple du DAG
               </h3>
+              <p class="mt-1 text-sm font-medium text-rose-700">Niveau : Avancé</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>bonus/parallelization</code>. Ce bonus s'adresse
                 aux binômes les plus rapides. Le but est de séparer proprement des
@@ -1155,8 +1122,8 @@ act -j tests</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Quel ordre de diagnostic devez-vous appliquer quand tout semble
-              cassé ?
+              Quel ordre de diagnostic est recommandé lorsque plusieurs jobs
+              échouent simultanément ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>

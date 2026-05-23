@@ -130,11 +130,6 @@
             >
           </li>
           <li>
-            <a href="#ci-setup" class="text-sky-700 hover:text-sky-800"
-              >Prise en main du dépôt CI</a
-            >
-          </li>
-          <li>
             <a href="#devops-cicd" class="text-sky-700 hover:text-sky-800"
               >DevOps et CI/CD</a
             >
@@ -488,78 +483,6 @@ git checkout -b hotfix/fix-title-validation</code></pre>
           </details>
         </section>
 
-        <!-- ══════════════════════════════ PRISE EN MAIN DEPOT CI ═══════════════════════════ -->
-        <section
-          id="ci-setup"
-          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Dépôt CI pédagogique — temps 1 : prise en main guidée
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            Dépôt support :
-            <a
-              href="https://github.com/GVI2026/tp-ci-api"
-              class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
-              >GVI2026/tp-ci-api</a
-            >
-          </p>
-          <p class="text-lg leading-8 text-slate-700">
-            Le but n'est pas encore de corriger la pipeline, mais de stabiliser
-            l'environnement de travail et de rendre le dépôt familier avant
-            d'analyser la CI en détail.
-          </p>
-
-          <ol
-            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
-          >
-            <li>
-              Cloner le dépôt puis l'ouvrir dans VS Code. Si le DevContainer est
-              proposé, l'accepter pour homogénéiser l'environnement.
-            </li>
-            <li>
-              Lancer l'application :
-              <pre
-                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-              ><code>npm run start:dev</code></pre>
-              Vérifier ensuite que Swagger répond sur
-              <code>http://localhost:3000/api</code>.
-            </li>
-            <li>
-              Repérer trois fichiers utiles pour la suite :
-              <code>.github/workflows/ci.yml</code>, <code>package.json</code>
-              et le dossier <code>src/</code>.
-            </li>
-            <li>
-              Faire une première lecture du workflow pour identifier ce qui sera
-              discuté ensuite : triggers, jobs, steps, ordre des vérifications.
-            </li>
-          </ol>
-
-          <details class="border-t border-sky-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Combien de jobs sont définis dans <code>.github/workflows/ci.yml</code>,
-              et lequel s'exécute en premier d'après sa configuration ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Le workflow contient quatre jobs : <code>format-lint</code>,
-                <code>tests</code>, <code>build</code> et
-                <code>security</code>. Le premier à s'exécuter est
-                <code>format-lint</code>, car les autres en dépendent via
-                <code>needs:</code>.
-              </p>
-              <p>
-                Repérer cet ordre avant le cours permet de suivre directement
-                l'explication du principe fail-fast sans avoir à chercher dans
-                le fichier en même temps.
-              </p>
-            </div>
-          </details>
-        </section>
-
         <!-- ════════════════════════════════ DEVOPS ET CI/CD ════════════════════════════════ -->
         <section
           id="devops-cicd"
@@ -696,22 +619,30 @@ git checkout -b hotfix/fix-title-validation</code></pre>
 
           <details class="border-t border-slate-200 pt-6">
             <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Comment la fréquence de déploiement influence-t-elle la stabilité
-              d'un système, et pourquoi cette relation est-elle contre-intuitive ?
+              Quelle combinaison de métriques DORA permet de distinguer une
+              équipe dont la livraison est lente à cause d'un processus trop
+              lourd d'une équipe dont la livraison est lente à cause d'une
+              qualité de code insuffisante ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                La recherche DORA montre que les équipes qui déploient le plus
-                fréquemment sont aussi celles qui ont le moins d'incidents en
-                production — à l'inverse de l'intuition courante. Déployer
-                souvent force à réduire la taille de chaque changement, ce
-                qui rend chaque problème plus facile à isoler et à réverter.
+                Un <span class="font-semibold text-slate-900">Change Lead
+                Time</span> élevé peut avoir deux origines très différentes.
+                Si le <span class="font-semibold text-slate-900">Change Fail
+                Rate</span> est lui aussi élevé, le ralentissement vient
+                probablement de la qualité : les retours en arrière et
+                correctifs non planifiés consomment la capacité de l'équipe.
+                Si le Change Fail Rate est faible mais que le
+                <span class="font-semibold text-slate-900">Failed Deployment
+                Recovery Time</span> est long, c'est le processus de
+                déploiement lui-même qui constitue le goulot.
               </p>
               <p>
-                C'est le principe des petits lots (<em>small batches</em>) :
-                moins les changements sont accumulés avant un déploiement,
-                plus la probabilité d'un incident complexe à diagnostiquer
-                est faible.
+                Les métriques DORA fonctionnent en système : aucune ne suffit
+                isolément à orienter une amélioration. Une baisse du Change
+                Lead Time sans amélioration du Change Fail Rate peut
+                simplement signifier que l'équipe livre des problèmes plus
+                vite.
               </p>
             </div>
           </details>
@@ -776,6 +707,93 @@ git checkout -b hotfix/fix-title-validation</code></pre>
               </p>
             </div>
           </details>
+
+          <!-- ══ Prise en main guidée : dépôt CI ══ -->
+          <div
+            id="ci-setup"
+            class="space-y-6 rounded-2xl border border-sky-200 bg-sky-50 p-6"
+          >
+            <h3 class="text-2xl font-semibold text-slate-950">
+              Dépôt CI pédagogique — temps 1 : prise en main guidée
+            </h3>
+            <p class="text-lg leading-8 text-slate-700">
+              Dépôt support :
+              <a
+                href="https://github.com/GVI2026/tp-ci-api"
+                class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
+                >GVI2026/tp-ci-api</a
+              >
+            </p>
+            <p class="text-lg leading-8 text-slate-700">
+              La théorie CI/CD étant posée, le dépôt pédagogique permet de lire
+              un vrai workflow pour la première fois. L'objectif n'est pas encore
+              de corriger quoi que ce soit, mais de repérer la structure avant
+              d'en étudier l'anatomie en détail.
+            </p>
+
+            <ol
+              class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+            >
+              <li>
+                Vérifier que l'application répond sur
+                <code>http://localhost:3000/api</code>. Si ce n'est pas encore
+                le cas, lancer :
+                <pre
+                  class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                ><code>npm run start:dev</code></pre>
+              </li>
+              <li>
+                Ouvrir les deux fichiers centraux pour la suite :
+                <code>.github/workflows/ci.yml</code> et
+                <code>package.json</code>.
+              </li>
+              <li>
+                Lire le workflow de haut en bas : repérer les triggers, les noms
+                de jobs, les dépendances <code>needs:</code> et l'ordre
+                d'exécution.
+              </li>
+            </ol>
+
+            <details class="border-t border-sky-200 pt-6">
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
+                Combien de jobs sont définis dans
+                <code>.github/workflows/ci.yml</code>, et quel est le rôle du
+                job qui s'exécute en premier ?
+              </summary>
+              <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+                <p>
+                  Le workflow contient cinq jobs : <code>install</code>,
+                  <code>format-lint</code>, <code>tests</code>,
+                  <code>build</code> et <code>security</code>. Le premier à
+                  s'exécuter est <code>install</code>, dont le rôle est
+                  d'installer les dépendances npm et de les stocker en cache
+                  pour tous les jobs suivants. Si le cache est déjà présent,
+                  l'étape <code>npm ci</code> est ignorée.
+                </p>
+                <p>
+                  Ce mécanisme est documenté en détail dans
+                  <code>docs/fonctionnement-cache.md</code> du dépôt.
+                </p>
+              </div>
+            </details>
+
+            <div class="border-t border-sky-200 pt-6 space-y-3">
+              <p class="text-lg leading-8 text-slate-700">
+                Pour terminer cette prise en main, lancer la pipeline complète
+                pour la première fois. Le premier lancement est plus long car
+                les images Docker doivent être téléchargées :
+              </p>
+              <pre
+                class="overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>act</code></pre>
+              <p class="text-lg leading-8 text-slate-700">
+                Ce premier run peut prendre plusieurs minutes. La structure de
+                la pipeline sera analysée en détail dans la section suivante.
+              </p>
+            </div>
+          </div>
 
           <!-- ── D. Anatomie d'une pipeline ── -->
           <div class="space-y-4 border-t border-slate-200 pt-6">
@@ -955,12 +973,10 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             </p>
           </div>
 
-          <!-- ── Vocabulaire à maîtriser ── -->
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quel vocabulaire est indispensable pour analyser une pipeline CI/CD ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+          <!-- ── Glossaire ── -->
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <h3 class="text-2xl font-semibold text-slate-950">Glossaire</h3>
+            <div class="space-y-3 text-lg leading-8 text-slate-700">
               <p>
                 <span class="font-semibold text-slate-900">Event / Trigger :</span>
                 événement qui déclenche la pipeline (push, pull_request, schedule…).
@@ -994,7 +1010,7 @@ git checkout -b hotfix/fix-title-validation</code></pre>
                 stratégie qui avance toutes les vérifications possibles vers le début du cycle de vie du code, réduisant le coût de correction.
               </p>
             </div>
-          </details>
+          </div>
         </section>
 
         <!-- ════════════════════════════════════ TP CI ══════════════════════════════════════ -->
@@ -1007,8 +1023,8 @@ git checkout -b hotfix/fix-title-validation</code></pre>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Le but est maintenant de diagnostiquer puis corriger une CI cassée.
-            Vous travaillez en binôme. Le dépôt a été conçu pour que les pannes
-            soient réalistes, lisibles et rapides à interpréter.
+            Le dépôt a été conçu pour que les pannes soient réalistes, lisibles
+            et rapides à interpréter.
           </p>
 
           <div class="space-y-6 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
@@ -1110,30 +1126,13 @@ act -j tests</code></pre>
               </h3>
               <p class="mt-1 text-sm font-medium text-rose-700">Niveau : Avancé</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Branche : <code>bonus/parallelization</code>. Ce bonus s'adresse
-                aux binômes les plus rapides. Le but est de séparer proprement des
-                vérifications indépendantes sans rendre la lecture du graphe
-                inutilement compliquée.
+                Branche : <code>bonus/parallelization</code>. Ce bonus est
+                proposé à ceux qui ont terminé les exercices précédents. Le but
+                est de séparer proprement des vérifications indépendantes sans
+                rendre la lecture du graphe inutilement compliquée.
               </p>
             </div>
           </div>
-
-          <details class="border-t border-sky-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Quel ordre de diagnostic est recommandé lorsque plusieurs jobs
-              échouent simultanément ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Commencez par les étapes qualité les plus précoces, puis les
-                tests, puis le build, puis le reste. L'idée n'est pas d'ouvrir
-                tous les fronts à la fois, mais d'éliminer les causes visibles
-                dans l'ordre où la pipeline les rencontre.
-              </p>
-            </div>
-          </details>
 
           <div class="border-t border-sky-200 pt-6">
             <h3 class="text-2xl font-semibold text-slate-950">
@@ -1169,16 +1168,9 @@ act -j tests</code></pre>
               livrer en production de façon fiable et automatisée — sera
               l'objet du prochain cours, consacré au
               <span class="font-semibold text-slate-900">Continuous Delivery
-              et au déploiement continu</span>.
+              et au Continuous Deployment</span>.
             </p>
           </div>
-          <p
-            class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
-          >
-            Idée directrice à emporter : une pipeline CI qui ne renvoie pas
-            de retour en quelques minutes ne change pas les comportements.
-            La vitesse du feedback est aussi importante que sa fiabilité.
-          </p>
         </section>
       </main>
     </div>

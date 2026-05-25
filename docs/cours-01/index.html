@@ -247,19 +247,16 @@
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Quels problèmes de collaboration sont résolus par un historique
-              versionné ?
+              Quels types de problèmes de collaboration peuvent être réduits
+              par un historique versionné ?
             </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Un historique versionné rend visibles les auteurs, les dates,
-                les intentions et les points de retour utilisables après une
-                erreur.
-              </p>
-              <p>
-                La collaboration repose alors sur une évolution traçable du
-                projet plutôt que sur des copies locales difficiles à comparer.
-              </p>
+            <div class="mt-4 text-lg leading-8 text-slate-700">
+              <ul class="list-disc space-y-2 pl-6">
+                <li>La perte de contexte sur l'auteur, la date et l'intention d'une modification.</li>
+                <li>L'écrasement involontaire d'un travail récent faute d'état de référence partagé.</li>
+                <li>La difficulté à revenir vers un état stable après une erreur ou une régression.</li>
+                <li>La comparaison laborieuse entre plusieurs versions concurrentes d'un même fichier.</li>
+              </ul>
             </div>
           </details>
 
@@ -310,35 +307,15 @@
               sélection de changements préparée pour le prochain commit.
             </p>
             <p>
+              <span class="font-semibold text-slate-900">Commit</span> : un
+              point de sauvegarde créé à partir du contenu présent dans l'index.
+            </p>
+            <p>
               <span class="font-semibold text-slate-900"
                 >Historique de commits</span
               >
               : la suite structurée des instantanés successifs du projet.
             </p>
-          </div>
-
-          <div class="border-t border-slate-200 pt-6">
-            <h3 class="text-2xl font-semibold text-slate-950">
-              Objets Git à reconnaître
-            </h3>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                <span class="font-semibold text-slate-900">Blob</span> : le
-                contenu d'un fichier versionné.
-              </p>
-              <p>
-                <span class="font-semibold text-slate-900">Tree</span> : une vue
-                d'arborescence qui relie dossiers et blobs.
-              </p>
-              <p>
-                <span class="font-semibold text-slate-900">DAG</span> : la forme
-                de l'historique des commits.
-              </p>
-              <p>
-                <span class="font-semibold text-slate-900">Ref</span> : un nom
-                qui pointe vers un commit, comme une branche ou un tag.
-              </p>
-            </div>
           </div>
         </section>
 
@@ -389,7 +366,6 @@
               <pre
                 class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
               ><code>git add mon-fichier.txt
-git add .
 git commit -m "Premier commit"</code></pre>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Le bon contenu est placé dans l'index, puis un point de
@@ -410,20 +386,60 @@ git commit -m "Premier commit"</code></pre>
               </p>
             </div>
 
-            <div>
+            <div class="border-t border-slate-200 pt-6">
               <h3 class="text-2xl font-semibold text-slate-950">
-                Garder le dépôt propre avec <code>.gitignore</code>
+                À savoir
               </h3>
-              <pre
-                class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
-              ><code>*.log
+              <div class="mt-4 space-y-6">
+                <div>
+                  <h4 class="text-xl font-semibold text-slate-950">
+                    Utiliser <code>git add</code> selon le besoin
+                  </h4>
+                  <pre
+                    class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>git add fichier.txt
+git add dossier/
+git add .
+git add *.md
+git add -p</code></pre>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Le choix dépend de la précision attendue : un fichier isolé,
+                    un dossier, tout le répertoire courant, un motif de fichiers
+                    ou une sélection interactive par bloc.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 class="text-xl font-semibold text-slate-950">
+                    Comprendre <code>git commit</code>
+                  </h4>
+                  <pre
+                    class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>git commit -m "Ajoute le fichier de notes"
+git commit</code></pre>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Un commit n'enregistre que le contenu déjà placé dans
+                    l'index. Sans <code>git add</code> préalable, rien n'est
+                    réellement prêt à être validé.
+                  </p>
+                </div>
+
+                <div>
+                  <h4 class="text-xl font-semibold text-slate-950">
+                    Garder le dépôt propre avec <code>.gitignore</code>
+                  </h4>
+                  <pre
+                    class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+                  ><code>*.log
 /temp/
 secret.txt
 node_modules/</code></pre>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Le fichier <code>.gitignore</code> évite de versionner des
-                secrets, dépendances ou fichiers temporaires.
-              </p>
+                  <p class="mt-3 text-lg leading-8 text-slate-700">
+                    Le fichier <code>.gitignore</code> évite de versionner des
+                    secrets, dépendances ou fichiers temporaires.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -433,7 +449,7 @@ node_modules/</code></pre>
           class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            TP 1 : exercice guidé en local
+            TP 1 : exercice guidé en local <span class="text-2xl font-normal text-slate-400">(15 min)</span>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Le but est d'enchaîner une première boucle complète sans difficulté
@@ -470,24 +486,19 @@ node_modules/</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Résultat attendu après la première boucle locale
+              Que se passe-t-il si la commande <code>git commit</code> est
+              lancée avant <code>git add</code> ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Après <code>git init</code>, le dossier contient désormais un
-                répertoire <code>.git/</code>.
+                Le commit ne prend en compte que l'état déjà présent dans
+                l'index. Si aucun fichier n'a été ajouté auparavant, Git signale
+                généralement qu'il n'y a rien à valider.
               </p>
               <p>
-                Après création du fichier, <code>git status</code> doit signaler
-                un fichier non suivi.
-              </p>
-              <p>
-                Après <code>git add</code>, ce même fichier doit apparaître
-                comme prêt à être validé.
-              </p>
-              <p>
-                Après le commit, l'arbre de travail doit redevenir propre et
-                l'historique doit montrer un commit.
+                Cette séparation entre préparation et validation évite qu'un
+                changement encore non relu soit enregistré par erreur dans
+                l'historique.
               </p>
             </div>
           </details>
@@ -647,31 +658,6 @@ ssh-add ~/.ssh/id_ed25519</code></pre>
             </div>
           </div>
 
-          <details class="border-t border-slate-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Quelle différence conceptuelle sépare <code>fetch</code> et
-              <code>pull</code> ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                <code>git fetch</code> met à jour la connaissance du dépôt
-                distant sans intégrer les changements dans la branche courante.
-              </p>
-              <p>
-                <code>git pull</code> effectue un fetch puis intègre le résultat,
-                le plus souvent via un merge ou un rebase selon la configuration.
-              </p>
-              <p>
-                Formule courte utile :
-                <span class="font-semibold text-slate-900"
-                  >pull = fetch + intégration</span
-                >.
-              </p>
-            </div>
-          </details>
-
           <div class="border-t border-slate-200 pt-6">
             <p class="mb-4 text-lg leading-8 text-slate-700">
               Un gitGraph simple permet de visualiser l'écart entre travail
@@ -753,7 +739,7 @@ ssh -T git@github.com</code></pre>
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            TP 2 : expérience collective anarchique
+            TP 2 : expérience collective anarchique <span class="text-2xl font-normal text-slate-400">(20 min)</span>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Tout le monde intervient sur le même README public, dans un ordre
@@ -774,7 +760,7 @@ ssh -T git@github.com</code></pre>
             class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
           >
             <li>
-              Cloner ou forker le dépôt selon l'organisation choisie en séance.
+              Cloner le dépôt support fourni pour la séance.
             </li>
             <li>
               Ajouter une unique courte ligne signée sous le commentaire
@@ -868,66 +854,6 @@ ssh -T git@github.com</code></pre>
             <p class="text-base text-slate-500">Chargement du gitGraph…</p>
           </div>
 
-          <p class="text-lg leading-8 text-slate-700">
-            Dans VS Code, une partie de ce flux peut être rendue visible :
-            changements locaux, branche courante, commit, synchronisation puis
-            ouverture d'une PR via GitHub.
-          </p>
-        </section>
-
-        <section
-          id="tp3"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            TP 3 : rejouer l'expérience avec une méthode
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            Le dépôt suivant reprend le même esprit que TP-2 mais dans un cadre
-            plus structuré. Les branches personnelles, les PR, la revue et les
-            règles GitHub transforment une contribution isolée en proposition
-            vérifiable.
-          </p>
-
-          <p class="text-lg leading-8 text-slate-700">
-            Dépôt support :
-            <a
-              href="https://github.com/GVI2026/git-moins-anarchique"
-              class="font-semibold text-sky-700 hover:text-sky-800"
-              >GVI2026/git-moins-anarchique</a
-            >
-          </p>
-
-          <ul
-            class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
-          >
-            <li>Une branche de travail personnelle.</li>
-            <li>Une PR pour proposer le changement.</li>
-            <li>Des règles de protection et des rôles plus explicites.</li>
-            <li>
-              Un flux de travail reproductible plutôt qu'un simple réflexe
-              opportuniste.
-            </li>
-          </ul>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Quels garde-fous rendent une collaboration plus fiable ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                La méthode fait baisser le chaos visible, améliore la
-                traçabilité et rend les conflits plus gérables.
-              </p>
-              <p>
-                Le coût est un peu plus de formalisme, mais ce formalisme
-                devient rentable dès que le travail est partagé par plusieurs
-                personnes.
-              </p>
-            </div>
-          </details>
         </section>
 
         <section
@@ -935,12 +861,14 @@ ssh -T git@github.com</code></pre>
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Résoudre des conflits Git individuellement
+            Résoudre des conflits Git individuellement <span class="text-2xl font-normal text-slate-400">(30 min)</span>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Les conflits ne doivent pas rester une abstraction. Ils sont
-            travaillés ici en local, sur des branches déjà préparées, avec un
-            exercice de merge puis un exercice de rebase.
+            Le dépôt <code>git-moins-anarchique</code> est réutilisé ici pour
+            travailler les conflits dans un cadre déjà plus structuré que celui
+            du TP collectif précédent. Les conflits ne doivent pas rester une
+            abstraction : ils sont travaillés en local, sur des branches déjà
+            préparées, avec un exercice de merge puis un exercice de rebase.
           </p>
 
           <div
@@ -1066,6 +994,60 @@ git rebase ex/rebase-base</code></pre>
         </section>
 
         <section
+          id="tp3"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            TP 3 : rejouer l'expérience avec une méthode <span class="text-2xl font-normal text-slate-400">(15 min)</span>
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Après les exercices de merge et de rebase, le même dépôt peut être
+            relu comme un exemple de collaboration plus cadrée que celle de TP 2.
+            Les branches personnelles, les pull requests et les règles GitHub y
+            transforment une contribution isolée en proposition vérifiable.
+          </p>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/git-moins-anarchique"
+              class="font-semibold text-sky-700 hover:text-sky-800"
+              >GVI2026/git-moins-anarchique</a
+            >
+          </p>
+
+          <ul
+            class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>Une branche de travail personnelle est créée pour chaque contribution.</li>
+            <li>Une pull request sert d'étape d'intégration avant l'arrivée sur la branche cible.</li>
+            <li>Des protections de branche et des rôles explicites cadrent la validation.</li>
+            <li>Le flux devient reproductible, traçable et plus simple à relire collectivement.</li>
+          </ul>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quels garde-fous ont été mis en place pour rendre une collaboration plus fiable ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                La branche <code>ruleset</code> matérialise les contraintes
+                imposées dans le dépôt : le travail direct sur la branche
+                principale n'est plus la voie normale, une branche dédiée doit
+                être créée, puis une pull request doit porter l'intégration.
+              </p>
+              <p>
+                Ces règles renforcent la traçabilité, rendent la relecture
+                possible avant fusion et évitent qu'une bonne pratique repose
+                uniquement sur la discipline individuelle.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <section
           id="release"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
@@ -1073,9 +1055,9 @@ git rebase ex/rebase-base</code></pre>
             Release, Semantic Versioning et Conventional Commits
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            La séance se termine avec un peu de recul : comment nommer
-            correctement une version, ce qu'est une release et pourquoi une
-            convention de message peut aider toute l'équipe.
+            Un recul est ensuite pris sur la manière dont une version est
+            nommée, sur ce qu'une release représente et sur l'intérêt d'une
+            convention de message pour le travail d'équipe.
           </p>
 
           <div
@@ -1138,7 +1120,7 @@ git rebase ex/rebase-base</code></pre>
 
           <div id="conventional-commits" class="border-t border-slate-200 pt-6">
             <h3 class="text-2xl font-semibold text-slate-950">
-              Exemples de messages utiles
+              Exemples de messages de commit respectant Conventional Commits
             </h3>
             <pre
               class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"

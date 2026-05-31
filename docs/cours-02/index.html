@@ -31,12 +31,12 @@
           },
           {
             "id": "transition",
-            "title": "Commit, tag et release",
+            "title": "Tag et release GitHub",
             "durationMinutes": 15
           },
           {
             "id": "docker",
-            "title": "Docker : introduction pragmatique",
+            "title": "Docker : introduction",
             "durationMinutes": 35
           },
           {
@@ -113,7 +113,7 @@
           </li>
           <li>
             <a href="#transition" class="text-sky-700 hover:text-sky-800"
-              >Commit, tag et release</a
+              >Tag et release GitHub</a
             >
           </li>
           <li>
@@ -191,63 +191,43 @@
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Commit, tag et release — et après ?
+            Tag et release GitHub
           </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            Avant d'aborder les workflows, revenons sur trois notions du
-            cours-01 qui en sont le socle.
-          </p>
 
           <div class="space-y-6 border-t border-slate-200 pt-6">
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">Commit</h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Un commit est l'<span class="font-semibold text-slate-900"
-                  >unité de modification</span
-                >
-                du code, identifiée par un hash SHA. Il enregistre un
-                instantané précis du projet à un moment donné. L'historique
-                d'un dépôt est un enchaînement de commits.
-              </p>
-            </div>
-
             <div>
               <h3 class="text-2xl font-semibold text-slate-950">Tag</h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Un tag est un
                 <span class="font-semibold text-slate-900"
                   >pointeur nommé vers un commit précis</span
-                >. Il sert à marquer une version (<code>v1.0.0</code>,
-                <code>v2.3.1</code>…) et ne bouge plus une fois posé,
-                contrairement à une branche.
+                >. Il sert à marquer une version stable (<code>v1.0.0</code>,
+                <code>v2.3.1</code>…) et ne bouge pas comme une branche :
+                <code>main</code> continue d'avancer, mais le tag reste attaché
+                au commit choisi.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Dans GitHub, les tags apparaissent dans la page des releases et
+                dans l'historique du dépôt. Ils donnent un repère partagé :
+                « cette version du code correspond à ce jalon ». Sans tag, il
+                devient difficile de retrouver exactement le code livré à une
+                date donnée.
               </p>
             </div>
 
             <div>
-              <h3 class="text-2xl font-semibold text-slate-950">Release</h3>
+              <h3 class="text-2xl font-semibold text-slate-950">Release GitHub</h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Une release peut être vue comme un
-                <span class="font-semibold text-slate-900"
-                  >état stable de référence</span
-                >
-                : un état précis du code a été validé par les tests, la revue
-                ou la QA, puis considéré comme prêt à l'emploi.
+                Une release GitHub est construite à partir d'un tag. Elle donne
+                une forme lisible au jalon technique : un titre, des notes de
+                version, un changelog et parfois des artefacts téléchargeables.
               </p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Elle peut aussi être vue comme une
-                <span class="font-semibold text-slate-900">version packagée</span>
-                ou une
-                <span class="font-semibold text-slate-900">version livrable</span>
-                : le code source devient un produit accompagné d'un numéro de
-                version, de notes de version, d'un changelog et parfois
-                d'artefacts téléchargeables.
-              </p>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Enfin, une release porte un engagement de maintenance. Avec
-                Semantic Versioning, son numéro indique si la mise à jour est un
-                correctif, une évolution compatible ou une rupture à anticiper.
-                Le tag sert d'étiquette Git ; la release correspond au jalon de
-                production rendu compréhensible et diffusable.
+                Le tag répond à la question « quel commit ? ». La release
+                répond à la question « qu'est-ce qui a changé et que peut-on
+                utiliser ? ». C'est le lien entre l'historique Git et une
+                livraison compréhensible par une équipe, un client ou un
+                utilisateur.
               </p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Exemple :
@@ -260,48 +240,29 @@
             </div>
           </div>
 
-          <details class="border-t border-slate-200 pt-6">
-            <summary
-              class="cursor-pointer text-lg font-semibold text-slate-950"
-            >
-              Quelle est la différence entre un tag Git et une release GitHub ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Un
-                <span class="font-semibold text-slate-900">tag</span> est un
-                pointeur Git sur un commit précis. Il vit dans le dépôt Git.
-              </p>
-              <p>
-                Une
-                <span class="font-semibold text-slate-900">release</span> est
-                une notion GitHub construite sur un tag. Elle permet d'y
-                associer des binaires téléchargeables, des notes de version
-                rédigées et un changelog lisible.
-              </p>
-              <p>
-                Toute release repose sur un tag. Mais un tag n'implique pas
-                forcément une release.
-              </p>
-            </div>
-          </details>
-
           <div class="border-t border-slate-200 pt-6">
-            <p class="text-lg leading-8 text-slate-700">
-              Ces trois notions posent le cadre. Mais une question se pose
-              rapidement dans une équipe :
-              <span class="font-semibold text-slate-900"
-                >dans quel ordre et sur quelle branche le travail doit-il être
-                organisé ?</span
-              >
-            </p>
-            <p class="mt-3 text-lg leading-8 text-slate-700">
-              Sans règles communes, les équipes poussent directement sur
-              <code>main</code>, les conflits s'accumulent, les livraisons
-              deviennent imprévisibles et les correctifs urgents sont
-              impossibles à isoler. C'est ce que viennent résoudre les
-              workflows Git.
-            </p>
+            <h3 class="text-2xl font-semibold text-slate-950">Travaux pratiques</h3>
+            <ol class="mt-4 list-decimal space-y-3 pl-5 text-lg leading-8 text-slate-700">
+              <li>Ouvrir sur GitHub le dépôt personnel de votre choix.</li>
+              <li>
+                Aller dans <span class="font-semibold text-slate-900">Releases</span>,
+                puis choisir <span class="font-semibold text-slate-900">Draft a new release</span>.
+              </li>
+              <li>
+                Dans le formulaire de release, renseigner un nouveau tag, par
+                exemple <code>v1.0.0</code>, et le baser sur la branche
+                <code>main</code>. GitHub créera ce tag au moment de la
+                publication de la release.
+              </li>
+              <li>
+                Rédiger un titre court et des notes de version qui expliquent
+                ce que représente cette version.
+              </li>
+              <li>
+                Publier la release, puis vérifier que le tag et la release sont
+                visibles dans le dépôt.
+              </li>
+            </ol>
           </div>
         </section>
 
@@ -311,7 +272,7 @@
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Docker : introduction pragmatique
+            Docker : introduction
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Avant de pratiquer les workflows Git sur de vraies applications, il
@@ -549,6 +510,10 @@ CMD ["node", "index.js"]</code></pre>
             entièrement dans le sous-dossier <code>docker-practice/</code>. Le
             but est de manipuler les commandes Docker fondamentales sur un cas
             très simple : un serveur HTTP minimaliste en Node.js pur.
+            Le dépôt doit être ouvert dans un DevContainer, toutes les
+            commandes doivent être exécutées à l'intérieur de ce DevContainer,
+            et le travail doit être réalisé sur une branche dédiée, par exemple
+            <code>feature/docker-practice</code>.
           </p>
           <p class="text-lg leading-8 text-slate-700">
             Dépôt support (à
@@ -565,6 +530,13 @@ CMD ["node", "index.js"]</code></pre>
             class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
           >
             <li>Forker le dépôt sur GitHub, puis le cloner localement.</li>
+            <li>
+              Ouvrir le dépôt dans son DevContainer, puis créer une branche
+              dédiée :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git checkout -b feature/docker-practice</code></pre>
+            </li>
             <li>
               Se placer dans le sous-dossier
               <code>docker-practice/</code>.
@@ -692,14 +664,15 @@ docker image ls</code></pre>
             d'intégrer <code>main</code>.
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            Il n'est pas automatiquement plus simple que le Trunk-Based
-            Development : il est surtout plus facile à introduire quand une
-            équipe découvre les Pull Requests et les protections de branche.
+            Il est facile à introduire quand une équipe découvre les Pull
+            Requests et les protections de branche, mais il demande tout de
+            même une intégration régulière, des branches courtes et une branche
+            <code>main</code> toujours stable.
           </p>
 
           <div class="border-t border-slate-200 pt-6">
             <h3 class="text-2xl font-semibold text-slate-950">
-              Le flux en cinq étapes
+              Le flux en six étapes
             </h3>
             <ol
               class="list-decimal mt-4 space-y-4 pl-5 text-lg leading-8 text-slate-700"
@@ -715,7 +688,7 @@ docker image ls</code></pre>
                 Commits) :
                 <pre
                   class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-                ><code>git commit -m "feat: ajout du filtrage par statut"</code></pre>
+                ><code>git commit -m "feat: ajout du filtrage par done"</code></pre>
               </li>
               <li>
                 Pousser la branche sur GitHub :
@@ -729,6 +702,13 @@ docker image ls</code></pre>
               </li>
               <li>
                 Fusionner dans <code>main</code> et supprimer la branche.
+              </li>
+              <li>
+                Depuis GitHub, créer une release manuelle en renseignant un tag
+                basé sur <code>main</code>, avec un titre et des notes de
+                version.
+                Cette étape peut ensuite être automatisée dans une pipeline
+                CI/CD.
               </li>
             </ol>
           </div>
@@ -860,8 +840,10 @@ docs: clarify pull request instructions</code></pre>
           </p>
           <p class="text-lg leading-8 text-slate-700">
             Objectif : implémenter la route
-            <code>GET /tasks?done=true</code> qui retourne uniquement les
-            tâches terminées, en suivant le GitHub Flow complet.
+            <code>GET /tasks?done=true</code> et
+            <code>GET /tasks?done=false</code>. Pour cet exercice, le paramètre
+            <code>done</code> est obligatoire et permet de filtrer les tâches
+            terminées ou non terminées, en suivant le GitHub Flow complet.
           </p>
 
           <ol
@@ -881,7 +863,7 @@ git pull</code></pre>
               ><code>git checkout -b feature/add-task-filter</code></pre>
             </li>
             <li>
-              Implémenter le filtrage par statut dans
+              Implémenter le filtrage booléen sur <code>done</code> dans
               <code>TasksService</code> et <code>TasksController</code>. Le
               paramètre <code>done</code> attendu est documenté dans le README
               du dépôt.
@@ -920,6 +902,10 @@ git commit -m "feat: filter tasks by done status"</code></pre>
             <li>
               Vérifier que <code>main</code> reste dans un état fonctionnel
               après la fusion.
+            </li>
+            <li>
+              Depuis GitHub, créer une release manuelle en renseignant un tag
+              basé sur <code>main</code>, avec un titre et des notes de version.
             </li>
           </ol>
 
@@ -1428,8 +1414,8 @@ git push origin develop</code></pre>
             class="border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
           >
             La séance suivante comparera GitHub Flow et Git Flow avec d'autres
-            workflows (GitLab Flow, Trunk-Based Development) pour identifier
-            quel flow convient à quel contexte d'équipe et de livraison.
+            workflows pour identifier quel flow convient à quel contexte
+            d'équipe et de livraison.
           </p>
         </section>
 

@@ -704,11 +704,18 @@ docker image ls</code></pre>
                 Fusionner dans <code>main</code> et supprimer la branche.
               </li>
               <li>
-                Depuis GitHub, créer une release manuelle en renseignant un tag
-                basé sur <code>main</code>, avec un titre et des notes de
-                version.
-                Cette étape peut ensuite être automatisée dans une pipeline
-                CI/CD.
+                Préparer la release sur <code>main</code> avec un commit dédié
+                qui met à jour les versions du projet
+                (<code>package.json</code>, <code>pom.xml</code>…) et le
+                changelog :
+                <pre
+                  class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+                ><code>git add &lt;fichiers-version&gt; CHANGELOG.md
+git commit -m "chore(release): bump project to version to 1.0.0"</code></pre>
+                Depuis GitHub, créer ensuite une release manuelle en renseignant
+                un tag <code>v1.0.0</code> basé sur ce commit de release, avec
+                un titre et des notes de version. Cette étape peut ensuite être
+                automatisée dans une pipeline CI/CD.
               </li>
             </ol>
           </div>
@@ -904,8 +911,16 @@ git commit -m "feat: filter tasks by done status"</code></pre>
               après la fusion.
             </li>
             <li>
-              Depuis GitHub, créer une release manuelle en renseignant un tag
-              basé sur <code>main</code>, avec un titre et des notes de version.
+              Préparer le passage en <code>1.0.0</code> sur
+              <code>main</code> : mettre à jour <code>package.json</code> et
+              <code>package-lock.json</code>, créer ou mettre à jour
+              <code>CHANGELOG.md</code>, puis committer :
+              <pre
+                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
+              ><code>git add package.json package-lock.json CHANGELOG.md
+git commit -m "chore(release): bump project to version to 1.0.0"</code></pre>
+              Depuis GitHub, créer ensuite une release manuelle en renseignant
+              un tag <code>v1.0.0</code> basé sur ce commit de release.
             </li>
           </ol>
 

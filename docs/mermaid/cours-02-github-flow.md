@@ -7,4 +7,4 @@ gitGraph
     commit id: "test: adapt filter"
     checkout main
     merge feature/add-task-filter id: "PR fusionnée"
-    commit id: "release GitHub" tag: "v1.0.0"
+    commit id: "chore(release): 1.0.0" tag: "v1.0.0"

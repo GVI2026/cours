@@ -8,7 +8,7 @@
     </title>
     <meta
       name="description"
-      content="Support interactif du cours 03 : GitLab Flow, Trunk-Based Development, DevOps, CI/CD et TP pratique sur une vraie pipeline CI."
+      content="Support interactif du cours 03 : Release-Based Workflow, GitLab Flow, Trunk-Based Development, DevOps, CI/CD et TP pratique sur une vraie pipeline CI."
     />
     <meta name="course:id" content="cours-03" />
     <meta
@@ -18,7 +18,7 @@
     <meta name="course:duration-total-minutes" content="225" />
     <meta
       name="course:sections"
-      content="qcm,gitlab-flow,demo-gitlab-flow,trunk-based,comparatif,ci-setup,devops-cicd,tp-ci,synthese"
+      content="qcm,release-based-workflow,tp-release-based-workflow,gitlab-flow,trunk-based,comparatif,ci-setup,devops-cicd,tp-ci,synthese"
     />
     <script id="course-metadata" type="application/json">
       {
@@ -32,13 +32,18 @@
             "durationMinutes": 20
           },
           {
-            "id": "gitlab-flow",
-            "title": "GitLab Flow : gérer plusieurs versions actives",
+            "id": "release-based-workflow",
+            "title": "Release-Based Workflow : maintenir plusieurs versions livrables",
             "durationMinutes": 20
           },
           {
-            "id": "demo-gitlab-flow",
-            "title": "Mini-démo guidée GitLab Flow",
+            "id": "tp-release-based-workflow",
+            "title": "TP 3 : Release-Based Workflow",
+            "durationMinutes": 20
+          },
+          {
+            "id": "gitlab-flow",
+            "title": "GitLab Flow",
             "durationMinutes": 10
           },
           {
@@ -59,7 +64,7 @@
           {
             "id": "devops-cicd",
             "title": "DevOps et CI/CD",
-            "durationMinutes": 55
+            "durationMinutes": 50
           },
           {
             "id": "tp-ci",
@@ -108,15 +113,20 @@
             >
           </li>
           <li>
-            <a href="#gitlab-flow" class="text-sky-700 hover:text-sky-800"
-              >GitLab Flow</a
+            <a href="#release-based-workflow" class="text-sky-700 hover:text-sky-800"
+              >Release-Based Workflow</a
             >
           </li>
           <li>
             <a
-              href="#demo-gitlab-flow"
+              href="#tp-release-based-workflow"
               class="text-sky-700 hover:text-sky-800"
-              >Mini-démo guidée GitLab Flow</a
+              >TP 3 : Release-Based Workflow</a
+            >
+          </li>
+          <li>
+            <a href="#gitlab-flow" class="text-sky-700 hover:text-sky-800"
+              >GitLab Flow</a
             >
           </li>
           <li>
@@ -167,61 +177,63 @@
           </p>
         </section>
 
-        <!-- ═══════════════════════════════════ GITLAB FLOW ══════════════════════════════════ -->
+        <!-- ═════════════════════════════ RELEASE-BASED WORKFLOW ═══════════════════════════ -->
         <section
-          id="gitlab-flow"
+          id="release-based-workflow"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
-          <h2 class="text-3xl font-semibold text-slate-950">GitLab Flow</h2>
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Release-Based Workflow
+          </h2>
           <p class="text-lg leading-8 text-slate-700">
-            GitHub Flow fonctionne très bien tant que l'intégration se fait en continu sur
-            une seule ligne courante. Mais certains produits doivent aussi
-            continuer à corriger une version plus ancienne déjà déployée chez
-            des clients. C'est là qu'un flow de type GitLab Flow devient
-            intéressant.
+            GitHub Flow fonctionne très bien tant qu'une seule ligne courante
+            suffit. Mais certains produits doivent fournir des livrables
+            distincts, figer une version pour un audit, ou maintenir plusieurs
+            versions majeures en parallèle. Dans ce cas, la release devient une
+            branche de travail explicite, pas seulement un tag posé à la fin.
           </p>
 
           <div class="space-y-6 border-t border-slate-200 pt-6">
             <div>
               <h3 class="text-2xl font-semibold text-slate-950">
-                Deux lignes actives, deux contraintes différentes
+                Deux versions majeures, deux contrats de stabilité
               </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Dans le dépôt de démonstration, <code>main</code> représente la
-                ligne courante du produit, alors que
-                <code>production/v1</code> représente une version plus ancienne
-                encore supportée. Une nouvelle fonctionnalité part de
-                <code>main</code>. Un correctif urgent pour les utilisateurs de
-                la v1 part de <code>production/v1</code>.
+                Dans le dépôt du TP, <code>main</code> représente la ligne
+                d'intégration de la prochaine version. Les branches
+                <code>release/v1.0</code> et <code>release/v2.0</code>
+                représentent deux versions majeures livrables, chacune avec son
+                propre rythme de stabilisation, de correctifs et de publication.
               </p>
             </div>
 
             <div>
               <h3 class="text-2xl font-semibold text-slate-950">
-                Lien rapide avec les environnements
+                Même métier, mais plusieurs lignes à garder cohérentes
               </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Ce type de flow fait rapidement apparaître des contextes de
-                diffusion différents : environnement de développement pour la
-                ligne courante, environnement de validation intermédiaire, puis
-                production pour une version donnée. Trois repères suffiront
-                pour cette séance : <span class="font-semibold text-slate-900">DEV</span>,
-                <span class="font-semibold text-slate-900">STAGING</span> et
-                <span class="font-semibold text-slate-900">PROD</span>.
+                Une nouvelle fonctionnalité comme
+                <code>GET /tasks/stats</code> part de <code>main</code>, puis
+                peut être intégrée dans <code>release/v2.0</code> au moment du
+                gel de version. Un correctif urgent, par exemple la validation
+                du champ <code>title</code>, part de la release touchée en
+                production, puis doit être reporté sur les autres versions où le
+                bug existe aussi.
               </p>
             </div>
 
             <div>
               <h3 class="text-2xl font-semibold text-slate-950">
-                Le coût caché : coordonner les correctifs
+                Le coût caché : aligner les versions parallèles
               </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                Dès qu'un bug existe à la fois sur la version maintenue et sur la
-                ligne courante, il faut le reporter aussi sur
-                <code>main</code> après correction sur
-                <code>production/v1</code>. Cela peut se faire par
-                <code>cherry-pick</code> ou par correction équivalente, mais dans
-                tous les cas cela augmente le coût de coordination.
+                Le Release-Based Workflow protège les versions livrées, mais il
+                crée une obligation de synchronisation. Un correctif appliqué
+                sur <code>release/v1.0</code> ne corrige pas automatiquement
+                <code>release/v2.0</code> ni <code>main</code>. Le
+                <code>cherry-pick</code> devient donc un geste important pour
+                reporter un commit précis sans fusionner toute l'histoire d'une
+                branche dans une autre.
               </p>
             </div>
           </div>
@@ -230,33 +242,33 @@
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Pourquoi un flow avec plusieurs branches actives fait-il apparaître
-              un besoin d'automatisation que GitHub Flow ne rend pas aussi visible ?
+              Pourquoi ce flow est-il particulièrement adapté aux livrables
+              audités ou maintenus en parallèle ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Avec une seule ligne courante, un correctif appliqué sur
-                <code>main</code> est immédiatement dans la version en cours.
-                Il n'y a aucun risque de l'oublier ailleurs.
+                Parce qu'une branche <code>release/*</code> matérialise un état
+                de code précis, stabilisé et contrôlable. Elle peut être testée,
+                certifiée, livrée à un client, puis corrigée sans absorber toutes
+                les nouveautés de <code>main</code>.
               </p>
               <p>
-                Dès qu'une branche de maintenance coexiste avec <code>main</code>,
-                chaque correctif doit être reporté manuellement. Ce cherry-pick
-                peut être oublié, mal appliqué ou ne pas compiler dans un
-                contexte légèrement différent. La probabilité d'une erreur de
-                coordination augmente avec le nombre de versions actives —
-                c'est précisément ce qui justifie d'automatiser les vérifications.
+                En échange, l'équipe doit suivre explicitement où chaque bug
+                existe. Si le même défaut touche <code>release/v1.0</code>,
+                <code>release/v2.0</code> et <code>main</code>, le correctif doit
+                être reporté sur chaque ligne concernée.
               </p>
             </div>
           </details>
 
           <div class="border-t border-slate-200 pt-6">
             <p class="mb-4 text-lg leading-8 text-slate-700">
-              Ce <code>gitGraph</code> donne la lecture minimale à retenir pour
-              la séance.
+              Ce <code>gitGraph</code> illustre le cycle à retenir : deux
+              releases majeures, une fonctionnalité sur la version suivante, et
+              un hotfix reporté par <code>cherry-pick</code>.
             </p>
             <div
-              data-mermaid-src="../mermaid/cours-03-gitlab-flow.md"
+              data-mermaid-src="../mermaid/cours-03-release-based-workflow.md"
               class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
             >
               <p class="text-base text-slate-500">Chargement du gitGraph…</p>
@@ -264,82 +276,101 @@
           </div>
         </section>
 
-        <!-- ═════════════════════════════════ MINI DEMO ═════════════════════════════════════ -->
+        <!-- ═══════════════════════════════ TP RELEASE-BASED WORKFLOW ══════════════════════ -->
         <section
-          id="demo-gitlab-flow"
+          id="tp-release-based-workflow"
           class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Mini-démo guidée — dépôt GitLab Flow <span class="text-2xl font-normal text-slate-400">(10 min)</span>
+            TP 3 : Release-Based Workflow <span class="text-2xl font-normal text-slate-400">(20 min)</span>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Dépôt support :
+            Objectif : pratiquer un flow dans lequel plusieurs versions majeures
+            peuvent recevoir des correctifs en parallèle, tout en continuant à
+            préparer la prochaine version sur <code>main</code>.
+          </p>
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support (à
+            <span class="font-semibold text-slate-900">forker</span> sur GitHub
+            avant de cloner) :
             <a
-              href="https://github.com/GVI2026/tp-gitlab-flow"
-              class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
-              >GVI2026/tp-gitlab-flow</a
+              href="https://github.com/GVI2026/tp-release-based-workflow"
+              class="font-semibold text-sky-700 hover:text-sky-800"
+              >github.com/GVI2026/tp-release-based-workflow</a
             >
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            L'objectif n'est pas de refaire un TP complet, mais de rendre
-            visible un besoin que GitHub Flow ou Git Flow couvrent moins bien :
-            maintenir une ancienne version tout en développant la suivante.
+            Le déroulé détaillé est dans le README du dépôt. Pendant le TP, les
+            consignes du projet GitHub font foi : le cours donne le contexte,
+            mais ne remplace pas le guide de manipulation.
           </p>
 
-          <ol
-            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
-          >
-            <li>
-              Vérifier l'existence des deux branches permanentes :
-              <pre
-                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-              ><code>git branch -a</code></pre>
-            </li>
-            <li>
-              Montrer une nouvelle fonctionnalité sur la ligne courante avec
-              l'endpoint <code>GET /tasks/stats</code>, à implémenter depuis
-              <code>feature/add-task-stats</code>.
-            </li>
-            <li>
-              Basculer ensuite sur la ligne de maintenance et ouvrir un hotfix
-              depuis <code>production/v1</code> pour corriger la validation du
-              champ <code>title</code>.
-              <pre
-                class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"
-              ><code>git checkout production/v1
-git checkout -b hotfix/fix-title-validation</code></pre>
-            </li>
-            <li>
-              Observer le message central du flow : un correctif critique ne
-              doit pas rester isolé sur la branche de maintenance si le bug
-              existe aussi sur la ligne courante.
-            </li>
-          </ol>
+          <div class="space-y-4 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">À observer :</span>
+              <code>main</code>, <code>release/v1.0</code> et
+              <code>release/v2.0</code> n'ont pas le même rôle. Une feature
+              prépare la suite ; un hotfix corrige une version déjà livrée.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">À réussir :</span>
+              appliquer un correctif critique sur la bonne release, puis le
+              reporter sur les autres lignes où le bug existe encore.
+            </p>
+          </div>
 
           <details class="border-t border-sky-200 pt-6">
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Quels critères permettent de décider si un flow multi-branches
-              de type GitLab Flow est réellement justifié ?
+              Quel geste Git permet de reporter précisément un correctif de
+              <code>release/v1.0</code> vers <code>release/v2.0</code> sans
+              fusionner toute la branche ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                La principale question est celle du support : existe-t-il
-                une obligation contractuelle ou réglementaire de maintenir
-                une version plus ancienne en parallèle ? Si oui, pour quels
-                types de correctifs et jusqu'à quelle date ?
-              </p>
-              <p>
-                Si une seule version est active, la complexité de coordination
-                d'un flow multi-branches n'est pas justifiée. Si plusieurs
-                versions doivent recevoir des correctifs de sécurité de façon
-                régulière, la question n'est plus de savoir si ce flow est
-                nécessaire, mais comment automatiser la synchronisation pour
-                en réduire le coût humain.
+                Le geste attendu est le <code>cherry-pick</code>. Il applique un
+                commit précis sur une autre branche, ce qui permet de garder
+                plusieurs versions parallèles alignées sur un correctif critique
+                sans mélanger leurs cycles de release.
               </p>
             </div>
           </details>
+        </section>
+
+        <!-- ═══════════════════════════════════ GITLAB FLOW ══════════════════════════════════ -->
+        <section
+          id="gitlab-flow"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">GitLab Flow</h2>
+          <p class="text-lg leading-8 text-slate-700">
+            GitLab Flow répond à un autre besoin : organiser le passage du code
+            entre des environnements. Il reste proche d'un flow à branche
+            principale, mais ajoute des branches ou règles de déploiement qui
+            représentent les étapes de validation avant la production.
+          </p>
+
+          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Principe :</span>
+              <code>main</code> reçoit le travail intégré, puis le code passe par
+              une barrière de validation comme <code>staging</code> avant de
+              toucher <code>production</code>.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Usage typique :</span>
+              un service Cloud ou Web critique, par exemple la plateforme
+              d'accès aux comptes d'une banque, où l'enjeu principal est de
+              tester dans un environnement de pré-production proche du réel.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Point d'attention :</span>
+              GitLab Flow structure surtout la promotion entre environnements ;
+              ce n'est pas le meilleur outil si le problème central est de
+              maintenir plusieurs livrables clients figés en parallèle.
+            </p>
+          </div>
         </section>
 
         <!-- ═══════════════════════════════ TRUNK BASED DEVELOPMENT ═════════════════════════ -->
@@ -389,19 +420,13 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Les deux flows partagent une branche principale unique. La
-                différence tient à la durée de vie des branches de travail :
-                GitHub Flow tolère des branches de fonctionnalité relativement
-                longues, revues avant fusion ; le Trunk-Based Development exige
-                des intégrations très fréquentes — typiquement plusieurs fois
-                par jour — avec des branches éphémères ou directement sur le
-                tronc.
-              </p>
-              <p>
-                Cette différence implique un niveau de discipline et
-                d'automatisation bien supérieur en Trunk-Based Development :
-                sans tests rapides et fiables, intégrer plusieurs fois par jour
-                sur une branche commune devient trop risqué.
+                La différence réside surtout dans la maturité et la confiance
+                accordées à la pipeline CI/CD. GitHub Flow garde une branche
+                principale unique, mais accepte des branches de travail revues
+                avant fusion ; le Trunk-Based Development réduit fortement la
+                durée de vie de ces branches et suppose que la CI/CD est assez
+                rapide, fiable et complète pour autoriser des intégrations très
+                fréquentes sans transformer <code>main</code> en zone de risque.
               </p>
             </div>
           </details>
@@ -430,12 +455,25 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <p>
               <span class="font-semibold text-slate-900">GitHub Flow :</span>
               bon point d'entrée dès qu'une intégration fréquente sur une ligne
-              courante claire est visée.
+              courante claire est visée ; l'équipe peut rester sur ce modèle en
+              choisissant elle-même quand générer une release, par exemple avec
+              <code>release-please</code>.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Git Flow :</span>
+              utile pour les projets à livraison manuelle ou communautaire, où
+              des barrières humaines et un processus de validation rigide
+              protègent la production.
             </p>
             <p>
               <span class="font-semibold text-slate-900">GitLab Flow :</span>
-              pertinent dès qu'il faut gérer plusieurs versions actives d'un
-              même produit.
+              pertinent pour un service Cloud ou Web critique qui doit passer
+              par une pré-production avant de toucher les serveurs de production.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Release-Based Workflow :</span>
+              adapté aux livrables distincts, aux audits sur code figé et à la
+              maintenance de plusieurs versions en parallèle.
             </p>
             <p>
               <span class="font-semibold text-slate-900">Trunk-Based Development :</span>
@@ -460,24 +498,46 @@ git checkout -b hotfix/fix-title-validation</code></pre>
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Git Flow n'apparaît pas dans ce diagramme — quelle place
-              occuperait-il dans cette trajectoire, et pourquoi ?
+              Quel flow choisir pour un projet open source livré manuellement
+              avec une forte revue humaine avant chaque version ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Git Flow se placerait entre GitHub Flow et GitLab Flow. Comme
-                GitHub Flow, il part d'une ligne courante unique ; comme GitLab
-                Flow, il gère des branches de maintenance (hotfix, release).
-                Mais son modèle de branches longues et son processus de release
-                formalisé le rendent plus lourd que GitHub Flow sans aller
-                jusqu'à la gestion de versions indépendantes de GitLab Flow.
+                Git Flow. Le besoin principal est de protéger une livraison
+                manuelle avec des étapes explicites de préparation, validation,
+                hotfix et tag.
               </p>
+            </div>
+          </details>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quel flow choisir pour un service bancaire en ligne qui doit
+              passer par un environnement staging avant production ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                Il occupe donc une niche particulière : les projets avec des
-                cycles de release planifiés et une équipe suffisamment grande
-                pour justifier ce niveau de formalisme — mais sans nécessairement
-                maintenir plusieurs versions en parallèle pour des clients
-                différents.
+                GitLab Flow. Le critère dominant est la promotion contrôlée du
+                code entre environnements, avec une barrière de pré-production
+                avant les serveurs réellement utilisés par les clients.
+              </p>
+            </div>
+          </details>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
+              Quel flow choisir pour maintenir deux versions majeures certifiées
+              chez des clients différents ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Release-Based Workflow. Le point clé est de garder plusieurs
+                livrables figés et maintenus en parallèle, tout en reportant les
+                correctifs critiques sur chaque version concernée.
               </p>
             </div>
           </details>

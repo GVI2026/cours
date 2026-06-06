@@ -1,21 +1,33 @@
 gitGraph
-    commit id: "base produit"
+    commit id: "v1.0-baseline"
     branch release/v1.0
+    
     checkout main
-    commit id: "integration v2"
+    commit id: "init-dev-v2"
+    
     branch feature/add-task-stats
     commit id: "GET /tasks/stats"
+    
     checkout main
-    merge feature/add-task-stats
+    merge feature/add-task-stats id: "integration-v2-stats"
+    commit id: "suite-produit-v2"
+    
+    # On crée la release V2 APRES les développements
     branch release/v2.0
+    
+    # Gestion du Hotfix selon les bonnes pratiques (Upstream-First)
     checkout main
-    commit id: "suite produit"
-    checkout release/v1.0
-    branch hotfix/fix-title-validation
-    commit id: "titre vide rejete"
-    checkout release/v1.0
-    merge hotfix/fix-title-validation
+    branch hotfix/fix-title
+    commit id: "fix-titre-vide"
+    
+    # On applique le fix sur Main en premier
+    checkout main
+    merge hotfix/fix-title id: "fix-merged-to-main"
+    
+    # On propage le fix proprement sur les releases actives
     checkout release/v2.0
-    cherry-pick id: "titre vide rejete"
-    checkout main
-    cherry-pick id: "titre vide rejete"
+    cherry-pick id: "fix-titre-vide"
+    
+    checkout release/v1.0
+    cherry-pick id: "fix-titre-vide"
+    commit id: "tag-v1.0.1"

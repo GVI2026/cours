@@ -190,20 +190,29 @@
             suffit. Mais certains produits doivent fournir des livrables
             distincts, figer une version pour un audit, ou maintenir plusieurs
             versions majeures en parallèle. Dans ce cas, la release devient une
-            branche de travail explicite, pas seulement un tag posé à la fin.
+            branche explicite de stabilisation, pas seulement un tag posé à la
+            fin.
           </p>
 
           <div class="space-y-6 border-t border-slate-200 pt-6">
             <div>
               <h3 class="text-2xl font-semibold text-slate-950">
-                Deux versions majeures, deux contrats de stabilité
+                Une release est un sanctuaire de stabilité
               </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Dans le dépôt du TP, <code>main</code> représente la ligne
-                d'intégration de la prochaine version. Les branches
-                <code>release/v1.0</code> et <code>release/v2.0</code>
-                représentent deux versions majeures livrables, chacune avec son
-                propre rythme de stabilisation, de correctifs et de publication.
+                d'intégration de la prochaine version. La branche
+                <code>release/v1.0</code> représente une version déjà livrée,
+                taguée <code>v1.0.0</code>, et <code>release/v1.1</code> sera
+                créée depuis <code>main</code> lorsque la prochaine version
+                devra être stabilisée.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                On ne développe jamais une nouvelle fonctionnalité directement
+                sur une branche <code>release/*</code>. Ces branches sont des
+                sanctuaires destinés à la recette, à la stabilisation et aux
+                correctifs de bugs. Une feature part de <code>main</code> ;
+                une release ne reçoit que ce qui doit rendre un livrable sûr.
               </p>
             </div>
 
@@ -214,11 +223,12 @@
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Une nouvelle fonctionnalité comme
                 <code>GET /tasks/stats</code> part de <code>main</code>, puis
-                peut être intégrée dans <code>release/v2.0</code> au moment du
-                gel de version. Un correctif urgent, par exemple la validation
-                du champ <code>title</code>, part de la release touchée en
-                production, puis doit être reporté sur les autres versions où le
-                bug existe aussi.
+                la branche <code>release/v1.1</code> est créée depuis
+                <code>main</code> au moment du gel de version. Un correctif
+                urgent, par exemple la validation du champ <code>title</code>,
+                part de <code>release/v1.0</code>, puis doit être reporté sur
+                <code>main</code> et sur <code>release/v1.1</code> si le bug y
+                existe aussi.
               </p>
             </div>
 
@@ -230,7 +240,7 @@
                 Le Release-Based Workflow protège les versions livrées, mais il
                 crée une obligation de synchronisation. Un correctif appliqué
                 sur <code>release/v1.0</code> ne corrige pas automatiquement
-                <code>release/v2.0</code> ni <code>main</code>. Le
+                <code>main</code> ni <code>release/v1.1</code>. Le
                 <code>cherry-pick</code> devient donc un geste important pour
                 reporter un commit précis sans fusionner toute l'histoire d'une
                 branche dans une autre.
@@ -255,7 +265,7 @@
               <p>
                 En échange, l'équipe doit suivre explicitement où chaque bug
                 existe. Si le même défaut touche <code>release/v1.0</code>,
-                <code>release/v2.0</code> et <code>main</code>, le correctif doit
+                <code>main</code> et <code>release/v1.1</code>, le correctif doit
                 être reporté sur chaque ligne concernée.
               </p>
             </div>
@@ -263,9 +273,11 @@
 
           <div class="border-t border-slate-200 pt-6">
             <p class="mb-4 text-lg leading-8 text-slate-700">
-              Ce <code>gitGraph</code> illustre le cycle à retenir : deux
-              releases majeures, une fonctionnalité sur la version suivante, et
-              un hotfix reporté par <code>cherry-pick</code>.
+              Ce <code>gitGraph</code> illustre le cycle à retenir : une
+              release <code>v1.0.0</code> déjà taguée, une fonctionnalité
+              préparée sur <code>main</code>, une <code>release/v1.1</code>
+              créée pour stabiliser la suite, et un hotfix reporté par
+              <code>cherry-pick</code>.
             </p>
             <div
               data-mermaid-src="../mermaid/cours-03-release-based-workflow.md"
@@ -285,9 +297,10 @@
             TP 3 : Release-Based Workflow <span class="text-2xl font-normal text-slate-400">(20 min)</span>
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Objectif : pratiquer un flow dans lequel plusieurs versions majeures
-            peuvent recevoir des correctifs en parallèle, tout en continuant à
-            préparer la prochaine version sur <code>main</code>.
+            Objectif : pratiquer un flow dans lequel une version déjà livrée
+            peut recevoir un correctif, pendant que la prochaine version est
+            préparée sur <code>main</code> puis stabilisée dans
+            <code>release/v1.1</code>.
           </p>
           <p class="text-lg leading-8 text-slate-700">
             Dépôt support (à
@@ -303,9 +316,11 @@
           <div class="space-y-4 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
             <p>
               <span class="font-semibold text-slate-900">À observer :</span>
-              <code>main</code>, <code>release/v1.0</code> et
-              <code>release/v2.0</code> n'ont pas le même rôle. Une feature
-              prépare la suite ; un hotfix corrige une version déjà livrée.
+              <code>main</code> et <code>release/v1.0</code> n'ont pas le même
+              rôle. La branche <code>release/v1.0</code> contient déjà le commit
+              <code>chore(release): bump project to version 1.0.0</code>, tagué
+              <code>v1.0.0</code>. Une feature prépare la suite sur
+              <code>main</code> ; un hotfix corrige une version déjà livrée.
             </p>
             <p>
               <span class="font-semibold text-slate-900">À réussir :</span>
@@ -319,7 +334,8 @@
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
               Quel geste Git permet de reporter précisément un correctif de
-              <code>release/v1.0</code> vers <code>release/v2.0</code> sans
+              <code>release/v1.0</code> vers <code>main</code> et
+              <code>release/v1.1</code> sans
               fusionner toute la branche ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
@@ -343,15 +359,19 @@
             GitLab Flow répond à un autre besoin : organiser le passage du code
             entre des environnements. Il reste proche d'un flow à branche
             principale, mais ajoute des branches ou règles de déploiement qui
-            représentent les étapes de validation avant la production.
+            représentent les étapes de validation avant la production. Le
+            gitGraph ci-dessous montre une promotion de <code>main</code> vers
+            <code>staging</code>, puis de <code>staging</code> vers
+            <code>production</code>.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
             <p>
               <span class="font-semibold text-slate-900">Principe :</span>
-              <code>main</code> reçoit le travail intégré, puis le code passe par
-              une barrière de validation comme <code>staging</code> avant de
-              toucher <code>production</code>.
+              <code>main</code> reçoit les features intégrées, puis une Pull
+              Request de promotion amène ce code vers <code>staging</code>.
+              Les versions candidates y sont taguées en <code>rc</code> avant
+              la promotion finale vers <code>production</code>.
             </p>
             <p>
               <span class="font-semibold text-slate-900">Usage typique :</span>
@@ -387,7 +407,10 @@
           <p class="text-lg leading-8 text-slate-700">
             Le Trunk-Based Development est abordé ici comme une direction
             possible, accessible aux équipes qui intègrent très fréquemment et
-            qui disposent déjà d'une pipeline CI/CD fiable et mature.
+            qui disposent déjà d'une pipeline CI/CD fiable et mature. Par
+            rapport à GitHub Flow, la différence n'est pas l'existence de
+            <code>main</code>, mais la durée très courte, voire l'absence, des
+            branches de travail.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
@@ -401,6 +424,22 @@
               <span class="font-semibold text-slate-900">Feature flags :</span>
               ils permettent de masquer une fonctionnalité incomplète sans la
               garder éternellement sur une branche longue.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Release à chaque commit :</span>
+              dans un modèle respecté à 100 %, chaque commit accepté sur
+              <code>main</code> peut déclencher une release. En pratique, une
+              équipe peut nuancer ce principe : par exemple, déployer le code
+              automatiquement mais garder une fonctionnalité désactivée derrière
+              un feature flag jusqu'à validation métier.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Pas toujours de PR :</span>
+              dans un trunk-based strict, du code peut être ajouté directement
+              sur <code>main</code> si la CI/CD, les tests et les garde-fous
+              automatisés sont assez solides. Beaucoup d'équipes gardent quand
+              même des Pull Requests très courtes pour conserver une revue
+              légère sans recréer des branches longues.
             </p>
             <p>
               <span class="font-semibold text-slate-900">Merge queues :</span>
@@ -418,21 +457,36 @@
             <summary
               class="cursor-pointer text-lg font-semibold text-slate-950"
             >
-              Quelle est la différence fondamentale entre le Trunk-Based
-              Development et GitHub Flow ?
+              Que se passe-t-il lorsqu'une feature buggée est ajoutée à la
+              main sans revue de code ?
             </summary>
             <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
               <p>
-                La différence réside surtout dans la maturité et la confiance
-                accordées à la pipeline CI/CD. GitHub Flow garde une branche
-                principale unique, mais accepte des branches de travail revues
-                avant fusion ; le Trunk-Based Development réduit fortement la
-                durée de vie de ces branches et suppose que la CI/CD est assez
-                rapide, fiable et complète pour autoriser des intégrations très
-                fréquentes sans transformer <code>main</code> en zone de risque.
+                La CI/CD devient la première protection. Si la feature casse un
+                test, le build, une règle de qualité ou une vérification de
+                sécurité, la pipeline échoue, bloque le déploiement et remonte
+                une alerte à l'équipe. Le commit est alors corrigé rapidement,
+                annulé, ou la fonctionnalité est désactivée derrière un feature
+                flag avant d'être visible par les utilisateurs.
+              </p>
+              <p>
+                Si le défaut passe malgré tout les vérifications, le risque est
+                plus élevé qu'avec une revue humaine classique. C'est pour cela
+                que le Trunk-Based Development demande des tests rapides,
+                fiables, une surveillance claire et une capacité de rollback ou
+                de désactivation immédiate.
               </p>
             </div>
           </details>
+
+          <div class="border-t border-slate-200 pt-6">
+            <div
+              data-mermaid-src="../mermaid/cours-03-trunk-based-development.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement du gitGraph…</p>
+            </div>
+          </div>
         </section>
 
         <!-- ════════════════════════════════ COMPARATIF FLOWS ═══════════════════════════════ -->

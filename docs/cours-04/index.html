@@ -15,21 +15,26 @@
       name="course:title"
       content="De l'artefact à la production — Continuous Delivery, Continuous Deployment et Trunk-Based Development"
     />
-    <meta name="course:duration-total-minutes" content="210" />
+    <meta name="course:duration-total-minutes" content="220" />
     <meta
       name="course:sections"
-      content="qcm,ci-vers-cd,feature-flags,release-tooling,e2e-supertest,verdaccio,deploy-ssh,tp-setup,tp-cd,correction,synthese"
+      content="qcm,dora-metrics,ci-vers-cd,feature-flags,release-tooling,e2e-supertest,verdaccio,deploy-ssh,tp-setup,tp-cd,correction,synthese"
     />
     <script id="course-metadata" type="application/json">
       {
         "courseId": "cours-04",
         "title": "De l'artefact à la production — Continuous Delivery, Continuous Deployment et Trunk-Based Development",
-        "totalDurationMinutes": 210,
+        "totalDurationMinutes": 220,
         "sections": [
           {
             "id": "qcm",
             "title": "QCM de reprise du cours-03",
             "durationMinutes": 20
+          },
+          {
+            "id": "dora-metrics",
+            "title": "Mesurer pour progresser : les métriques DORA",
+            "durationMinutes": 10
           },
           {
             "id": "ci-vers-cd",
@@ -138,6 +143,11 @@
           <li>
             <a href="#qcm" class="text-sky-700 hover:text-sky-800"
               >QCM de reprise du cours-03</a
+            >
+          </li>
+          <li>
+            <a href="#dora-metrics" class="text-sky-700 hover:text-sky-800"
+              >Métriques DORA</a
             >
           </li>
           <li>
@@ -318,6 +328,100 @@
                 retour à un état stable après incident et le taux d'échec des
                 changements. Ils servent à juger la performance réelle d'une
                 chaîne de livraison, pas seulement son apparence.
+              </p>
+            </div>
+          </details>
+        </section>
+
+        <!-- ═══════════════════════════════ MÉTRIQUES DORA ═══════════════════════════════ -->
+        <section
+          id="dora-metrics"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Mesurer pour progresser : les métriques DORA
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Sans mesure, l'amélioration reste une intuition. Le programme DORA
+            (DevOps Research and Assessment), mené par Google Cloud depuis plus
+            de dix ans sur 40 000+ professionnels, a identifié cinq métriques
+            qui prédisent la performance organisationnelle réelle.
+          </p>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Ces métriques se regroupent en deux axes :
+          </p>
+
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <div>
+              <p class="text-lg font-semibold text-slate-900">Débit — jusqu'où va la chaîne de livraison ?</p>
+              <p class="mt-2 text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">Deployment Frequency :</span>
+                à quelle cadence l'équipe déploie en production. Un déploiement
+                par mois est très différent de plusieurs par jour.
+              </p>
+              <p class="mt-2 text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">Change Lead Time :</span>
+                temps entre le moment où un développeur commite du code et le
+                moment où ce code est en production. Cet indicateur révèle tous
+                les goulots d'étranglement du processus.
+              </p>
+              <p class="mt-2 text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">Failed Deployment Recovery Time :</span>
+                temps nécessaire pour revenir à un état stable après un
+                déploiement qui a provoqué un incident.
+              </p>
+            </div>
+
+            <div class="border-t border-slate-100 pt-4">
+              <p class="text-lg font-semibold text-slate-900">Stabilité — est-ce que ça tient ?</p>
+              <p class="mt-2 text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">Change Fail Rate :</span>
+                proportion des déploiements qui nécessitent une intervention
+                immédiate — rollback ou hotfix. Un taux élevé signale que la
+                pipeline ne filtre pas assez.
+              </p>
+              <p class="mt-2 text-lg leading-8 text-slate-700">
+                <span class="font-semibold text-slate-900">Deployment Rework Rate :</span>
+                proportion des déploiements non planifiés résultant d'un
+                incident en production.
+              </p>
+            </div>
+          </div>
+
+          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
+            <span class="font-semibold text-slate-900">Insight clé de la recherche DORA :</span>
+            rapidité et stabilité ne sont <em>pas</em> en opposition. Les
+            équipes les plus performantes déploient <em>plus souvent</em>
+            <em>et</em> ont <em>moins</em> d'incidents. L'amélioration de l'une
+            tire l'autre vers le haut.
+          </p>
+
+          <details class="border-t border-slate-200 pt-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              Quelle combinaison de métriques DORA permet de distinguer une
+              équipe dont la livraison est lente à cause d'un processus trop
+              lourd d'une équipe dont la livraison est lente à cause d'une
+              qualité de code insuffisante ?
+            </summary>
+            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
+              <p>
+                Un <span class="font-semibold text-slate-900">Change Lead
+                Time</span> élevé peut avoir deux origines très différentes.
+                Si le <span class="font-semibold text-slate-900">Change Fail
+                Rate</span> est lui aussi élevé, le ralentissement vient
+                probablement de la qualité : les retours en arrière et
+                correctifs non planifiés consomment la capacité de l'équipe.
+                Si le Change Fail Rate est faible mais que le
+                <span class="font-semibold text-slate-900">Failed Deployment
+                Recovery Time</span> est long, c'est le processus de
+                déploiement lui-même qui constitue le goulot.
+              </p>
+              <p>
+                Les métriques DORA fonctionnent en système : aucune ne suffit
+                isolément à orienter une amélioration. Une baisse du Change
+                Lead Time sans amélioration du Change Fail Rate peut simplement
+                signifier que l'équipe livre des problèmes plus vite.
               </p>
             </div>
           </details>

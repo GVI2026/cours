@@ -3,7 +3,7 @@ flowchart TB
     B --> C[CI<br/>format, lint, tests, build, security]
     C --> D{CI verte ?}
     D -->|non| B
-    D -->|oui| E[Merge vers main]
+    D -->|oui| E[Rebase sur main<br/>integration fast-forward]
     E --> F[Release<br/>SemVer + tag]
     F --> G[Build once]
     G --> H[Package npm]

@@ -4,26 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Cours 04 · De l'artefact à la production — Continuous Delivery, Continuous Deployment et Trunk-Based Development
+      Cours 04 · De l'artefact à la production — Continuous Delivery et Continuous Deployment
     </title>
     <meta
       name="description"
-      content="Support interactif du cours 04 : Continuous Delivery, Continuous Deployment, feature flags, tests E2E, Verdaccio, déploiement SSH et TP pratique sur une chaîne de livraison complète."
+      content="Support interactif du cours 04 : Continuous Delivery, Continuous Deployment, artefacts, registres, GitHub Flow, Trunk-Based Development, feature flags et métriques DORA."
     />
     <meta name="course:id" content="cours-04" />
     <meta
       name="course:title"
-      content="De l'artefact à la production — Continuous Delivery, Continuous Deployment et Trunk-Based Development"
+      content="De l'artefact à la production — Continuous Delivery et Continuous Deployment"
     />
     <meta name="course:duration-total-minutes" content="220" />
     <meta
       name="course:sections"
-      content="qcm,dora-metrics,ci-vers-cd,feature-flags,release-tooling,e2e-supertest,verdaccio,deploy-ssh,tp-setup,tp-cd,correction,synthese"
+      content="qcm,ci-vers-cd,continuous-delivery,tp-cd-github-flow,release-tooling,continuous-deployment,dora-metrics,synthese"
     />
     <script id="course-metadata" type="application/json">
       {
         "courseId": "cours-04",
-        "title": "De l'artefact à la production — Continuous Delivery, Continuous Deployment et Trunk-Based Development",
+        "title": "De l'artefact à la production — Continuous Delivery et Continuous Deployment",
         "totalDurationMinutes": 220,
         "sections": [
           {
@@ -32,19 +32,19 @@
             "durationMinutes": 20
           },
           {
-            "id": "dora-metrics",
-            "title": "Mesurer pour progresser : les métriques DORA",
+            "id": "ci-vers-cd",
+            "title": "CI vers CD : le chaînon manquant",
             "durationMinutes": 10
           },
           {
-            "id": "ci-vers-cd",
-            "title": "CI vers CD : le chaînon manquant",
-            "durationMinutes": 20
+            "id": "continuous-delivery",
+            "title": "CD as Continuous Delivery",
+            "durationMinutes": 35
           },
           {
-            "id": "feature-flags",
-            "title": "Feature Flags : déployer sans livrer",
-            "durationMinutes": 15
+            "id": "tp-cd-github-flow",
+            "title": "Dépôt CD pédagogique I : GitHub Flow",
+            "durationMinutes": 55
           },
           {
             "id": "release-tooling",
@@ -52,39 +52,19 @@
             "durationMinutes": 20
           },
           {
-            "id": "e2e-supertest",
-            "title": "Tests E2E avec Supertest",
-            "durationMinutes": 20
+            "id": "continuous-deployment",
+            "title": "CD as Continuous Deployment",
+            "durationMinutes": 35
           },
           {
-            "id": "verdaccio",
-            "title": "Verdaccio : registre d'artefacts npm",
-            "durationMinutes": 15
-          },
-          {
-            "id": "deploy-ssh",
-            "title": "Déploiement via SSH",
-            "durationMinutes": 20
-          },
-          {
-            "id": "tp-setup",
-            "title": "Prise en main du dépôt TP",
-            "durationMinutes": 15
-          },
-          {
-            "id": "tp-cd",
-            "title": "TP : compléter la chaîne CD",
-            "durationMinutes": 45
-          },
-          {
-            "id": "correction",
-            "title": "Correction collective",
-            "durationMinutes": 10
+            "id": "dora-metrics",
+            "title": "Mesurer pour progresser : les métriques DORA",
+            "durationMinutes": 25
           },
           {
             "id": "synthese",
             "title": "Synthèse finale",
-            "durationMinutes": 10
+            "durationMinutes": 20
           }
         ]
       }
@@ -107,104 +87,32 @@
         <h1
           class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
         >
-          De l'artefact à la production — Continuous Delivery, Continuous
-          Deployment et Trunk-Based Development
+          De l'artefact à la production — Continuous Delivery et Continuous
+          Deployment
         </h1>
         <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
-          Le cours-03 vous a montré comment valider un changement avec une CI
-          lisible, fail-fast et exécutable localement avec <code>act</code>.
-          Cette séance ajoute la partie qui manquait encore : prendre un code
-          validé, le versionner, le publier comme artefact immuable, puis le
-          déployer sur un serveur de façon reproductible.
+          Le cours-03 a posé les flows de développement et les bases d'une CI
+          lisible, fail-fast et exécutable localement. Cette séance répond à la
+          question suivante : quand le code est validé, comment le transformer en
+          livrable versionné, publié et prêt à partir vers un environnement ?
         </p>
-        <ul class="mt-6 space-y-3 text-lg leading-8 text-slate-700">
-          <li>
-            Distinguer clairement CI, Continuous Delivery et Continuous
-            Deployment à partir d'une chaîne concrète.
-          </li>
-          <li>
-            Comprendre le rôle des feature flags, des tests E2E et d'un registre
-            d'artefacts dans une stratégie Trunk-Based réaliste.
-          </li>
-          <li>
-            Comparer Release Please et Semantic Release sans confondre
-            automatisation de release et déploiement en continu.
-          </li>
-          <li>
-            Compléter un vrai dépôt pédagogique où la CI est déjà verte pour y
-            ajouter release, publication Verdaccio et déploiement SSH.
-          </li>
-        </ul>
       </header>
 
       <nav class="py-8">
         <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
         <ul class="mt-4 space-y-3 text-lg leading-8">
-          <li>
-            <a href="#qcm" class="text-sky-700 hover:text-sky-800"
-              >QCM de reprise du cours-03</a
-            >
-          </li>
-          <li>
-            <a href="#dora-metrics" class="text-sky-700 hover:text-sky-800"
-              >Métriques DORA</a
-            >
-          </li>
-          <li>
-            <a href="#ci-vers-cd" class="text-sky-700 hover:text-sky-800"
-              >CI vers CD : le chaînon manquant</a
-            >
-          </li>
-          <li>
-            <a href="#feature-flags" class="text-sky-700 hover:text-sky-800"
-              >Feature Flags</a
-            >
-          </li>
-          <li>
-            <a href="#release-tooling" class="text-sky-700 hover:text-sky-800"
-              >Outillage de release</a
-            >
-          </li>
-          <li>
-            <a href="#e2e-supertest" class="text-sky-700 hover:text-sky-800"
-              >Tests E2E avec Supertest</a
-            >
-          </li>
-          <li>
-            <a href="#verdaccio" class="text-sky-700 hover:text-sky-800"
-              >Verdaccio</a
-            >
-          </li>
-          <li>
-            <a href="#deploy-ssh" class="text-sky-700 hover:text-sky-800"
-              >Déploiement via SSH</a
-            >
-          </li>
-          <li>
-            <a href="#tp-setup" class="text-sky-700 hover:text-sky-800"
-              >Prise en main du dépôt TP</a
-            >
-          </li>
-          <li>
-            <a href="#tp-cd" class="text-sky-700 hover:text-sky-800"
-              >TP : compléter la chaîne CD</a
-            >
-          </li>
-          <li>
-            <a href="#correction" class="text-sky-700 hover:text-sky-800"
-              >Correction collective</a
-            >
-          </li>
-          <li>
-            <a href="#synthese" class="text-sky-700 hover:text-sky-800"
-              >Synthèse finale</a
-            >
-          </li>
+          <li><a href="#qcm" class="text-sky-700 hover:text-sky-800">QCM de reprise</a></li>
+          <li><a href="#ci-vers-cd" class="text-sky-700 hover:text-sky-800">CI vers CD</a></li>
+          <li><a href="#continuous-delivery" class="text-sky-700 hover:text-sky-800">CD as Continuous Delivery</a></li>
+          <li><a href="#tp-cd-github-flow" class="text-sky-700 hover:text-sky-800">TP GitHub Flow</a></li>
+          <li><a href="#release-tooling" class="text-sky-700 hover:text-sky-800">Outillage de release</a></li>
+          <li><a href="#continuous-deployment" class="text-sky-700 hover:text-sky-800">CD as Continuous Deployment</a></li>
+          <li><a href="#dora-metrics" class="text-sky-700 hover:text-sky-800">Métriques DORA</a></li>
+          <li><a href="#synthese" class="text-sky-700 hover:text-sky-800">Synthèse finale</a></li>
         </ul>
       </nav>
 
       <main class="space-y-10 pb-12">
-        <!-- ═══════════════════════════════════════ QCM ═══════════════════════════════════════ -->
         <section
           id="qcm"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
@@ -213,221 +121,11 @@
             QCM de reprise du cours-03
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            La séance commence par 20 minutes de QCM sur papier. Les questions
-            portent sur la fin du module précédent : CI, fail-fast, shift-left,
-            métriques DORA, anatomie d'une pipeline et place du Trunk-Based
-            Development dans la progression du module.
+            La séance commence par 20 minutes de QCM sur papier ; posez le
+            stylo quand le temps est écoulé.
           </p>
-          <p class="text-lg leading-8 text-slate-700">
-            Les réponses attendues sont ci-dessous, cachées par défaut. Elles
-            servent à la correction et à votre réactivation de mémoire, pas à
-            remplacer le raisonnement pendant le QCM.
-          </p>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quelle différence devez-vous être capables d'expliquer entre CI,
-              Continuous Delivery et Continuous Deployment ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                La <span class="font-semibold text-slate-900">CI</span>
-                vérifie automatiquement chaque changement : formatage, lint,
-                tests, build. Elle dit si le code reste sain.
-              </p>
-              <p>
-                La
-                <span class="font-semibold text-slate-900">Continuous Delivery</span>
-                ajoute le packaging et la préparation à la mise en production :
-                l'artefact est prêt à partir, mais un humain choisit le moment.
-              </p>
-              <p>
-                Le
-                <span class="font-semibold text-slate-900">Continuous Deployment</span>
-                automatise aussi la dernière étape : si tout passe, la mise en
-                production part sans validation humaine supplémentaire.
-              </p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Pourquoi la logique fail-fast impose-t-elle un ordre précis entre
-              les jobs d'une pipeline ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Parce qu'un job peu coûteux doit échouer avant un job plus long
-                ou plus cher à diagnostiquer. On place donc le formatage et le
-                lint avant les tests, puis les tests avant le build, puis le
-                build avant les étapes de livraison.
-              </p>
-              <p>
-                L'objectif n'est pas seulement d'aller vite. C'est surtout de
-                renvoyer le bon diagnostic le plus tôt possible, quand le
-                développeur a encore le contexte en tête.
-              </p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Pourquoi le shift-left réduit-il le coût de correction ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Plus une erreur est détectée tôt, moins elle a contaminé le
-                reste du système et moins il faut reconstruire du contexte pour
-                la corriger. Une erreur vue au lint coûte quelques secondes ; en
-                production, elle peut coûter un incident, un rollback et une
-                coordination humaine importante.
-              </p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Job, step, runner, artefact, secret : quelles définitions devez-vous maîtriser ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p><span class="font-semibold text-slate-900">Job</span> : unité logique d'exécution dans un workflow.</p>
-              <p><span class="font-semibold text-slate-900">Step</span> : action unitaire à l'intérieur d'un job.</p>
-              <p><span class="font-semibold text-slate-900">Runner</span> : machine qui exécute le job.</p>
-              <p><span class="font-semibold text-slate-900">Artefact</span> : résultat produit par la pipeline et réutilisable ensuite, par exemple un build ou un package.</p>
-              <p><span class="font-semibold text-slate-900">Secret</span> : donnée sensible injectée sans être écrite en clair dans le YAML.</p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quelle différence clé devez-vous retenir entre GitLab Flow et Trunk-Based Development ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                GitLab Flow accepte plusieurs lignes actives, par exemple une
-                branche courante et une branche de maintenance. Le Trunk-Based
-                Development cherche au contraire à intégrer très souvent sur une
-                branche principale unique.
-              </p>
-              <p>
-                Cette différence implique une exigence plus forte côté CI/CD pour
-                le Trunk-Based : sans pipeline très fiable et feature flags, il
-                devient vite impraticable.
-              </p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quelles métriques DORA doivent encore vous parler et à quoi servent-elles ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Les repères les plus utiles ici sont la fréquence de
-                déploiement, le délai entre commit et production, le temps de
-                retour à un état stable après incident et le taux d'échec des
-                changements. Ils servent à juger la performance réelle d'une
-                chaîne de livraison, pas seulement son apparence.
-              </p>
-            </div>
-          </details>
         </section>
 
-        <!-- ═══════════════════════════════ MÉTRIQUES DORA ═══════════════════════════════ -->
-        <section
-          id="dora-metrics"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Mesurer pour progresser : les métriques DORA
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            Sans mesure, l'amélioration reste une intuition. Le programme DORA
-            (DevOps Research and Assessment), mené par Google Cloud depuis plus
-            de dix ans sur 40 000+ professionnels, a identifié cinq métriques
-            qui prédisent la performance organisationnelle réelle.
-          </p>
-
-          <p class="text-lg leading-8 text-slate-700">
-            Ces métriques se regroupent en deux axes :
-          </p>
-
-          <div class="space-y-4 border-t border-slate-200 pt-6">
-            <div>
-              <p class="text-lg font-semibold text-slate-900">Débit — jusqu'où va la chaîne de livraison ?</p>
-              <p class="mt-2 text-lg leading-8 text-slate-700">
-                <span class="font-semibold text-slate-900">Deployment Frequency :</span>
-                à quelle cadence l'équipe déploie en production. Un déploiement
-                par mois est très différent de plusieurs par jour.
-              </p>
-              <p class="mt-2 text-lg leading-8 text-slate-700">
-                <span class="font-semibold text-slate-900">Change Lead Time :</span>
-                temps entre le moment où un développeur commite du code et le
-                moment où ce code est en production. Cet indicateur révèle tous
-                les goulots d'étranglement du processus.
-              </p>
-              <p class="mt-2 text-lg leading-8 text-slate-700">
-                <span class="font-semibold text-slate-900">Failed Deployment Recovery Time :</span>
-                temps nécessaire pour revenir à un état stable après un
-                déploiement qui a provoqué un incident.
-              </p>
-            </div>
-
-            <div class="border-t border-slate-100 pt-4">
-              <p class="text-lg font-semibold text-slate-900">Stabilité — est-ce que ça tient ?</p>
-              <p class="mt-2 text-lg leading-8 text-slate-700">
-                <span class="font-semibold text-slate-900">Change Fail Rate :</span>
-                proportion des déploiements qui nécessitent une intervention
-                immédiate — rollback ou hotfix. Un taux élevé signale que la
-                pipeline ne filtre pas assez.
-              </p>
-              <p class="mt-2 text-lg leading-8 text-slate-700">
-                <span class="font-semibold text-slate-900">Deployment Rework Rate :</span>
-                proportion des déploiements non planifiés résultant d'un
-                incident en production.
-              </p>
-            </div>
-          </div>
-
-          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Insight clé de la recherche DORA :</span>
-            rapidité et stabilité ne sont <em>pas</em> en opposition. Les
-            équipes les plus performantes déploient <em>plus souvent</em>
-            <em>et</em> ont <em>moins</em> d'incidents. L'amélioration de l'une
-            tire l'autre vers le haut.
-          </p>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quelle combinaison de métriques DORA permet de distinguer une
-              équipe dont la livraison est lente à cause d'un processus trop
-              lourd d'une équipe dont la livraison est lente à cause d'une
-              qualité de code insuffisante ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Un <span class="font-semibold text-slate-900">Change Lead
-                Time</span> élevé peut avoir deux origines très différentes.
-                Si le <span class="font-semibold text-slate-900">Change Fail
-                Rate</span> est lui aussi élevé, le ralentissement vient
-                probablement de la qualité : les retours en arrière et
-                correctifs non planifiés consomment la capacité de l'équipe.
-                Si le Change Fail Rate est faible mais que le
-                <span class="font-semibold text-slate-900">Failed Deployment
-                Recovery Time</span> est long, c'est le processus de
-                déploiement lui-même qui constitue le goulot.
-              </p>
-              <p>
-                Les métriques DORA fonctionnent en système : aucune ne suffit
-                isolément à orienter une amélioration. Une baisse du Change
-                Lead Time sans amélioration du Change Fail Rate peut simplement
-                signifier que l'équipe livre des problèmes plus vite.
-              </p>
-            </div>
-          </details>
-        </section>
-
-        <!-- ═══════════════════════════════════ CI → CD ═══════════════════════════════════ -->
         <section
           id="ci-vers-cd"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
@@ -436,148 +134,152 @@
             CI vers CD : le chaînon manquant
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Le cours-03 répondait à la question « est-ce que ce changement est
-            encore sain ? ». Le cours d'aujourd'hui répond à la question qui
-            vient juste après : « maintenant que le code passe, qu'est-ce qu'on
-            en fait ? ».
+            La CI répond à « est-ce que ce changement reste sain ? ». La CD
+            commence quand on répond à « quel livrable exact va-t-on transmettre
+            à la suite ? ». Le passage critique est donc l'artefact : une sortie
+            de pipeline versionnée, traçable et réutilisable.
           </p>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              <span class="font-semibold text-slate-900">La CI valide, elle ne livre pas.</span>
-              Tant qu'aucun artefact n'est versionné, publié puis déployé, on
-              sait seulement que le code tient encore dans un environnement de
-              vérification.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">Continuous Delivery :</span>
-              le code est toujours déployable. Un humain décide quand lancer la
-              mise en production.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">Continuous Deployment :</span>
-              la mise en production part automatiquement dès qu'un changement sur
-              <code>main</code> a passé toutes les vérifications. Cette étape
-              suppose plus de maturité : couverture de tests solide,
-              observabilité, rollback, culture d'incident maîtrisée.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">Build once, deploy many :</span>
-              on construit l'artefact une seule fois, puis on le promeut sans le
-              reconstruire. Ce qui change entre DEV, STAGING et PROD, c'est la
-              configuration, pas le binaire ni le package publié.
-            </p>
+          <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-3">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">CI</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Valide le changement : formatage, lint, tests, build, sécurité.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">Continuous Delivery</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Prépare et publie un livrable prêt à déployer. Le dernier choix
+                reste humain.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">Continuous Deployment</h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Déploie automatiquement chaque changement validé sur la branche
+                principale.
+              </p>
+            </div>
           </div>
 
           <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Pourquoi ne pas viser immédiatement le déploiement continu ?</span>
-            Parce qu'une Delivery rigoureuse n'est pas une version ratée du
-            Deployment. C'est souvent l'étape de maturité qui permet ensuite de
-            rendre le dernier clic optionnel, puis inutile.
+            <span class="font-semibold text-slate-900">Repère :</span>
+            la Delivery n'est pas un Deployment incomplet. C'est un niveau de
+            maturité utile quand l'équipe veut des livrables fiables tout en
+            gardant une décision humaine sur le moment de mise en production.
+          </p>
+        </section>
+
+        <section
+          id="continuous-delivery"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            CD as Continuous Delivery
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Dans ce cours, la Continuous Delivery est étudiée avec un GitHub
+            Flow concret : branche courte, Pull Request, CI, merge vers
+            <code>main</code>, versioning, puis publication d'artefacts. La
+            chaîne s'arrête volontairement après la publication : tout est prêt,
+            mais rien n'est automatiquement envoyé en production.
           </p>
 
           <div class="border-t border-slate-200 pt-6">
-            <p class="mb-4 text-lg leading-8 text-slate-700">
-              La lecture minimale à retenir est celle-ci : la validation est un
-              prérequis, la publication d'artefact est un passage, puis le choix
-              humain ou non détermine si vous êtes en Delivery ou en Deployment.
-            </p>
             <div
-              data-mermaid-src="../mermaid/cours-04-ci-to-cd.md"
+              data-mermaid-src="../mermaid/cours-04-continuous-delivery-github-flow.md"
               class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
             >
               <p class="text-base text-slate-500">Chargement du flowchart…</p>
             </div>
           </div>
 
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quels risques prenez-vous si vous activez un déploiement continu trop tôt dans une organisation encore immature ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Vous automatisez la vitesse sans automatiser la maîtrise : peu de
-                tests, peu d'observabilité, pas de rollback fiable, et donc des
-                incidents plus fréquents et plus chers.
-              </p>
-              <p>
-                Le problème n'est pas l'automatisation elle-même. Le problème est
-                de supprimer le garde-fou humain avant d'avoir construit les
-                garde-fous techniques qui doivent le remplacer.
+          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Build once, publish many :</span>
+              la pipeline compile une fois, puis réutilise le même résultat pour
+              produire plusieurs formats publiables. Recompiler séparément pour
+              chaque publication affaiblit la traçabilité.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Packages d'écosystème :</span>
+              npm, Maven, NuGet ou Python wheel servent à distribuer du code
+              consommé par d'autres projets ou par une étape de livraison.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Images de conteneurs compatibles OCI :</span>
+              l'image devient l'unité de livraison d'une application avec son
+              runtime, ses couches et son manifeste.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Binaires et paquets système :</span>
+              exécutables, archives, <code>.deb</code> ou <code>.rpm</code>
+              restent fréquents pour des machines virtuelles ou serveurs
+              traditionnels.
+            </p>
+          </div>
+
+          <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-2">
+            <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">Verdaccio</h3>
+              <p class="mt-3">
+                Dans le TP, Verdaccio simule un registre npm privé local. Il
+                reçoit le package <code>tp-cd-github-flow</code> publié par la
+                pipeline.
               </p>
             </div>
-          </details>
+            <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">registry:2</h3>
+              <p class="mt-3">
+                Le registre Docker officiel local reçoit l'image
+                <code>localhost:5000/tp-cd-github-flow:&lt;version&gt;</code>.
+              </p>
+            </div>
+          </div>
         </section>
 
-        <!-- ═════════════════════════════ FEATURE FLAGS ═══════════════════════════════════ -->
         <section
-          id="feature-flags"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+          id="tp-cd-github-flow"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Feature Flags : déployer sans livrer
+            Dépôt CD pédagogique I : Continuous Delivery avec GitHub Flow
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Le Trunk-Based Development ne dit pas « tout le monde code en vrac
-            sur <code>main</code> ». Il dit plutôt « tout le monde intègre tôt,
-            souvent, sur une ligne centrale fiable ». Pour rendre cela viable en
-            production, il faut découpler le déploiement technique de la mise à
-            disposition utilisateur.
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/tp-cd-github-flow"
+              class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
+              >GVI2026/tp-cd-github-flow</a
+            >. La base reprend le dépôt CI, l'allège avec SQLite, puis ajoute
+            deux registres locaux pour publier un package npm et une image
+            Docker.
           </p>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              <span class="font-semibold text-slate-900">Feature flag :</span>
-              un interrupteur dans le code ou dans la configuration. La
-              fonctionnalité est présente dans l'artefact déployé, mais elle
-              reste inactive tant que le flag est à <code>false</code>.
-            </p>
-            <p>
-              Dans le contexte d'une API NestJS, un simple
-              <code>FEATURE_NEW_ENDPOINT=false</code> suffit déjà à illustrer le
-              principe : la route n'est pas exposée tant que la configuration ne
-              l'autorise pas.
-            </p>
-          </div>
+          <ol class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700">
+            <li>Créer une branche <code>feature/add-delivery-pipeline</code> depuis <code>main</code>.</li>
+            <li>Compléter le job <code>release</code> avec <code>commit-and-tag-version</code>.</li>
+            <li>Compléter <code>publish-npm</code> pour publier le build dans Verdaccio.</li>
+            <li>Compléter <code>publish-docker</code> pour pousser l'image vers <code>localhost:5000</code>.</li>
+            <li>Simuler la Pull Request localement avec <code>git diff main...HEAD</code>, merger sur <code>main</code>, puis vérifier avec <code>act</code>.</li>
+          </ol>
 
-          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>if (process.env.FEATURE_NEW_ENDPOINT === 'true') {
-  // enregistrer le contrôleur ou activer le comportement
-}</code></pre>
+          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>curl http://localhost:4873/-/ping
+curl http://localhost:5000/v2/
+act -j security
+act -j release
+act -j publish-npm
+act -j publish-docker</code></pre>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p><span class="font-semibold text-slate-900">Avantages :</span> pas de rollback lourd pour couper une fonctionnalité, possibilité de déployer plus souvent, et vraie séparation entre déploiement technique et release visible par les utilisateurs.</p>
-            <p><span class="font-semibold text-slate-900">Limites :</span> dette technique si les flags s'accumulent, tests à maintenir pour les deux états, et complexité de configuration croissante.</p>
-          </div>
-
-          <div class="border-t border-slate-200 pt-6">
-            <p class="mb-4 text-lg leading-8 text-slate-700">
-              Le <code>gitGraph</code> ci-dessous montre l'idée essentielle : une
-              branche courte est intégrée tôt, le code part en production avec un
-              flag OFF, puis l'activation se fait séparément.
-            </p>
-            <div
-              data-mermaid-src="../mermaid/cours-04-feature-flags.md"
-              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
-            >
-              <p class="text-base text-slate-500">Chargement du gitGraph…</p>
-            </div>
-          </div>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Si une fonctionnalité est derrière un flag OFF en production, devez-vous quand même la tester ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Oui. Sinon, vous déployez volontairement du code non testé en
-                espérant qu'il restera éteint. Le jour où quelqu'un activera le
-                flag, le risque reviendra immédiatement.
-              </p>
-            </div>
-          </details>
+          <p class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700">
+            <span class="font-semibold text-slate-900">Point de vigilance :</span>
+            avec <code>act</code>, les runners sont éphémères. Un tag ou un
+            commit de release créé dans un job sert à comprendre la mécanique,
+            mais il ne remonte pas automatiquement dans votre dépôt local.
+          </p>
         </section>
 
-        <!-- ═══════════════════════════════ RELEASE TOOLING ═══════════════════════════════ -->
         <section
           id="release-tooling"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
@@ -586,593 +288,177 @@
             SemVer, Conventional Commits et outillage de release
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Pour automatiser une chaîne CD, il faut un mécanisme fiable qui
-            transforme l'historique Git en version livrable. C'est là que
-            <span class="font-semibold text-slate-900">SemVer</span> et les
-            <span class="font-semibold text-slate-900">Conventional Commits</span>
-            prennent une valeur opérationnelle.
+            SemVer est considéré comme acquis : <code>PATCH</code> corrige,
+            <code>MINOR</code> ajoute sans casser, <code>MAJOR</code> signale une
+            rupture. L'enjeu du jour est de rendre cette décision automatisable à
+            partir de l'historique Git.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
             <p>
-              <span class="font-semibold text-slate-900">PATCH</span> pour une
-              correction rétrocompatible,
-              <span class="font-semibold text-slate-900">MINOR</span> pour une
-              nouvelle fonctionnalité rétrocompatible,
-              <span class="font-semibold text-slate-900">MAJOR</span> pour une
-              rupture de compatibilité.
+              Les Conventional Commits donnent une information exploitable par
+              la pipeline : <code>fix:</code> oriente vers un patch,
+              <code>feat:</code> vers un minor, et <code>!</code> ou
+              <code>BREAKING CHANGE:</code> vers un major.
             </p>
             <p>
-              Côté commits, <code>fix:</code> déclenche typiquement un patch,
-              <code>feat:</code> un minor, et un <code>!</code> ou un
-              <code>BREAKING CHANGE:</code> dans le corps signale un major.
+              Dans un contexte professionnel, Release Please et Semantic Release
+              sont deux références. Release Please matérialise une PR de release,
+              donc un choix humain. Semantic Release agit directement depuis
+              <code>main</code>, donc colle davantage à un déploiement continu
+              intégral.
             </p>
           </div>
 
-          <div class="space-y-6 border-t border-slate-200 pt-6">
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">Release Please</h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Release Please ouvre une Pull Request de release. L'équipe relit,
-                merge, puis la release est matérialisée. C'est très utile pour un
-                contexte de <span class="font-semibold text-slate-900">Continuous Delivery</span>
-                avec validation humaine explicite.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">Semantic Release</h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Semantic Release agit directement à partir de l'historique des
-                commits sur <code>main</code> : calcul de version, changelog,
-                tag Git, publication. C'est l'outillage qui colle le mieux à une
-                logique de <span class="font-semibold text-slate-900">Continuous Deployment</span>
-                intégral.
-              </p>
-              <pre class="mt-3 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>{
-  "branches": ["main"],
-  "plugins": [
-    "@semantic-release/commit-analyzer",
-    "@semantic-release/release-notes-generator",
-    "@semantic-release/changelog",
-    "@semantic-release/npm",
-    "@semantic-release/git"
-  ]
-}</code></pre>
-            </div>
-          </div>
-
-          <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
-            <p>
-              <span class="font-semibold text-slate-900">Cohérence cours / TP :</span>
-              dans le cours, nous parlons explicitement de Release Please et de
-              Semantic Release parce qu'ils rendent visible la différence entre
-              Delivery et Deployment. Dans le TP réel, le dépôt utilise
-              <code>commit-and-tag-version</code> pour simplifier l'exercice en
-              environnement local avec <code>act</code>.
-            </p>
-            <p class="mt-3">
-              L'idée pédagogique reste la même : des Conventional Commits pilotent
-              un versioning automatisé. Simplement, le TP évite de vous faire
-              passer du temps sur la plomberie Git supplémentaire qu'impliquerait
-              une intégration complète de Semantic Release dans des runners
-              locaux éphémères.
-            </p>
-          </div>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Que doivent produire ces messages de commit : <code>fix:</code>, <code>feat!</code>, <code>chore:</code> ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p><code>fix:</code> déclenche un bump PATCH.</p>
-              <p><code>feat!</code> déclenche un bump MAJOR car il signale une rupture de compatibilité.</p>
-              <p><code>chore:</code> ne déclenche généralement aucun bump de version par défaut.</p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Pourquoi Release Please n'est-il pas, à lui seul, du Continuous Deployment complet ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Parce qu'il garde une étape humaine structurante : le merge de la
-                Pull Request de release. Tant que cette action manuelle existe,
-                le passage de l'historique Git à la release finale n'est pas
-                totalement automatique.
-              </p>
-            </div>
-          </details>
+          <p class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+            <span class="font-semibold text-slate-900">Choix du TP :</span>
+            le dépôt utilise <code>commit-and-tag-version</code>. Ce n'est pas le
+            plus complet des outils de release, mais il rend visible le lien
+            Conventional Commits → SemVer → tag sans perdre la séance dans la
+            plomberie d'un vrai remote GitHub.
+          </p>
         </section>
 
-        <!-- ═══════════════════════════════ E2E SUPERTEST ═════════════════════════════════ -->
         <section
-          id="e2e-supertest"
+          id="continuous-deployment"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Tests E2E avec Supertest
+            CD as Continuous Deployment
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Si la CI devient aussi une chaîne de livraison, la qualité attendue
-            avant le déploiement augmente. Les tests unitaires restent
-            indispensables, mais ils ne suffisent pas à eux seuls pour garantir
-            qu'une API répond correctement de bout en bout.
+            Le Continuous Deployment supprime la dernière validation humaine :
+            un changement mergé sur <code>main</code>, s'il passe toutes les
+            vérifications, part automatiquement vers l'environnement cible. Le
+            flow naturel associé est le Trunk-Based Development : petits lots,
+            intégration fréquente, branche principale toujours verte.
           </p>
-
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              <span class="font-semibold text-slate-900">Tests unitaires :</span>
-              ils isolent une fonction, un service ou une règle métier à l'aide
-              de mocks et de dépendances simulées.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">Tests E2E :</span>
-              ils envoient de vraies requêtes HTTP à l'application démarrée en
-              mémoire pour vérifier le routing, la validation, la réponse et le
-              comportement global d'une fonctionnalité.
-            </p>
-            <p>
-              <span class="font-semibold text-slate-900">Supertest</span>
-              permet justement cela dans un projet NestJS sans devoir lancer un
-              serveur réseau complet sur un port public.
-            </p>
-          </div>
-
-          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>// Démarrer le module NestJS en mémoire
-// Envoyer GET /tasks
-// Vérifier status 200 et structure de la réponse
-// Fermer proprement l'application de test</code></pre>
-
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              Dans le TP réel, la CI contient déjà cette étape :
-              <code>tests-e2e</code> s'exécute après les tests unitaires et avant
-              le build.
-            </p>
-            <p>
-              C'est cohérent avec le risque : si l'API ne répond plus correctement,
-              construire puis publier un artefact n'a plus d'intérêt.
-            </p>
-          </div>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Si un test E2E valide déjà <code>POST /tasks</code>, pouvez-vous supprimer les tests unitaires du service ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Non. Les E2E sont moins nombreux, plus lents et moins précis pour
-                explorer des branches internes ou des cas limites métier. Ils
-                complètent les tests unitaires ; ils ne les remplacent pas.
-              </p>
-            </div>
-          </details>
-        </section>
-
-        <!-- ═════════════════════════════════ VERDACCIO ═══════════════════════════════════ -->
-        <section
-          id="verdaccio"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Verdaccio : registre d'artefacts npm
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            Un serveur de production ne devrait pas recompiler le projet au
-            moment du déploiement. Il doit consommer un artefact déjà construit,
-            versionné et stocké dans un registre stable. Dans notre TP, ce rôle
-            est joué par Verdaccio.
-          </p>
-
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              Verdaccio est un registre npm privé léger. Il stocke des packages
-              publiés, ici accessibles sur <code>http://localhost:4873</code>
-              depuis le DevContainer et les runners <code>act</code>.
-            </p>
-            <p>
-              Une fois une version publiée, elle est considérée comme
-              <span class="font-semibold text-slate-900">immuable</span>.
-              Revenir en arrière ne consiste donc pas à reconstruire le projet,
-              mais à réinstaller une version précédente déjà connue du registre.
-            </p>
-          </div>
-
-          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>npm pack
-npm publish --registry http://localhost:4873
-npm install tp-cd-api@0.1.0 --registry http://localhost:4873</code></pre>
 
           <div class="border-t border-slate-200 pt-6">
-            <p class="mb-4 text-lg leading-8 text-slate-700">
-              Le rôle du registre est très simple dans la chaîne : il sert
-              d'étagère intermédiaire entre le job de build et le job de
-              déploiement.
-            </p>
             <div
-              data-mermaid-src="../mermaid/cours-04-verdaccio-flow.md"
+              data-mermaid-src="../mermaid/cours-04-continuous-deployment-trunk-based.md"
               class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
             >
               <p class="text-base text-slate-500">Chargement du flowchart…</p>
             </div>
           </div>
 
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Pourquoi le serveur cible ne doit-il pas refaire un <code>npm install</code> depuis le code source du dépôt ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Parce que vous risquez de reconstruire quelque chose de
-                légèrement différent de ce qui a été testé : dépendances
-                résolues autrement, scripts exécutés différemment, environnement
-                non identique. L'artefact à déployer doit être exactement celui
-                que la chaîne a validé.
-              </p>
-            </div>
-          </details>
+          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+            <p>
+              <span class="font-semibold text-slate-900">Feature flags :</span>
+              ils permettent de déployer du code sans rendre la fonctionnalité
+              immédiatement visible. Le déploiement technique et la mise à
+              disposition utilisateur deviennent deux décisions distinctes.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">SSH comme mécanisme de déploiement :</span>
+              pour comprendre le principe, un serveur cible accessible en SSH
+              suffit : copier ou installer l'artefact, redémarrer le service,
+              lancer un smoke test, puis revenir en arrière si le test échoue.
+            </p>
+            <p>
+              <span class="font-semibold text-slate-900">Préconditions :</span>
+              tests fiables, observabilité, alerting, rollback, responsabilité
+              partagée et gestion explicite des incidents. Automatiser sans ces
+              garde-fous revient à accélérer aussi les problèmes.
+            </p>
+          </div>
+
+          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
+            Le dépôt pédagogique Trunk-Based sera construit dans un second
+            temps. Le premier objectif est de stabiliser le TP GitHub Flow et la
+            publication d'artefacts.
+          </p>
         </section>
 
-        <!-- ════════════════════════════════ DEPLOIEMENT SSH ═══════════════════════════════ -->
         <section
-          id="deploy-ssh"
+          id="dora-metrics"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Déploiement via SSH
+            Mesurer pour progresser : les métriques DORA
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Le but du cours n'est pas de faire du Kubernetes miniature. SSH suffit
-            largement pour comprendre le mécanisme de base : se connecter à un
-            serveur, installer la bonne version de l'artefact, redémarrer le
-            processus, puis vérifier que l'application répond.
+            Après avoir parcouru les concepts, les flows et les outils nécessaires
+            à une pipeline CI/CD, il reste une question de pilotage : comment
+            mesurer l'impact réel de cette chaîne et justifier les prochains
+            chantiers d'amélioration ?
           </p>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              La pipeline se connecte au serveur cible avec une clé privée. Dans
-              le TP, cette clé est générée automatiquement puis exposée à
-              <code>act</code> via le fichier <code>.secrets</code>.
-            </p>
-            <p>
-              Une fois connectée, elle installe le package depuis Verdaccio,
-              redémarre l'application avec <code>pm2</code>, puis lance un
-              <span class="font-semibold text-slate-900">smoke test</span>.
-            </p>
-            <p>
-              Un smoke test n'est pas une batterie de régression complète. C'est
-              un test minimal exécuté immédiatement après déploiement pour savoir
-              si le service a démarré et répond encore.
-            </p>
+          <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-2">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">Débit</h3>
+              <p class="mt-3"><span class="font-semibold text-slate-900">Change Lead Time :</span> temps entre commit et production.</p>
+              <p class="mt-3"><span class="font-semibold text-slate-900">Deployment Frequency :</span> fréquence des déploiements.</p>
+              <p class="mt-3"><span class="font-semibold text-slate-900">Failed Deployment Recovery Time :</span> temps de retour à un état stable après déploiement raté.</p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">Instabilité</h3>
+              <p class="mt-3"><span class="font-semibold text-slate-900">Change Fail Rate :</span> part des déploiements nécessitant rollback, hotfix ou intervention immédiate.</p>
+              <p class="mt-3"><span class="font-semibold text-slate-900">Deployment Rework Rate :</span> part des déploiements non planifiés causés par un incident de production.</p>
+            </div>
+          </div>
+
+          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
+            Les métriques DORA ne servent pas à mettre les équipes en compétition.
+            Elles servent à formuler des hypothèses, trouver le goulot actuel,
+            agir, puis vérifier si la situation s'améliore.
+          </p>
+
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <details>
+              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+                Lead Time haut + Change Fail Rate haut : que conclure ?
+              </summary>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                L'équipe livre lentement et casse souvent. Il faut réduire la
+                taille des changements, limiter le WIP, renforcer les tests et
+                améliorer la relecture avant de chercher à accélérer.
+              </p>
+            </details>
+            <details class="border-t border-slate-200 pt-4">
+              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+                Deployment Frequency bas + Change Fail Rate bas : que conclure ?
+              </summary>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                La qualité semble maîtrisée, mais le processus freine la sortie.
+                Les bons chantiers sont l'automatisation release/publish, des
+                lots plus petits et moins de validations manuelles redondantes.
+              </p>
+            </details>
+            <details class="border-t border-slate-200 pt-4">
+              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+                Failed Deployment Recovery Time haut + Change Fail Rate bas : que conclure ?
+              </summary>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Les incidents sont rares, mais l'équipe récupère mal. Il faut
+                travailler rollback, runbooks, smoke tests, alerting et accès aux
+                logs plutôt que seulement ajouter des tests avant déploiement.
+              </p>
+            </details>
+            <details class="border-t border-slate-200 pt-4">
+              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+                Deployment Rework Rate haut + Deployment Frequency haut : que conclure ?
+              </summary>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                La cadence est là, mais beaucoup de livraisons corrigent des
+                incidents non planifiés. Il faut améliorer l'analyse d'incidents,
+                durcir les contrôles pré-production et suivre les causes de
+                hotfix.
+              </p>
+            </details>
           </div>
 
           <p class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Repère important dans le TP :</span>
-            côté serveur SSH, l'application écoute sur <code>localhost:3000</code>.
-            Depuis le DevContainer ou le runner, vous testez au contraire
-            <code>http://localhost:3001/health</code>, qui passe par un relais.
-          </p>
-
-          <div class="border-t border-slate-200 pt-6">
-            <p class="mb-4 text-lg leading-8 text-slate-700">
-              La séquence opérationnelle tient en quelques messages : connexion,
-              installation, redémarrage, vérification interne, puis vérification
-              externe.
-            </p>
-            <div
-              data-mermaid-src="../mermaid/cours-04-ssh-deploy.md"
-              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
-            >
-              <p class="text-base text-slate-500">Chargement du diagramme de séquence…</p>
-            </div>
-          </div>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quelle différence devez-vous retenir entre un test E2E de la pipeline et un smoke test de déploiement ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Les tests E2E tournent avant la publication et avant le
-                déploiement, dans l'environnement CI. Le smoke test tourne après
-                déploiement, sur le vrai serveur cible, pour vérifier que le
-                service vit toujours dans son environnement réel.
-              </p>
-            </div>
-          </details>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Si le smoke test échoue juste après le déploiement, que doit faire la chaîne idéale ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Revenir à une version précédente connue et stable. C'est le sens
-                du bonus de rollback : ne jamais laisser le serveur dans un état
-                incertain après une publication ratée.
-              </p>
-            </div>
-          </details>
-        </section>
-
-        <!-- ═══════════════════════════════ PRISE EN MAIN TP ══════════════════════════════ -->
-        <section
-          id="tp-setup"
-          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Dépôt CD pédagogique — temps 1 : prise en main guidée <span class="text-2xl font-normal text-slate-400">(15 min)</span>
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            Dépôt support :
+            <span class="font-semibold text-slate-900">Pour aller plus loin :</span>
             <a
-              href="https://github.com/GVI2026/tp-cd-api"
+              href="https://dora.dev/guides/dora-metrics/"
               class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
-              >GVI2026/tp-cd-api</a
-            >
+              >DORA's software delivery performance metrics</a
+            >.
           </p>
-          <p class="text-lg leading-8 text-slate-700">
-            Le dépôt reprend la base NestJS du TP CI, ajoute un endpoint
-            <code>/health</code>, des tests E2E déjà en place, Verdaccio, un
-            serveur SSH simulé et une CI déjà fonctionnelle. Votre travail ne
-            consiste pas à réparer la base, mais à brancher la partie livraison.
-          </p>
-
-          <ol class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700">
-            <li>
-              Ouvrir le dépôt dans VS Code puis accepter le DevContainer si la
-              proposition apparaît. Attendre la fin du <code>postCreateCommand</code>.
-            </li>
-            <li>
-              Vérifier que Verdaccio répond :
-              <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>curl http://localhost:4873/-/ping</code></pre>
-            </li>
-            <li>
-              Vérifier l'accès au serveur cible :
-              <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>ssh -p 2222 deployer@localhost "echo ok"</code></pre>
-            </li>
-            <li>
-              Vérifier que la CI de base est déjà verte :
-              <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>act -j security</code></pre>
-            </li>
-            <li>
-              Repérer trois fichiers de référence avant de coder :
-              <code>.github/workflows/ci.yml</code>, <code>docker-compose.yml</code>
-              et <code>EXERCICE.md</code>.
-            </li>
-            <li>
-              Si Verdaccio ou le SSH-target cessent de répondre après une veille
-              ou un redémarrage du conteneur, relancer les relais réseau :
-              <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>bash bin/check-relays.sh</code></pre>
-            </li>
-          </ol>
-
-          <details class="border-t border-sky-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Avant de commencer à écrire les jobs CD, qu'est-ce que vous devez avoir validé ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Que la CI existante passe déjà, que Verdaccio répond, que le
-                serveur SSH est joignable et que vous savez quels fichiers font
-                foi pendant le TP. Sinon, vous risquez de déboguer l'infrastructure
-                au lieu de déboguer vos jobs.
-              </p>
-            </div>
-          </details>
         </section>
 
-        <!-- ═══════════════════════════════════ TP CD ═════════════════════════════════════ -->
-        <section
-          id="tp-cd"
-          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Dépôt CD pédagogique — temps 2 : exercices séquentiels <span class="text-2xl font-normal text-slate-400">(45 min)</span>
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            La pipeline CI du dépôt est déjà prête :
-            <code>install → format-lint → tests → tests-e2e → build → security</code>.
-            Vous n'ajoutez que la fin de chaîne : release, publication de
-            l'artefact, puis déploiement.
-          </p>
-
-          <div class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700">
-            <p>
-              <span class="font-semibold text-slate-900">Point de méthode :</span>
-              pendant le TP, le dépôt emploie <code>commit-and-tag-version</code>
-              pour simplifier la simulation locale. Ne confondez pas cet outil
-              de TP avec la comparaison conceptuelle faite plus haut entre
-              Release Please et Semantic Release.
-            </p>
-          </div>
-
-          <div class="space-y-8 border-t border-sky-200 pt-6">
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Exercice 1 — job <code>release</code>
-              </h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Objectif : automatiser la montée de version à partir des
-                Conventional Commits, sans rajouter de nouvelle dette dans la CI.
-              </p>
-              <ol class="mt-4 list-decimal space-y-4 pl-5 text-lg leading-8 text-slate-700">
-                <li>
-                  Vérifier que le script <code>release</code> existe déjà dans
-                  <code>package.json</code>.
-                </li>
-                <li>
-                  Ajouter le job <code>release</code> après <code>security</code>
-                  dans <code>.github/workflows/ci.yml</code>.
-                </li>
-                <li>
-                  Mettre <code>fetch-depth: 0</code> sur le checkout, configurer
-                  l'identité Git du runner, puis lancer :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>npx commit-and-tag-version</code></pre>
-                </li>
-                <li>
-                  Vérifier la condition de branche : le job ne doit s'exécuter
-                  que sur <code>main</code>.
-                </li>
-                <li>
-                  Tester le job avec :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>act -j release</code></pre>
-                </li>
-              </ol>
-              <p class="mt-4 text-lg leading-8 text-slate-700">
-                Attention : avec <code>act</code>, le commit et le tag créés par
-                ce job vivent dans le runner éphémère. Ils ne réapparaissent pas
-                magiquement dans le dépôt local du DevContainer.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Exercice 2 — job <code>publish</code>
-              </h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Objectif : publier exactement l'artefact déjà construit par le
-                job <code>build</code>, sans recompiler dans ce job.
-              </p>
-              <ol class="mt-4 list-decimal space-y-4 pl-5 text-lg leading-8 text-slate-700">
-                <li>
-                  Ajouter un job <code>publish</code> qui dépend de
-                  <code>release</code> et ne s'exécute que sur <code>main</code>.
-                </li>
-                <li>
-                  Restaurer <code>node_modules</code> et télécharger l'artefact
-                  <code>build-dist</code> produit plus tôt dans la chaîne.
-                </li>
-                <li>
-                  Configurer l'authentification npm minimale pour Verdaccio :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>npm set //localhost:4873/:_authToken "dummy-token"</code></pre>
-                </li>
-                <li>
-                  Publier le package :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>npm publish --registry http://localhost:4873</code></pre>
-                </li>
-                <li>
-                  Tester avec <code>act -j publish</code>, puis vérifier soit dans
-                  l'interface Verdaccio, soit avec :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>npm view tp-cd-api --registry http://localhost:4873</code></pre>
-                </li>
-              </ol>
-              <p class="mt-4 text-lg leading-8 text-slate-700">
-                Si vous republiez exactement la même version, Verdaccio refusera
-                l'opération. C'est normal : un registre npm traite les versions
-                comme immuables.
-              </p>
-            </div>
-
-            <div>
-              <h3 class="text-2xl font-semibold text-slate-950">
-                Exercice 3 — job <code>deploy</code>
-              </h3>
-              <p class="mt-3 text-lg leading-8 text-slate-700">
-                Objectif : installer la bonne version sur le serveur cible,
-                redémarrer l'application et prouver que le déploiement a réussi.
-              </p>
-              <ol class="mt-4 list-decimal space-y-4 pl-5 text-lg leading-8 text-slate-700">
-                <li>
-                  Ajouter un job <code>deploy</code> qui dépend de
-                  <code>publish</code> et reste limité à <code>main</code>.
-                </li>
-                <li>
-                  Utiliser l'action <code>appleboy/ssh-action@v0.1.7</code>
-                  avec <code>host: localhost</code>, <code>port: 2222</code>,
-                  <code>username: deployer</code> et
-                  <code>${{ secrets.SSH_PRIVATE_KEY }}</code>.
-                </li>
-                <li>
-                  Dans le script distant, créer <code>~/app</code>, installer le
-                  package avec <code>npm install --prefix ~/app tp-cd-api --ignore-scripts</code>,
-                  puis relancer le processus via <code>pm2</code>.
-                </li>
-                <li>
-                  Vérifier d'abord côté serveur :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>curl -f http://localhost:3000/health</code></pre>
-                </li>
-                <li>
-                  Ajouter ensuite un smoke test externe côté runner :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>curl -f http://localhost:3001/health</code></pre>
-                </li>
-                <li>
-                  Vérifier enfin l'état du serveur avec :
-                  <pre class="mt-2 overflow-x-auto rounded-2xl bg-slate-950 p-4 text-base text-slate-100"><code>ssh -p 2222 deployer@localhost "pm2 list"</code></pre>
-                </li>
-              </ol>
-            </div>
-          </div>
-
-          <div class="space-y-4 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
-            <p><span class="font-semibold text-slate-900">Adresse utile à retenir :</span> depuis le runner ou le DevContainer, Verdaccio s'appelle <code>localhost:4873</code>. Depuis le serveur cible, il s'appelle <code>verdaccio:4873</code> via le réseau Docker interne.</p>
-            <p><span class="font-semibold text-slate-900">Commande réflexe si le réseau de test décroche :</span> <code>bash bin/check-relays.sh</code>.</p>
-          </div>
-
-          <details class="border-t border-sky-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Bonus — rollback automatique pour les plus rapides
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                L'objectif est de redéployer automatiquement la version
-                précédente si le smoke test échoue. Dans le dépôt réel, l'idée
-                recommandée consiste à mémoriser la version actuellement servie
-                avant d'écraser le déploiement, puis à réinstaller cette version
-                si le test final échoue.
-              </p>
-              <p>
-                Le bonus vérifie surtout que vous savez écrire une logique de
-                résilience simple avec des conditions GitHub Actions et un script
-                SSH complémentaire.
-              </p>
-            </div>
-          </details>
-        </section>
-
-        <!-- ═══════════════════════════════ CORRECTION COLLECTIVE ═════════════════════════ -->
-        <section
-          id="correction"
-          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
-        >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Correction collective
-          </h2>
-          <p class="text-lg leading-8 text-slate-700">
-            En correction, on relit la chaîne finale comme un DAG et non comme
-            une liste de recettes. Ce qui compte n'est pas seulement « ça marche »,
-            mais « pourquoi cet ordre est-il logique et pourquoi cette chaîne
-            arrête-t-elle au bon endroit ? ».
-          </p>
-
-          <pre class="border-t border-slate-200 pt-6 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>install → format-lint → tests → tests-e2e → build → security
-                                  ↓
-                               release → publish → deploy</code></pre>
-
-          <ul class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <li>Relire les dépendances <code>needs:</code> entre les jobs.</li>
-            <li>Vérifier les conditions <code>if:</code> qui limitent release, publish et deploy à <code>main</code>.</li>
-            <li>Identifier ce qui se passe si <code>publish</code> échoue : <code>deploy</code> ne part pas.</li>
-            <li>Relier chaque étape à son rôle : versionner, stocker, installer, vérifier.</li>
-          </ul>
-
-          <details class="border-t border-slate-200 pt-6">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Si le job <code>publish</code> échoue à mi-parcours, pourquoi est-ce une bonne nouvelle que <code>deploy</code> ne s'exécute pas ?
-            </summary>
-            <div class="mt-4 space-y-3 text-lg leading-8 text-slate-700">
-              <p>
-                Parce qu'un déploiement sans artefact publié ou publié de façon
-                incomplète ferait perdre la traçabilité de la chaîne. Le rôle du
-                DAG est précisément d'empêcher la suite de s'appuyer sur un état
-                incohérent.
-              </p>
-            </div>
-          </details>
-        </section>
-
-        <!-- ════════════════════════════════════ SYNTHESE ═══════════════════════════════════ -->
         <section
           id="synthese"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
@@ -1185,39 +471,22 @@ npm install tp-cd-api@0.1.0 --registry http://localhost:4873</code></pre>
               En quatre cours, le module a suivi un fil cohérent : partir du
               versioning local, structurer le travail d'équipe avec des flows,
               fiabiliser l'intégration avec une CI, puis terminer par la
-              livraison automatisée d'un artefact vers un environnement déployé.
+              livraison automatisée d'un artefact publiable.
             </p>
             <p>
               Le message principal à emporter est simple : une chaîne CI/CD
               n'est pas seulement un ensemble d'outils. C'est un mécanisme qui
               transforme un changement de code en version identifiable, testée,
-              publiable et déployable.
+              publiable et prête pour un environnement.
             </p>
           </div>
 
-          <pre class="border-t border-slate-200 pt-6 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>Conventional Commit
-→ CI (format-lint, tests, E2E, build, security)
+          <pre class="border-t border-slate-200 pt-6 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>GitHub Flow
+→ CI
 → release
-→ Verdaccio
-→ SSH
-→ smoke test</code></pre>
-
-          <div class="space-y-3 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
-            <p>
-              Les feature flags sont le complément stratégique qui permet de
-              rendre un mode Trunk-Based crédible sans exposer trop tôt une
-              fonctionnalité incomplète.
-            </p>
-            <p>
-              Ce qu'il manque encore à une chaîne de production réelle : plus
-              d'observabilité, des alertes, des stratégies de rollback encore
-              plus robustes et des environnements multi-étapes mieux instrumentés.
-            </p>
-            <p>
-              La prochaine séance revient sur l'ensemble du module pour une
-              révision transversale et le QCM final.
-            </p>
-          </div>
+→ package npm dans Verdaccio
+→ image Docker dans registry:2
+→ décision humaine ou déploiement automatique selon le niveau de CD visé</code></pre>
         </section>
       </main>
     </div>

@@ -1,4 +1,4 @@
-flowchart LR
+flowchart TB
     install["install<br/>Installation des dépendances"]
     formatLint["format-lint<br/>Formatage & lint"]
     tests["tests<br/>Tests unitaires"]

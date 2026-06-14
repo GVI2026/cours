@@ -208,8 +208,8 @@
                 devra être stabilisée.
               </p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
-                On ne développe jamais une nouvelle fonctionnalité directement
-                sur une branche <code>release/*</code>. Ces branches sont des
+                Une nouvelle fonctionnalité n'est jamais développée directement
+                sur une branche <code>release/*</code>. Ces branches restent des
                 sanctuaires destinés à la recette, à la stabilisation et aux
                 correctifs de bugs. Une feature part de <code>main</code> ;
                 une release ne reçoit que ce qui doit rendre un livrable sûr.
@@ -609,7 +609,7 @@
             DevOps et CI/CD
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Les flows que vous venez de voir posent tous la même question en
+            Les flows présentés posent tous la même question en
             filigrane : comment garder confiance dans les changements quand
             plusieurs branches, plusieurs versions et plusieurs personnes sont
             actives en même temps ? DevOps et la CI/CD sont précisément la
@@ -728,8 +728,8 @@
               >
             </p>
             <p class="text-lg leading-8 text-slate-700">
-              Comme pour les autres TP du cours, commencez par forker ce dépôt
-              sur votre compte GitHub avant de travailler dessus.
+              Comme pour les autres TP du cours, ce dépôt doit d'abord être
+              forké sur un compte GitHub avant d'être manipulé.
             </p>
             <p class="text-lg leading-8 text-slate-700">
               La théorie CI/CD étant posée, le dépôt pédagogique permet de lire
@@ -827,8 +827,8 @@
               Anatomie d'une pipeline GitHub Actions
             </h3>
             <p class="text-lg leading-8 text-slate-700">
-              Vous pushez un commit. Voici ce qui se passe concrètement côté
-              GitHub Actions.
+              Lorsqu'un commit est poussé, voici ce qui se passe concrètement
+              côté GitHub Actions.
             </p>
             <p class="text-lg leading-8 text-slate-700">
               Un <span class="font-semibold text-slate-900">événement</span>
@@ -877,7 +877,7 @@
               unitaires échouent.
             </p>
             <p class="text-lg leading-8 text-slate-700">
-              Voici la pipeline du dépôt pédagogique. Lisez-la de gauche à
+              Voici la pipeline du dépôt pédagogique. Elle se lit de gauche à
               droite : chaque flèche en pointillés indique qu'un échec ici
               stoppera tous les jobs à droite. L'ordre sert à obtenir le
               diagnostic utile le plus tôt possible.
@@ -992,10 +992,9 @@
             et rapides à interpréter.
           </p>
           <p class="text-lg leading-8 text-slate-700">
-            Si vous travaillez depuis votre fork de <code>tp-ci-api</code>,
-            vous pouvez activer GitHub Actions pour observer les mêmes
-            exécutions directement sur GitHub, en complément de <code>act</code>
-            en local.
+            Depuis un fork de <code>tp-ci-api</code>, GitHub Actions peut être
+            activé pour observer les mêmes exécutions directement sur GitHub, en
+            complément de <code>act</code> en local.
           </p>
 
           <div class="space-y-6 border-t border-sky-200 pt-6 text-lg leading-8 text-slate-700">
@@ -1049,8 +1048,8 @@ act -j tests</code></pre>
               <p class="mt-1 text-sm font-medium text-emerald-700">Niveau : Débutant</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/02-test-failure</code>. L'échec est
-                volontairement simple à comprendre : vous devez repérer le test,
-                relire l'intention puis corriger soit le test, soit le code testé.
+                volontairement simple à comprendre : le test doit être repéré,
+                son intention relue, puis le test ou le code testé doit être corrigé.
               </p>
             </div>
 
@@ -1086,7 +1085,7 @@ act -j tests</code></pre>
               <p class="mt-1 text-sm font-medium text-rose-700">Niveau : Avancé</p>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Branche : <code>exercise/05-stabilize</code>. Cette branche sert à
-                vérifier que vous savez appliquer un ordre de diagnostic cohérent
+                vérifier qu'un ordre de diagnostic cohérent peut être appliqué
                 jusqu'au retour complet au vert.
               </p>
             </div>
@@ -1116,8 +1115,8 @@ act -j tests</code></pre>
           </h2>
           <div class="space-y-3 text-lg leading-8 text-slate-700">
             <p>
-              En trois séances, vous êtes passés d'un usage local de Git à des
-              workflows d'équipe structurés, puis à la question que tous ces
+              En trois séances, le module est passé d'un usage local de Git à
+              des workflows d'équipe structurés, puis à la question que tous ces
               flows soulèvent : comment garder confiance dans les changements
               quand les branches, les versions et les intégrations se multiplient ?
             </p>

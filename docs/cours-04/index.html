@@ -153,8 +153,8 @@
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             La CI répond à « est-ce que ce changement reste sain ? ». La CD
-            commence quand on répond à « quel livrable exact va-t-on transmettre
-            à la suite ? ». Le passage critique est donc l'artefact : une sortie
+            commence quand la question devient : « quel livrable exact doit être
+            transmis à la suite ? ». Le passage critique est donc l'artefact : une sortie
             de pipeline versionnée, traçable et réutilisable.
           </p>
 
@@ -221,8 +221,8 @@
               résultat comme artefact, puis réutilise exactement ce même contenu
               pour produire plusieurs livrables. L'intérêt est double : si un
               test a validé le build, les publications partent de ce build, et
-              si un incident arrive, on sait quel commit, quelle version et quel
-              artefact ont été publiés. Recompiler séparément pour chaque format
+              en cas d'incident, le commit, la version et l'artefact publiés
+              restent identifiables. Recompiler séparément pour chaque format
               créerait plusieurs sorties supposées identiques, mais difficiles à
               prouver identiques.
             </p>
@@ -299,10 +299,10 @@
               href="https://github.com/GVI2026/tp-cd-delivery"
               class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
               >GVI2026/tp-cd-delivery</a
-            >. Comme pour les TP précédents, chaque étudiant commence par
-            <span class="font-semibold text-slate-900">forker le dépôt</span>
-            sur GitHub, puis clone son fork localement. Le cours vient
-            d'expliquer la Delivery avec l'exemple du GitHub Flow, mais ce TP
+            >. Comme pour les TP précédents, le dépôt doit d'abord être
+            <span class="font-semibold text-slate-900">forké sur GitHub</span>,
+            puis cloné localement. La Delivery vient d'être expliquée avec
+            l'exemple du GitHub Flow, mais ce TP
             n'a plus pour objectif de faire pratiquer un workflow précis : il
             isole la livraison d'artefacts. La base reprend le dépôt CI,
             l'allège avec SQLite, puis ajoute deux registres locaux pour publier
@@ -329,11 +329,11 @@ act -j publish-docker</code></pre>
             avec <code>act</code>, les runners sont éphémères. Un tag ou un
             commit de release créé par <code>npx commit-and-tag-version</code>
             sert à comprendre la mécanique, mais il ne remonte pas
-            automatiquement dans votre dépôt local. Pour ajouter du code après un
-            essai de release, il faut lancer soi-même
-            <code>npx commit-and-tag-version</code> dans le DevContainer afin de
-            réaligner <code>package.json</code>, <code>CHANGELOG.md</code> et les
-            tags locaux.
+            automatiquement dans le dépôt local. Pour ajouter du code après un
+            essai de release, la commande
+            <code>npx commit-and-tag-version</code> doit être lancée localement
+            dans le DevContainer afin de réaligner <code>package.json</code>,
+            <code>CHANGELOG.md</code> et les tags locaux.
           </p>
         </section>
 
@@ -345,7 +345,7 @@ act -j publish-docker</code></pre>
             Retour sur le TP : les nouveaux jobs de CD
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Une fois le TP réalisé, on relit la pipeline comme une chaîne de
+            Une fois le TP réalisé, la pipeline est relue comme une chaîne de
             livraison. La CI prouve que le changement est sain ; les jobs CD
             donnent une identité au livrable, puis le publient dans des registres
             locaux.
@@ -407,8 +407,8 @@ act -j publish-docker</code></pre>
             SemVer, Conventional Commits et outillage de release
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            SemVer et Conventional Commits sont considérés comme acquis ; on les
-            utilise ici comme entrée lisible par des outils de release.
+            SemVer et Conventional Commits sont considérés comme acquis ; ils
+            sont utilisés ici comme entrée lisible par des outils de release.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
@@ -441,7 +441,7 @@ act -j publish-docker</code></pre>
           <div class="space-y-4 border-t border-slate-200 pt-6">
             <details>
               <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-                Quel outil choisirait-on pour un GitHub Flow qui garde une validation humaine avant release ?
+                Quel outil convient à un GitHub Flow qui garde une validation humaine avant release ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Release Please colle bien à ce besoin : les commits alimentent
@@ -528,9 +528,9 @@ act -j publish-docker</code></pre>
               href="https://github.com/GVI2026/tp-cd-deployment"
               class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
               >GVI2026/tp-cd-deployment</a
-            >. Les étudiants doivent
-            <span class="font-semibold text-slate-900">forker le dépôt</span>
-            avant de travailler. Cette fois, la pipeline de Continuous Delivery
+            >. Le dépôt doit être
+            <span class="font-semibold text-slate-900">forké</span>
+            avant le travail. Cette fois, la pipeline de Continuous Delivery
             est déjà en place : release, publication npm et publication Docker.
             L'objectif est d'ajouter la dernière étape, le Continuous Deployment.
           </p>
@@ -579,9 +579,9 @@ act -j healthcheck-deployment</code></pre>
               <h3 class="text-xl font-semibold text-slate-950">deploy-npm</h3>
               <p class="mt-3">
                 Le job consomme le package publié dans Verdaccio, l'installe sur
-                la cible SSH npm, puis redémarre le processus avec pm2. On ne
-                reconstruit pas l'application : on déploie exactement la version
-                publiée.
+                la cible SSH npm, puis redémarre le processus avec pm2.
+                L'application n'est pas reconstruite : la version publiée est
+                déployée telle quelle.
               </p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
@@ -605,7 +605,7 @@ act -j healthcheck-deployment</code></pre>
 
           <details class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
             <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-              Quelles étapes supplémentaires peut-on souhaiter à la fin de la vérification du déploiement ?
+              Quelles étapes peuvent compléter la vérification du déploiement ?
             </summary>
             <p class="mt-3 text-lg leading-8 text-slate-700">
               Après un healthcheck réussi, la pipeline peut envoyer un message
@@ -719,25 +719,26 @@ act -j healthcheck-deployment</code></pre>
           </h2>
           <div class="space-y-3 text-lg leading-8 text-slate-700">
             <p>
-              En quatre cours, le module a suivi un fil cohérent : partir du
-              versioning local, structurer le travail d'équipe avec des flows,
-              fiabiliser l'intégration avec une CI, puis terminer par la
-              livraison automatisée d'un artefact publiable.
+              Le module a suivi une progression volontairement continue :
+              versionner le code avec Git, organiser le travail d'équipe avec
+              des flows, automatiser les vérifications avec la CI, puis publier
+              et déployer des artefacts avec la CD.
             </p>
             <p>
-              Le message principal à emporter est simple : une chaîne CI/CD
-              n'est pas seulement un ensemble d'outils. C'est un mécanisme qui
-              transforme un changement de code en version identifiable, testée,
-              publiable et prête pour un environnement.
+              À la fin de cette progression, un changement de code peut devenir
+              une version identifiable, testée, publiée dans des registres,
+              déployée sur des environnements cibles et vérifiée automatiquement.
             </p>
           </div>
 
-          <pre class="border-t border-slate-200 pt-6 overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>GitHub Flow
-→ CI
-→ release
-→ package npm dans Verdaccio
-→ image Docker dans registry:2
-→ décision humaine ou déploiement automatique selon le niveau de CD visé</code></pre>
+          <div class="border-t border-slate-200 pt-6">
+            <div
+              data-mermaid-src="../mermaid/cours-04-final-cd-pipeline.md"
+              class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+            >
+              <p class="text-base text-slate-500">Chargement de la pipeline finale…</p>
+            </div>
+          </div>
         </section>
       </main>
     </div>

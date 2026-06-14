@@ -15,16 +15,16 @@
       name="course:title"
       content="De l'artefact à la production — Continuous Delivery et Continuous Deployment"
     />
-    <meta name="course:duration-total-minutes" content="245" />
+    <meta name="course:duration-total-minutes" content="320" />
     <meta
       name="course:sections"
-      content="qcm,ci-vers-cd,continuous-delivery,tp-cd-github-flow,tp-cd-github-flow-retour,release-tooling,continuous-deployment,dora-metrics,synthese"
+      content="qcm,ci-vers-cd,continuous-delivery,tp-cd-delivery,tp-cd-delivery-retour,release-tooling,continuous-deployment,tp-cd-deployment,tp-cd-deployment-retour,dora-metrics,synthese"
     />
     <script id="course-metadata" type="application/json">
       {
         "courseId": "cours-04",
         "title": "De l'artefact à la production — Continuous Delivery et Continuous Deployment",
-        "totalDurationMinutes": 245,
+        "totalDurationMinutes": 320,
         "sections": [
           {
             "id": "qcm",
@@ -42,13 +42,13 @@
             "durationMinutes": 35
           },
           {
-            "id": "tp-cd-github-flow",
-            "title": "Dépôt CD pédagogique I : GitHub Flow",
+            "id": "tp-cd-delivery",
+            "title": "Dépôt CD pédagogique I : Continuous Delivery",
             "durationMinutes": 55
           },
           {
-            "id": "tp-cd-github-flow-retour",
-            "title": "Retour sur la CD GitHub Flow",
+            "id": "tp-cd-delivery-retour",
+            "title": "Retour sur la Continuous Delivery",
             "durationMinutes": 25
           },
           {
@@ -60,6 +60,16 @@
             "id": "continuous-deployment",
             "title": "CD as Continuous Deployment",
             "durationMinutes": 35
+          },
+          {
+            "id": "tp-cd-deployment",
+            "title": "Dépôt CD pédagogique II : Continuous Deployment",
+            "durationMinutes": 50
+          },
+          {
+            "id": "tp-cd-deployment-retour",
+            "title": "Retour sur les derniers jobs de CD",
+            "durationMinutes": 25
           },
           {
             "id": "dora-metrics",
@@ -109,10 +119,12 @@
           <li><a href="#qcm" class="text-sky-700 hover:text-sky-800">QCM de reprise</a></li>
           <li><a href="#ci-vers-cd" class="text-sky-700 hover:text-sky-800">CI vers CD</a></li>
           <li><a href="#continuous-delivery" class="text-sky-700 hover:text-sky-800">CD as Continuous Delivery</a></li>
-          <li><a href="#tp-cd-github-flow" class="text-sky-700 hover:text-sky-800">TP GitHub Flow</a></li>
-          <li><a href="#tp-cd-github-flow-retour" class="text-sky-700 hover:text-sky-800">Retour sur le TP CD</a></li>
+          <li><a href="#tp-cd-delivery" class="text-sky-700 hover:text-sky-800">TP Delivery</a></li>
+          <li><a href="#tp-cd-delivery-retour" class="text-sky-700 hover:text-sky-800">Retour sur le TP CD</a></li>
           <li><a href="#release-tooling" class="text-sky-700 hover:text-sky-800">Outillage de release</a></li>
           <li><a href="#continuous-deployment" class="text-sky-700 hover:text-sky-800">CD as Continuous Deployment</a></li>
+          <li><a href="#tp-cd-deployment" class="text-sky-700 hover:text-sky-800">TP Deployment</a></li>
+          <li><a href="#tp-cd-deployment-retour" class="text-sky-700 hover:text-sky-800">Retour sur le déploiement</a></li>
           <li><a href="#dora-metrics" class="text-sky-700 hover:text-sky-800">Métriques DORA</a></li>
           <li><a href="#synthese" class="text-sky-700 hover:text-sky-800">Synthèse finale</a></li>
         </ul>
@@ -185,7 +197,7 @@
             CD as Continuous Delivery
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Dans ce cours, la Continuous Delivery est étudiée avec un GitHub
+            La Continuous Delivery est étudiée avec un GitHub
             Flow concret : branche courte, Pull Request, CI, rebase sur
             <code>main</code>, intégration fast-forward, versioning, puis
             publication d'artefacts. La chaîne s'arrête volontairement après la
@@ -260,7 +272,7 @@
               <h3 class="text-xl font-semibold text-slate-950">Verdaccio</h3>
               <p class="mt-3">
                 Dans le TP, Verdaccio simule un registre npm privé local. Il
-                reçoit le package <code>tp-cd-github-flow</code> publié par la
+                reçoit le package <code>tp-cd-delivery</code> publié par la
                 pipeline.
               </p>
             </div>
@@ -268,30 +280,33 @@
               <h3 class="text-xl font-semibold text-slate-950">registry:2</h3>
               <p class="mt-3">
                 Le registre Docker officiel local reçoit l'image
-                <code>localhost:5000/tp-cd-github-flow:&lt;version&gt;</code>.
+                <code>localhost:5000/tp-cd-delivery:&lt;version&gt;</code>.
               </p>
             </div>
           </div>
         </section>
 
         <section
-          id="tp-cd-github-flow"
+          id="tp-cd-delivery"
           class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Dépôt CD pédagogique I : Continuous Delivery avec GitHub Flow
+            Dépôt CD pédagogique I : Continuous Delivery
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Dépôt support :
             <a
-              href="https://github.com/GVI2026/tp-cd-github-flow"
+              href="https://github.com/GVI2026/tp-cd-delivery"
               class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
-              >GVI2026/tp-cd-github-flow</a
+              >GVI2026/tp-cd-delivery</a
             >. Comme pour les TP précédents, chaque étudiant commence par
             <span class="font-semibold text-slate-900">forker le dépôt</span>
-            sur GitHub, puis clone son fork localement. La base reprend ensuite
-            le dépôt CI, l'allège avec SQLite, puis ajoute deux registres locaux
-            pour publier un package npm et une image Docker.
+            sur GitHub, puis clone son fork localement. Le cours vient
+            d'expliquer la Delivery avec l'exemple du GitHub Flow, mais ce TP
+            n'a plus pour objectif de faire pratiquer un workflow précis : il
+            isole la livraison d'artefacts. La base reprend le dépôt CI,
+            l'allège avec SQLite, puis ajoute deux registres locaux pour publier
+            un package npm et une image Docker.
           </p>
 
           <ol class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700">
@@ -299,7 +314,7 @@
             <li>Ajouter <code>publish-npm</code> pour publier le build dans Verdaccio, sans recompiler.</li>
             <li>Ajouter <code>publish-docker</code> pour pousser l'image vers <code>localhost:5000</code>.</li>
             <li>Tester chaque étape avec <code>act</code>, et nettoyer les registres locaux si une version déjà publiée bloque un nouvel essai.</li>
-            <li>Lancer ensuite <code>npx commit-and-tag-version</code> localement, créer une branche de fix, rebaser sur <code>main</code>, puis intégrer en fast-forward.</li>
+            <li>Lancer ensuite <code>npx commit-and-tag-version</code> localement, puis vérifier qu'un nouveau changement applicatif peut repartir d'un dépôt aligné.</li>
           </ol>
 
           <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>curl http://localhost:4873/-/ping
@@ -323,7 +338,7 @@ act -j publish-docker</code></pre>
         </section>
 
         <section
-          id="tp-cd-github-flow-retour"
+          id="tp-cd-delivery-retour"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
@@ -336,7 +351,7 @@ act -j publish-docker</code></pre>
             locaux.
           </p>
 
-          <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-3">
+          <div class="space-y-4 border-t border-slate-200 pt-6">
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
               <h3 class="text-xl font-semibold text-slate-950">release</h3>
               <p class="mt-3">
@@ -377,6 +392,10 @@ act -j publish-docker</code></pre>
             mais un commit de release créé dans le runner n'est pas recopié dans
             le dépôt du DevContainer. Cette différence explique pourquoi le TP
             demande ensuite un <code>npx commit-and-tag-version</code> local.
+            Dans un dépôt GitHub réel, ce problème est justement pris en charge
+            par des outils plus intégrés : Release Please prépare une Pull
+            Request de release, tandis que Semantic Release automatise la release
+            directement depuis la pipeline.
           </p>
         </section>
 
@@ -419,14 +438,28 @@ act -j publish-docker</code></pre>
               >.
             </p>
           </div>
-
-          <p class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Choix du TP :</span>
-            le dépôt utilise <code>commit-and-tag-version</code>. Ce n'est pas le
-            plus complet des outils de release, mais il rend visible le lien
-            Conventional Commits → SemVer → tag sans perdre la séance dans la
-            plomberie d'un vrai remote GitHub.
-          </p>
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <details>
+              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+                Quel outil choisirait-on pour un GitHub Flow qui garde une validation humaine avant release ?
+              </summary>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Release Please colle bien à ce besoin : les commits alimentent
+                une Pull Request de release, l'équipe relit le changelog et le
+                bump, puis la publication part après merge.
+              </p>
+            </details>
+            <details class="border-t border-slate-200 pt-4">
+              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+                Quel outil correspond le mieux à un Trunk-Based Workflow très automatisé ?
+              </summary>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Semantic Release est plus naturel quand <code>main</code> est
+                toujours déployable : une CI verte suffit à calculer la version,
+                créer le tag et déclencher la publication.
+              </p>
+            </details>
+          </div>
         </section>
 
         <section
@@ -475,10 +508,115 @@ act -j publish-docker</code></pre>
           </div>
 
           <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
-            Le dépôt pédagogique Trunk-Based sera construit dans un second
-            temps. Le premier objectif est de stabiliser le TP GitHub Flow et la
-            publication d'artefacts.
+            Le point de bascule est simple à formuler et difficile à tenir :
+            si <code>main</code> part automatiquement vers un environnement,
+            alors <code>main</code> doit rester petit, fréquent, observable et
+            réversible. C'est exactement le terrain du Trunk-Based Development.
           </p>
+        </section>
+
+        <section
+          id="tp-cd-deployment"
+          class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Dépôt CD pédagogique II : Continuous Deployment avec le Trunk-Based Development
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Dépôt support :
+            <a
+              href="https://github.com/GVI2026/tp-cd-deployment"
+              class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
+              >GVI2026/tp-cd-deployment</a
+            >. Les étudiants doivent
+            <span class="font-semibold text-slate-900">forker le dépôt</span>
+            avant de travailler. Cette fois, la pipeline de Continuous Delivery
+            est déjà en place : release, publication npm et publication Docker.
+            L'objectif est d'ajouter la dernière étape, le Continuous Deployment.
+          </p>
+
+          <ol class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700">
+            <li>Ajouter <code>deploy-npm</code> pour installer le package depuis Verdaccio sur une cible SSH et le redémarrer avec pm2.</li>
+            <li>Ajouter <code>deploy-docker</code> pour récupérer l'image publiée dans <code>registry:2</code> et la lancer dans un second environnement Docker accessible en SSH.</li>
+            <li>Terminer par <code>healthcheck-deployment</code>, qui vérifie le serveur Node déployé et le conteneur Docker déployé.</li>
+            <li>Ajouter une petite fonctionnalité <code>GET /tasks/summary</code> protégée par un feature flag volontairement en dur dans le code.</li>
+            <li>Ajouter enfin un rollback automatique simple si la vérification de déploiement échoue.</li>
+          </ol>
+
+          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>curl http://localhost:4873/-/ping
+curl http://localhost:5000/v2/
+ssh -p 2222 deployer@localhost "echo ok"
+ssh -p 2223 deployer@localhost "echo ok"
+act -j publish-npm
+act -j publish-docker
+act -j healthcheck-deployment</code></pre>
+
+          <p class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700">
+            <span class="font-semibold text-slate-900">Repère :</span>
+            les deux artefacts sont volontairement déployés dans deux cibles
+            séparées. Le TP montre qu'une même version peut exister comme
+            package npm et comme image OCI, mais que chaque format implique un
+            geste de déploiement, un redémarrage et une vérification adaptés.
+          </p>
+        </section>
+
+        <section
+          id="tp-cd-deployment-retour"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <h2 class="text-3xl font-semibold text-slate-950">
+            Retour sur le TP : les derniers jobs de CD
+          </h2>
+          <p class="text-lg leading-8 text-slate-700">
+            Les jobs précédents produisaient des artefacts prêts. Les derniers
+            jobs changent la nature de la chaîne : la pipeline agit maintenant
+            sur des environnements vivants, puis doit prouver que le résultat
+            fonctionne.
+          </p>
+
+          <div class="space-y-4 border-t border-slate-200 pt-6">
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">deploy-npm</h3>
+              <p class="mt-3">
+                Le job consomme le package publié dans Verdaccio, l'installe sur
+                la cible SSH npm, puis redémarre le processus avec pm2. On ne
+                reconstruit pas l'application : on déploie exactement la version
+                publiée.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">deploy-docker</h3>
+              <p class="mt-3">
+                Le job consomme l'image publiée dans <code>registry:2</code>,
+                remplace le conteneur applicatif sur une seconde cible SSH et
+                garde le format conteneur de bout en bout.
+              </p>
+            </div>
+            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+              <h3 class="text-xl font-semibold text-slate-950">healthcheck-deployment</h3>
+              <p class="mt-3">
+                Le job dépend des deux déploiements et vérifie les endpoints
+                <code>/health</code>. Il matérialise le contrat minimal du
+                Continuous Deployment : la pipeline ne s'arrête pas au
+                redémarrage, elle vérifie que le service répond.
+              </p>
+            </div>
+          </div>
+
+          <details class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              Quelles étapes supplémentaires peut-on souhaiter à la fin de la vérification du déploiement ?
+            </summary>
+            <p class="mt-3 text-lg leading-8 text-slate-700">
+              Après un healthcheck réussi, la pipeline peut envoyer un message
+              dans un canal de discussion ou par mail pour rendre le déploiement
+              visible. Elle peut aussi clôturer une demande de changement dans un
+              outil ITSM, mettre à jour une documentation de version, publier des
+              notes de release ou enrichir un journal d'audit. Le healthcheck dit
+              « le service répond » ; ces étapes disent « l'organisation sait ce
+              qui vient de partir et peut en garder la trace ».
+            </p>
+          </details>
         </section>
 
         <section
@@ -492,7 +630,10 @@ act -j publish-docker</code></pre>
             Après avoir parcouru les concepts, les flows et les outils nécessaires
             à une pipeline CI/CD, il reste une question de pilotage : comment
             mesurer l'impact réel de cette chaîne et justifier les prochains
-            chantiers d'amélioration ?
+            chantiers d'amélioration ? DORA signifie
+            <span class="font-semibold text-slate-900">DevOps Research and Assessment</span>,
+            un programme de recherche qui a popularisé des indicateurs de
+            performance de livraison logicielle.
           </p>
 
           <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-2">

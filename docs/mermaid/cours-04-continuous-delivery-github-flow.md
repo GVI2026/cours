@@ -1,7 +1,7 @@
 flowchart TB
     A[Branche feature courte] --> B[Pull Request]
     B --> C[CI<br/>format, lint, tests, build, security]
-    C --> D{CI verte ?}
+    C --> D{La pipeline CI passe ?}
     D -->|non| B
     D -->|oui| E[Rebase sur main<br/>integration fast-forward]
     E --> F[Release<br/>SemVer + tag]

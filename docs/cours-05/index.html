@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cours 05 · Bonus — Pipeline CI/CD locale décortiquée</title>
+    <meta
+      name="description"
+      content="Support bonus du cours 05 : consolidation de la pipeline CI/CD locale tp-cd-deployment, DevContainer, act, artefacts, registres, déploiements et challenges."
+    />
+    <meta name="course:id" content="cours-05" />
+    <meta
+      name="course:title"
+      content="Bonus — Pipeline CI/CD locale décortiquée"
+    />
+    <meta name="course:duration-total-minutes" content="120" />
+    <meta
+      name="course:sections"
+      content="carte,devcontainer,pipeline,challenges"
+    />
+    <script id="course-metadata" type="application/json">
+      {
+        "courseId": "cours-05",
+        "title": "Bonus — Pipeline CI/CD locale décortiquée",
+        "totalDurationMinutes": 120,
+        "sections": [
+          {
+            "id": "carte",
+            "title": "Carte du terrain",
+            "durationMinutes": 5
+          },
+          {
+            "id": "devcontainer",
+            "title": "DevContainer, conteneurs et réseau local",
+            "durationMinutes": 30
+          },
+          {
+            "id": "pipeline",
+            "title": "Pipeline CI/CD finale, job par job",
+            "durationMinutes": 85
+          },
+          {
+            "id": "challenges",
+            "title": "Challenges pour aller plus loin",
+            "durationMinutes": 120
+          }
+        ]
+      }
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-6xl px-6 py-10 lg:px-8 xl:max-w-7xl">
+      <header class="border-b border-slate-200 pb-8">
+        <a
+          href="../index.html"
+          class="text-base font-medium text-sky-700 transition hover:text-sky-800"
+          >← Retour à l'accueil</a
+        >
+        <p
+          class="mt-6 text-base font-semibold uppercase tracking-[0.22em] text-slate-500"
+        >
+          Cours 05 · bonus
+        </p>
+        <h1
+          class="mt-3 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl"
+        >
+          Pipeline CI/CD locale décortiquée
+        </h1>
+        <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
+          Cette séance revient sur la pipeline finale de
+          <code>tp-cd-deployment</code>. On ne cherche pas à ajouter beaucoup de
+          nouvelles notions : on ouvre le capot, on suit les flux, on lit le
+          YAML, on manipule légèrement les jobs et on apprend à interpréter les
+          sorties.
+        </p>
+      </header>
+
+      <nav class="py-8">
+        <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
+        <ul class="mt-4 space-y-3 text-lg leading-8">
+          <li><a href="#carte" class="text-sky-700 hover:text-sky-800">Carte du terrain</a></li>
+          <li><a href="#devcontainer" class="text-sky-700 hover:text-sky-800">DevContainer et réseau local</a></li>
+          <li><a href="#pipeline" class="text-sky-700 hover:text-sky-800">Pipeline finale job par job</a></li>
+          <li><a href="#challenges" class="text-sky-700 hover:text-sky-800">Challenges d'approfondissement</a></li>
+        </ul>
+      </nav>
+
+      <main class="space-y-10 pb-12">
+        <section
+          id="carte"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+              5 minutes
+            </p>
+            <h2 class="mt-2 text-3xl font-semibold text-slate-950">
+              Carte du terrain
+            </h2>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Le TP simule une chaîne complète sur une machine hôte. Le
+            point important est de séparer les rôles : le DevContainer sert à
+            travailler, le moteur Docker de la machine exécute les conteneurs,
+            <code>act</code> crée des runners temporaires, et les services du TP
+            jouent les registres et les serveurs de déploiement.
+          </p>
+
+          <div
+            data-mermaid-src="../mermaid/cours-05-local-map.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement de la carte locale…</p>
+          </div>
+
+          <p class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+            <span class="font-semibold text-slate-900">Définition utile :</span>
+            le moteur Docker est le service qui crée, démarre, arrête et connecte
+            les conteneurs. Selon l'OS, il peut venir de Docker Engine, Docker
+            Desktop, Rancher Desktop, Colima ou d'une autre installation. Le
+            DevContainer n'est pas ce moteur : c'est lui-même un conteneur, avec
+            des outils qui parlent au moteur Docker disponible sur la machine.
+          </p>
+        </section>
+
+        <section
+          id="devcontainer"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+              30 minutes
+            </p>
+            <h2 class="mt-2 text-3xl font-semibold text-slate-950">
+              Désacralisation du DevContainer et des conteneurs
+            </h2>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Le DevContainer est l'environnement de travail reproductible du TP.
+            Il contient Node, npm, Git, SSH, <code>act</code>, Trivy et le client
+            Docker. Le client Docker ne lance pas les conteneurs tout seul : il
+            envoie des ordres au moteur Docker de la machine hôte. C'est aussi
+            pour cela que <code>act</code> pointe vers Docker dans le schéma :
+            <code>act</code> s'appuie sur Docker pour créer un conteneur runner
+            GitHub Actions local.
+          </p>
+
+          <div
+            data-mermaid-src="../mermaid/cours-05-devcontainer-network.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du schéma réseau…</p>
+          </div>
+
+          <div class="space-y-5">
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                <code>.devcontainer/devcontainer.json</code>
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : décrire l'atelier de développement que VS Code doit
+                construire. Il ne décrit pas l'application en production ; il
+                décrit le poste de travail reproductible utilisé pour le TP.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>{
+  "name": "tp-cd-deployment", // Nom affiché par VS Code pour ce DevContainer.
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:24",
+  // Image de base du conteneur de travail : Node 24 + TypeScript.
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "nestjs.vscode-nestjs-schematics", // Aide au développement NestJS.
+        "dbaeumer.vscode-eslint", // Remonte les erreurs ESLint dans l'IDE.
+        "esbenp.prettier-vscode", // Formatage Prettier.
+        "firsttris.vscode-jest-runner" // Lancement plus confortable des tests Jest.
+      ]
+    }
+  },
+
+  "forwardPorts": [3000, 4873, 5000, 2222, 2223, 3001, 3002],
+  // Ports du DevContainer à exposer vers la machine hôte.
+  // Exemple : un service joignable dans le DevContainer sur localhost:3000
+  // devient joignable depuis la machine hôte sur localhost:3000.
+
+  "mounts": [
+    "source=tp-cd-deployment-npm-cache,target=/home/node/.npm,type=volume"
+  ],
+  // Volume Docker persistant pour éviter de retélécharger tout le cache npm.
+
+  "postCreateCommand": "bash .devcontainer/setup.sh",
+  // Lancé une fois à la création : dépendances, clés SSH, outils, services.
+  "postStartCommand": "bash .devcontainer/start-services.sh",
+  // Relancé à chaque démarrage : remet les services et relais réseau en état.
+
+  "remoteUser": "node",
+  // Utilisateur utilisé dans le conteneur de travail.
+
+  "remoteEnv": {
+    "GIT_AUTHOR_NAME": "${localEnv:GIT_AUTHOR_NAME:}",
+    "GIT_AUTHOR_EMAIL": "${localEnv:GIT_AUTHOR_EMAIL:}",
+    "GIT_COMMITTER_NAME": "${localEnv:GIT_COMMITTER_NAME:}",
+    "GIT_COMMITTER_EMAIL": "${localEnv:GIT_COMMITTER_EMAIL:}"
+  },
+  // Réutilise l'identité Git de la machine locale dans le DevContainer.
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": true,
+      "upgradePackages": false
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  }
+  // Ajoute Git, des utilitaires, et surtout un client Docker qui parle au moteur hôte.
+}</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : retirer temporairement un port de
+                <code>forwardPorts</code> et observer ce qui reste accessible
+                depuis l'extérieur du DevContainer.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : VS Code ouvre un environnement homogène pour tout le
+                monde. Échec : le conteneur peut s'ouvrir sans les bons outils,
+                sans accès Docker, ou sans les ports nécessaires aux tests.
+              </p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                <code>.devcontainer/setup.sh</code>
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : préparer le TP au premier démarrage du DevContainer.
+                Ce script installe les dépendances, crée les données locales,
+                prépare SSH, configure <code>act</code> et installe les outils
+                nécessaires à la pipeline locale.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>#!/bin/bash
+set -ex
+# -e arrête le script à la première erreur.
+# -x affiche les commandes exécutées, utile pour comprendre le setup.
+
+WORKSPACE="/workspaces/tp-cd-deployment" # Chemin du dépôt dans le DevContainer.
+SSH_KEY_PATH="$HOME/.ssh/tp_cd_deployment_key" # Clé utilisée pour les déploiements SSH.
+
+echo "==> Installation des dépendances npm..."
+npm ci # Installation reproductible depuis package-lock.json.
+
+echo "==> Création de la base de données SQLite et initialisation des données de démonstration..."
+DATABASE_URL="./dev.db" npx ts-node db/seed.ts
+# Crée une base locale de développement, indépendante des bases des cibles déployées.
+
+echo "==> Génération de la paire de clés SSH pour les déploiements..."
+mkdir -p "$HOME/.ssh" # Crée le dossier SSH s'il n'existe pas.
+rm -f "$SSH_KEY_PATH" "$SSH_KEY_PATH.pub" # Supprime une ancienne paire pour repartir proprement.
+ssh-keygen -t ed25519 -f "$SSH_KEY_PATH" -N "" -C "tp-cd-deployment"
+# Génère une clé privée et une clé publique sans passphrase pour le TP.
+
+echo "==> Création du fichier de secrets pour act..."
+{ printf 'SSH_PRIVATE_KEY="'; cat "$SSH_KEY_PATH"; printf '"'; } > "$WORKSPACE/.secrets"
+# act lit .secrets pour fournir secrets.SSH_PRIVATE_KEY au workflow local.
+chmod 600 "$WORKSPACE/.secrets" # Restreint la lecture du fichier de secrets.
+
+echo "==> Configuration SSH locale..."
+cat >> "$HOME/.ssh/config" &lt;&lt;EOF
+
+Host tp-cd-deployment-npm
+  HostName localhost
+  Port 2222
+  User deployer
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  IdentityFile $SSH_KEY_PATH
+
+Host tp-cd-deployment-docker
+  HostName localhost
+  Port 2223
+  User deployer
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  IdentityFile $SSH_KEY_PATH
+EOF
+# Crée deux alias SSH faciles à utiliser depuis le terminal du DevContainer.
+chmod 600 "$HOME/.ssh/config"
+
+bash .devcontainer/start-services.sh
+# Lance les registres, cibles SSH, relais réseau et injection de clé publique.
+
+echo "==> Installation de act (exécution locale des GitHub Actions)..."
+curl -s https://raw.githubusercontent.com/nektos/act/master/install.sh -o install_act.sh
+sudo bash install_act.sh -b /usr/local/bin/
+rm install_act.sh
+sudo chmod +x /usr/local/bin/act
+# Installe act pour exécuter les jobs GitHub Actions localement.
+
+echo "==> Pré-téléchargement de l'image Docker pour act..."
+docker pull catthehacker/ubuntu:act-24.04
+# Évite de télécharger l'image runner au premier lancement du TP.
+
+echo "==> Installation de Trivy (scan de sécurité)..."
+curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
+# Installe le scanner de vulnérabilités utilisé par le job security.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : supprimer temporairement le fichier
+                <code>.secrets</code>, lancer un job de déploiement avec
+                <code>act</code>, puis expliquer pourquoi le secret SSH manque.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : le dépôt est prêt à lancer l'application, les tests et
+                la CI locale. Échec : les dépendances, la base locale, les clés
+                SSH, <code>act</code> ou Trivy peuvent manquer.
+              </p>
+            </article>
+
+            <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                Parenthèse : pourquoi créer une clé SSH ?
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                La pipeline locale doit simuler un vrai déploiement : un runner
+                CI se connecte à une machine cible et exécute des commandes. Pour
+                éviter les mots de passe, le TP crée une paire de clés. La clé
+                privée reste côté DevContainer et est copiée dans
+                <code>.secrets</code> pour que <code>act</code> puisse remplir
+                <code>secrets.SSH_PRIVATE_KEY</code>. La clé publique est injectée
+                dans <code>authorized_keys</code> des deux cibles SSH. Résultat :
+                le runner peut prouver son identité avec la clé privée, et les
+                cibles acceptent la connexion parce qu'elles connaissent la clé
+                publique correspondante.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>Clé privée : ~/.ssh/tp_cd_deployment_key
+  -> utilisée par le client SSH
+  -> copiée dans .secrets pour act
+
+Clé publique : ~/.ssh/tp_cd_deployment_key.pub
+  -> copiée dans /home/deployer/.ssh/authorized_keys des cibles
+  -> autorise les connexions du détenteur de la clé privée</code></pre>
+            </div>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                <code>.devcontainer/start-services.sh</code>
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : remettre l'infrastructure locale du TP dans un état
+                utilisable à chaque démarrage. Ce script peut être relancé après
+                une veille, un redémarrage ou un souci de relais réseau.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>#!/bin/bash
+set -euo pipefail
+# -e arrête au premier échec, -u refuse les variables non définies,
+# pipefail propage les erreurs dans les pipelines.
+
+WORKSPACE="/workspaces/tp-cd-deployment" # Chemin du dépôt dans le DevContainer.
+NETWORK="tp-cd-deployment_cd-network" # Réseau Docker créé par docker compose.
+SSH_KEY_PATH="$HOME/.ssh/tp_cd_deployment_key" # Clé publique à injecter.
+
+echo "==> Démarrage des services locaux (registres + cibles SSH)..."
+docker compose -f "$WORKSPACE/docker-compose.yml" up -d --build
+# Construit et démarre Verdaccio, registry:2, ssh-npm-target et ssh-docker-target.
+
+echo "==> Connexion du DevContainer au réseau Docker cd-network..."
+docker network connect "$NETWORK" "$(hostname)" 2>/dev/null || true
+# Ajoute le DevContainer au même réseau que les services, si ce n'est pas déjà fait.
+
+echo "==> Démarrage des relais socat (localhost → services Docker)..."
+DEVCONTAINER_ID="$(hostname)" # Dans un conteneur, hostname correspond à son id.
+docker exec "$DEVCONTAINER_ID" pkill -f "socat TCP-LISTEN:4873" 2>/dev/null || true
+docker exec "$DEVCONTAINER_ID" pkill -f "socat TCP-LISTEN:5000" 2>/dev/null || true
+docker exec "$DEVCONTAINER_ID" pkill -f "socat TCP-LISTEN:2222" 2>/dev/null || true
+docker exec "$DEVCONTAINER_ID" pkill -f "socat TCP-LISTEN:2223" 2>/dev/null || true
+docker exec "$DEVCONTAINER_ID" pkill -f "socat TCP-LISTEN:3001" 2>/dev/null || true
+docker exec "$DEVCONTAINER_ID" pkill -f "socat TCP-LISTEN:3002" 2>/dev/null || true
+# Nettoie les anciens relais pour éviter les ports déjà occupés.
+
+docker exec -d "$DEVCONTAINER_ID" socat TCP-LISTEN:4873,fork,reuseaddr TCP:verdaccio:4873
+docker exec -d "$DEVCONTAINER_ID" socat TCP-LISTEN:5000,fork,reuseaddr TCP:registry:5000
+docker exec -d "$DEVCONTAINER_ID" socat TCP-LISTEN:2222,fork,reuseaddr TCP:ssh-npm-target:22
+docker exec -d "$DEVCONTAINER_ID" socat TCP-LISTEN:2223,fork,reuseaddr TCP:ssh-docker-target:22
+docker exec -d "$DEVCONTAINER_ID" socat TCP-LISTEN:3001,fork,reuseaddr TCP:ssh-npm-target:3000
+docker exec -d "$DEVCONTAINER_ID" socat TCP-LISTEN:3002,fork,reuseaddr TCP:ssh-docker-target:3000
+# Crée des tunnels locaux : localhost du DevContainer vers les services Docker.
+
+if [ -f "$SSH_KEY_PATH.pub" ]; then
+  echo "==> Injection de la clé publique dans les cibles SSH..."
+  for target in tp-cd-deployment-ssh-npm-target tp-cd-deployment-ssh-docker-target; do
+    docker exec "$target" sh -c "echo '$(cat "$SSH_KEY_PATH.pub")' > /home/deployer/.ssh/authorized_keys && chmod 600 /home/deployer/.ssh/authorized_keys && chown deployer:deployer /home/deployer/.ssh/authorized_keys"
+  done
+fi
+# Autorise les deux cibles SSH à accepter la clé privée générée par setup.sh.
+
+echo "==> Attente du démarrage de Verdaccio..."
+until curl -sf http://localhost:4873/-/ping > /dev/null 2>&1; do
+  echo "   ... Verdaccio pas encore prêt, attente 2s..."
+  sleep 2
+done
+# Boucle tant que le registre npm local ne répond pas.
+
+echo "==> Attente du démarrage du registry Docker..."
+until curl -sf http://localhost:5000/v2/ > /dev/null 2>&1; do
+  echo "   ... registry:2 pas encore prêt, attente 2s..."
+  sleep 2
+done
+# Boucle tant que le registre Docker local ne répond pas.
+
+echo "==> Attente des cibles SSH..."
+for port in 2222 2223; do
+  for i in $(seq 1 15); do
+    if ssh -i "$SSH_KEY_PATH" -p "$port" -o StrictHostKeyChecking=no -o ConnectTimeout=3 deployer@localhost "echo ok" > /dev/null 2>&1; then
+      echo "   SSH target $port opérationnelle"
+      break
+    fi
+    echo "   ... SSH target $port pas encore prête ($i/15), attente 2s..."
+    sleep 2
+  done
+done
+# Vérifie que les deux cibles de déploiement acceptent bien une connexion SSH.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : arrêter un conteneur de service avec
+                <code>docker stop</code>, relancer
+                <code>bash .devcontainer/start-services.sh</code>, puis vérifier
+                que le service et les relais reviennent.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : registres, cibles SSH et relais locaux répondent. Échec :
+                Docker Compose ne démarre pas, le DevContainer n'est pas sur le
+                bon réseau, les relais <code>socat</code> ne tournent pas, ou
+                les cibles SSH ne reçoivent pas la clé publique.
+              </p>
+            </article>
+          </div>
+
+          <div class="rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
+            <h3 class="text-xl font-semibold text-slate-950">Mini-exercice : vérifier le terrain</h3>
+            <p class="mt-3 text-lg leading-8 text-slate-700">
+              Associer chaque commande à une pièce du schéma : moteur Docker,
+              registre npm, registre Docker, cible SSH ou relais réseau.
+            </p>
+            <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>docker ps
+curl http://localhost:4873/-/ping
+curl http://localhost:5000/v2/
+ssh tp-cd-deployment-npm "echo ok"
+ssh tp-cd-deployment-docker "echo ok"
+bash bin/check-relays.sh</code></pre>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Les deux schémas suivants montrent les deux chemins de déploiement
+            du TP. Ils partent du même build, mais terminent dans deux formats
+            différents : un package npm installé avec pm2, et une image Docker
+            lancée comme conteneur applicatif.
+          </p>
+
+          <div
+            data-mermaid-src="../mermaid/cours-05-npm-flow.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du flux npm…</p>
+          </div>
+          <div
+            data-mermaid-src="../mermaid/cours-05-docker-flow.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du flux Docker…</p>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Ce dernier schéma montre le rôle de <code>act</code> : il lit le
+            workflow GitHub Actions, demande au moteur Docker de créer un runner
+            local, puis ce runner exécute les steps du job comme le ferait un
+            runner GitHub hébergé.
+          </p>
+          <div
+            data-mermaid-src="../mermaid/cours-05-act-sequence.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement de la séquence act…</p>
+          </div>
+        </section>
+
+        <section
+          id="pipeline"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+              85 minutes
+            </p>
+            <h2 class="mt-2 text-3xl font-semibold text-slate-950">
+              Désacralisation de la pipeline finale
+            </h2>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            La pipeline se lit comme une chaîne de preuves : le code est
+            vérifié, compilé, scanné, versionné, publié, déployé puis vérifié.
+            Les jobs sont isolés ; quand un job a besoin d'un résultat produit
+            ailleurs, il faut le transmettre explicitement avec un cache, un
+            artefact ou un registre.
+          </p>
+
+          <div
+            data-mermaid-src="../mermaid/cours-05-final-pipeline.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement de la pipeline finale…</p>
+          </div>
+
+          <div class="space-y-6">
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5" open>
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>install</code> : préparer les dépendances
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : obtenir un dossier <code>node_modules</code> cohérent
+                avec <code>package-lock.json</code>, ou le restaurer depuis le
+                cache si rien n'a changé.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>install: # Identifiant du job, utilisé par needs.
+  name: Installation des dépendances # Nom lisible dans l'interface Actions.
+  runs-on: ubuntu-latest # Runner Linux utilisé par GitHub ou simulé par act.
+  steps: # Liste des actions exécutées dans ce job.
+    - uses: actions/checkout@v4 # Récupère le code du dépôt dans le runner.
+    - name: Setup Node.js # Prépare Node.
+      uses: actions/setup-node@v4 # Action officielle de configuration Node.
+      with:
+        node-version: '24' # Même version que le DevContainer.
+        cache: 'npm' # Active le cache npm global.
+    - name: Restaurer le cache node_modules
+      id: cache-node-modules # Donne un nom réutilisable à ce step.
+      uses: actions/cache@v4 # Restaure ou crée un cache.
+      with:
+        path: node_modules # Dossier à restaurer.
+        key: node-modules-${{ hashFiles('package-lock.json') }} # Cache invalidé si le lockfile change.
+    - name: Installer les dépendances
+      if: steps.cache-node-modules.outputs.cache-hit != 'true' # Évite npm ci si cache trouvé.
+      run: npm ci # Installation reproductible depuis package-lock.json.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : modifier temporairement une version dans
+                <code>package-lock.json</code> ou supprimer le cache, puis
+                observer si <code>npm ci</code> est relancé.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : les dépendances sont disponibles pour les jobs suivants.
+                Échec : le lockfile est incohérent, le registre npm est
+                inaccessible, ou une dépendance ne s'installe plus.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>format-lint</code> : vérifier la qualité statique
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : bloquer les changements qui ne respectent pas le
+                formatage ou les règles de qualité avant d'aller aux tests.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>format-lint:
+  name: Formatage & Lint # Nom affiché du job.
+  runs-on: ubuntu-latest # Runner isolé.
+  needs: [install] # Ne démarre que si install est vert.
+  steps:
+    - uses: actions/checkout@v4 # Le runner repart d'un checkout propre.
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24' # Version Node alignée avec le projet.
+    - name: Restaurer le cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules # Récupère les dépendances préparées.
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Vérifier le formatage (Prettier)
+      run: npm run format:check # Vérifie sans réécrire les fichiers.
+    - name: Analyser le code (ESLint + SonarJS)
+      run: npm run lint # Exécute les règles de lint.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : ajouter volontairement un espace ou une
+                indentation non conforme dans un fichier TypeScript, lancer le
+                job, puis corriger avec le script de formatage local.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : le code est lisible et conforme aux règles. Échec : le
+                code peut fonctionner, mais il ne passe pas la convention commune
+                de l'équipe.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>tests</code> : valider la logique applicative
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : exécuter les tests unitaires avec couverture pour
+                vérifier les comportements métier proches du code.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>tests:
+  name: Tests unitaires # Nom lisible.
+  runs-on: ubuntu-latest
+  needs: [format-lint] # On teste seulement un code déjà propre.
+  steps:
+    - uses: actions/checkout@v4 # Récupération du code.
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Restaurer le cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Lancer les tests avec couverture
+      run: npm run test:ci # Lance Jest en mode CI avec couverture.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : changer temporairement l'exigence de couverture
+                dans la configuration Jest ou le script associé, puis observer
+                si le job échoue alors que les assertions passent.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : les comportements testés restent vrais et la couverture
+                minimale est respectée. Échec : une règle métier est cassée, un
+                test est instable ou la couverture devient insuffisante.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>tests-e2e</code> : valider l'API HTTP
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : démarrer l'application en contexte de test et
+                vérifier les routes HTTP avec Supertest.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>tests-e2e:
+  name: Tests E2E (Supertest)
+  runs-on: ubuntu-latest
+  needs: [tests] # Les E2E arrivent après les tests unitaires.
+  steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Restaurer le cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Lancer les tests E2E
+      run: npm run test:e2e # Exécute les scénarios HTTP.
+      env:
+        DATABASE_URL: ':memory:' # Base SQLite en mémoire, jetable et isolée.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : ajouter une attente sur un code HTTP précis dans
+                un test E2E, puis provoquer une divergence dans le contrôleur.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : l'API répond comme attendu côté utilisateur HTTP. Échec :
+                le contrat d'API est cassé, ou l'environnement de test ne démarre
+                plus correctement.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>build</code> : produire l'artefact compilé
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : compiler TypeScript vers <code>dist/</code>, puis
+                transmettre ce résultat aux jobs de publication.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>build:
+  name: Build
+  runs-on: ubuntu-latest
+  needs: [tests-e2e] # On build seulement si les validations passent.
+  steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Restaurer le cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Compiler l'application
+      run: npm run build # Produit dist/.
+    - name: Sauvegarder le build
+      uses: actions/upload-artifact@v4 # Stocke un résultat pour d'autres jobs.
+      with:
+        name: build-dist # Nom de l'artefact.
+        path: dist/ # Dossier transmis.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : changer temporairement le nom de l'artefact en
+                <code>build-dist-test</code>, puis constater que les jobs qui le
+                téléchargent ne le trouvent plus.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : le code est compilable et <code>dist/</code> est
+                disponible. Échec : erreur TypeScript, script de build cassé ou
+                artefact absent.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>security</code> : rendre les vulnérabilités visibles
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : scanner le dépôt avec Trivy. Dans ce TP, le scan est
+                pédagogique : il rend l'information visible sans bloquer sur les
+                vulnérabilités.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>security:
+  name: Scan de sécurité (Trivy)
+  runs-on: ubuntu-latest
+  needs: [build] # Le scan arrive après un build réussi.
+  steps:
+    - uses: actions/checkout@v4
+    - name: Installer Trivy
+      run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b .
+      # Télécharge Trivy dans le runner.
+    - name: Scanner les dépendances npm
+      run: ./trivy fs --exit-code 0 --severity CRITICAL,HIGH --no-progress .
+      # --exit-code 0 signifie : afficher les problèmes, mais ne pas faire échouer le job.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : remplacer temporairement <code>--exit-code 0</code>
+                par <code>--exit-code 1</code> et discuter du choix entre scan
+                informatif et scan bloquant.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : le scan a tourné et ses résultats sont lisibles. Échec :
+                Trivy n'a pas pu s'installer, ou le scan est configuré pour
+                bloquer sur les vulnérabilités détectées.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>release</code> : calculer la version
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : transformer l'historique de commits en version SemVer
+                et tag de release, uniquement sur <code>main</code>.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>release:
+  name: Release
+  runs-on: ubuntu-latest
+  needs: [security] # La release attend les vérifications précédentes.
+  if: github.ref == 'refs/heads/main' # Pas de publication depuis une branche de travail.
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Récupère l'historique et les tags nécessaires au versioning.
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Restaurer le cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Configurer git user
+      run: |
+        git config user.email "ci@example.com" # Auteur du commit de release.
+        git config user.name "CI"
+    - name: Calculer la version
+      run: npx commit-and-tag-version # Met à jour version, changelog et tag dans le runner.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : comparer l'effet d'un commit
+                <code>fix:</code> et d'un commit <code>feat:</code> sur le bump
+                de version attendu.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : une version cohérente est calculée dans le runner. Échec :
+                l'historique Git est insuffisant, les commits ne respectent pas
+                les conventions, ou le workspace Git n'est pas modifiable.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>publish-npm</code> : publier le package
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : prendre le build compilé et publier le package dans
+                Verdaccio, le registre npm local du TP.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>publish-npm:
+  name: Publish npm
+  runs-on: ubuntu-latest
+  needs: [release] # Publie seulement après calcul de version.
+  if: github.ref == 'refs/heads/main' # Publication limitée à main.
+  steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+    - name: Restaurer le cache node_modules
+      uses: actions/cache@v4
+      with:
+        path: node_modules
+        key: node-modules-${{ hashFiles('package-lock.json') }}
+    - name: Telecharger le build
+      uses: actions/download-artifact@v4 # Récupère l'artefact produit par build.
+      with:
+        name: build-dist
+        path: dist/
+    - name: Configurer Verdaccio
+      run: npm set //localhost:4873/:_authToken "dummy-token" # Simule l'auth npm locale.
+    - name: Publier le package
+      run: npm publish --registry http://localhost:4873 # Envoie le package versionné.</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : changer temporairement l'URL du registry et
+                observer l'erreur, puis vérifier une publication réussie avec
+                <code>npm view</code>.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : la version npm existe dans Verdaccio. Échec : artefact
+                manquant, authentification npm incorrecte, registry inaccessible
+                ou version déjà publiée.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>publish-docker</code> : publier l'image
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : construire une image Docker versionnée avec le même
+                build <code>dist/</code>, puis la pousser dans le registry local.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>publish-docker:
+  name: Publish Docker
+  runs-on: ubuntu-latest
+  needs: [release]
+  if: github.ref == 'refs/heads/main'
+  steps:
+    - uses: actions/checkout@v4
+    - name: Telecharger le build
+      uses: actions/download-artifact@v4
+      with:
+        name: build-dist # Même artefact que publish-npm.
+        path: dist/
+    - name: Calculer le tag Docker
+      id: version
+      run: |
+        VERSION=$(node -p "require('./package.json').version") # Lit la version npm.
+        echo "version=${VERSION}" >> "$GITHUB_OUTPUT" # Expose la version aux steps suivants.
+    - name: Verifier que le tag Docker n'existe pas
+      run: |
+        TAG="${{ steps.version.outputs.version }}"
+        URL="http://localhost:5000/v2/tp-cd-deployment/manifests/${TAG}"
+        if curl -fsI -H "Accept: application/vnd.docker.distribution.manifest.v2+json" "$URL" > /dev/null; then
+          exit 1 # Refuse d'écraser un tag déjà présent.
+        fi
+    - name: Construire l'image
+      run: docker build -t localhost:5000/tp-cd-deployment:${{ steps.version.outputs.version }} .
+    - name: Publier l'image
+      run: docker push localhost:5000/tp-cd-deployment:${{ steps.version.outputs.version }}</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : supprimer temporairement la vérification du tag,
+                discuter de la mutabilité des tags Docker, puis la remettre.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : l'image versionnée est disponible dans
+                <code>registry:2</code>. Échec : build Docker cassé, registry
+                inaccessible, ou tag déjà présent.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>deploy-npm</code> : installer le package sur la cible npm
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : se connecter en SSH à la cible npm, installer la
+                version publiée depuis Verdaccio, puis démarrer l'application
+                avec pm2.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>deploy-npm:
+  name: Deploy npm
+  runs-on: ubuntu-latest
+  needs: [publish-npm] # Attend la publication npm.
+  if: github.ref == 'refs/heads/main'
+  steps:
+    - uses: actions/checkout@v4
+    - name: Calculer la version
+      id: version
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+    - name: Deployer le package npm
+      uses: appleboy/ssh-action@v1.0.3 # Exécute le script sur la cible SSH.
+      with:
+        host: localhost
+        port: 2222 # Relais vers ssh-npm-target.
+        username: deployer
+        key: ${{ secrets.SSH_PRIVATE_KEY }} # Clé préparée dans .secrets pour act.
+        script: |
+          set -e
+          mkdir -p ~/app
+          CURRENT=$(node -p "require('/home/deployer/app/node_modules/tp-cd-deployment/package.json').version" 2>/dev/null || echo "")
+          echo "$CURRENT" > ~/app/.previous-npm-version # Prépare un rollback.
+          npm install --prefix ~/app tp-cd-deployment@${{ steps.version.outputs.version }} --registry http://verdaccio:4873 --ignore-scripts
+          pm2 delete tp-cd-deployment-npm 2>/dev/null || true
+          PORT=3000 DATABASE_URL=/home/deployer/app/dev.db pm2 start ~/app/node_modules/tp-cd-deployment/dist/src/main.js --name tp-cd-deployment-npm --update-env</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : changer temporairement le port SSH vers
+                <code>2223</code> et expliquer pourquoi le script npm n'a plus la
+                bonne cible.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : pm2 exécute la version publiée et l'app sera joignable
+                via le relais <code>3001</code>. Échec : SSH, secret,
+                Verdaccio, installation npm ou démarrage pm2 pose problème.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>deploy-docker</code> : lancer l'image sur la cible Docker
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : se connecter à la cible Docker, tirer l'image publiée
+                depuis le registry local et remplacer le conteneur applicatif.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>deploy-docker:
+  name: Deploy Docker
+  runs-on: ubuntu-latest
+  needs: [publish-docker] # Attend que l'image existe dans le registry.
+  if: github.ref == 'refs/heads/main'
+  steps:
+    - uses: actions/checkout@v4
+    - name: Calculer la version
+      id: version
+      run: |
+        VERSION=$(node -p "require('./package.json').version")
+        echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+    - name: Deployer l'image Docker
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: localhost
+        port: 2223 # Relais vers ssh-docker-target.
+        username: deployer
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          set -e
+          docker pull localhost:5000/tp-cd-deployment:${{ steps.version.outputs.version }}
+          docker rm -f tp-cd-deployment-app 2>/dev/null || true
+          docker run -d \
+            --name tp-cd-deployment-app \
+            --network container:tp-cd-deployment-ssh-docker-target \
+            -e PORT=3000 \
+            -e DATABASE_URL=/app/dev.db \
+            localhost:5000/tp-cd-deployment:${{ steps.version.outputs.version }}</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : changer temporairement le nom du conteneur dans
+                <code>docker run</code>, puis observer l'effet sur les commandes
+                de nettoyage ou d'inspection.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : un conteneur applicatif exécute l'image versionnée et
+                sera joignable via le relais <code>3002</code>. Échec : image
+                absente, registry inaccessible, commande Docker impossible ou
+                démarrage applicatif cassé.
+              </p>
+            </details>
+
+            <details class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <summary class="cursor-pointer text-xl font-semibold text-slate-950">
+                Job <code>healthcheck-deployment</code> : prouver que les deux déploiements répondent
+              </summary>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Objectif : vérifier la réalité opérationnelle minimale : les
+                deux services déployés répondent sur <code>/health</code>.
+              </p>
+              <pre class="mt-4 overflow-x-auto rounded-xl bg-slate-950 p-4 text-sm leading-6 text-slate-100"><code>healthcheck-deployment:
+  name: Healthcheck deployment
+  runs-on: ubuntu-latest
+  needs: [deploy-npm, deploy-docker] # Attend les deux chemins de déploiement.
+  if: github.ref == 'refs/heads/main'
+  steps:
+    - name: Verifier le service npm
+      run: curl -f http://localhost:3001/health # -f échoue sur HTTP 4xx/5xx.
+    - name: Verifier le service Docker
+      run: curl -f http://localhost:3002/health</code></pre>
+              <p class="mt-4 text-lg leading-8 text-slate-700">
+                Mini-exercice : remplacer temporairement <code>/health</code>
+                par une route inexistante pour observer un échec de smoke test.
+              </p>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Succès : les deux déploiements sont joignables. Échec : le code
+                peut être publié, mais le service réellement déployé ne répond
+                pas comme attendu.
+              </p>
+            </details>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Le schéma suivant isole le passage d'un build compilé vers deux
+            publications. Il sert à comprendre le principe
+            <code>build once, publish many</code> : le job <code>build</code>
+            produit une seule sortie, puis les jobs de publication la
+            retéléchargent.
+          </p>
+          <div
+            data-mermaid-src="../mermaid/cours-05-artifacts-sequence.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement des artefacts…</p>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Celui-ci suit une version de bout en bout : commit, build, version,
+            publication npm, publication Docker, déploiement et healthcheck
+            final.
+          </p>
+          <div
+            data-mermaid-src="../mermaid/cours-05-version-state.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du cycle de version…</p>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Le dernier schéma sert à lire le rollback comme une réaction à un
+            échec de vérification, pas comme une étape normale de livraison.
+          </p>
+          <div
+            data-mermaid-src="../mermaid/cours-05-rollback.md"
+            class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
+          >
+            <p class="text-base text-slate-500">Chargement du rollback…</p>
+          </div>
+        </section>
+
+        <section
+          id="challenges"
+          class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
+        >
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Challenges · 2 heures maximum chacun
+            </p>
+            <h2 class="mt-2 text-3xl font-semibold text-slate-950">
+              Challenges pour aller plus loin
+            </h2>
+          </div>
+
+          <p class="text-lg leading-8 text-slate-700">
+            Chaque challenge part de <code>tp-cd-deployment</code> et doit tenir
+            en deux heures maximum. L'objectif est d'aller un cran plus loin
+            autour de la CI/CD : déclencheurs, exécution distante, release,
+            données, observabilité ou workflows manuels.
+          </p>
+
+          <div class="space-y-5">
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                1. Sortir du 100 % local : exécuter la pipeline sur GitHub
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : pousser le dépôt sur GitHub, déclencher la CI distante
+                et comparer les différences avec <code>act</code>. Livrable :
+                capture ou résumé d'un run GitHub Actions, avec au moins trois
+                différences expliquées : secrets, accès aux registres locaux,
+                réseau, artefacts ou permissions.
+              </p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                2. Explorer les triggers GitHub Actions
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : tester <code>push</code>, <code>pull_request</code>,
+                <code>workflow_dispatch</code> et éventuellement
+                <code>schedule</code> dans un workflow dédié. Livrable : un petit
+                workflow d'observation qui affiche le trigger, la branche, le SHA
+                et les variables GitHub utiles.
+              </p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                3. Mettre en application un workflow précis
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : créer un workflow manuel
+                <code>workflow_dispatch</code> avec un paramètre
+                <code>environment</code> ou <code>version</code>, puis exécuter
+                seulement les étapes nécessaires. Livrable : un workflow simple,
+                documenté, qui montre comment cibler une action ponctuelle sans
+                relancer toute la chaîne.
+              </p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                4. Données de déploiement
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : comprendre pourquoi les bases SQLite des déploiements
+                npm et Docker peuvent paraître vides. Livrable : diagnostic +
+                une solution testée parmi seed contrôlé, volume persistant,
+                migration ou endpoint d'initialisation.
+              </p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                5. Remplacer le release tooling
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : mettre en place <code>release-please</code> ou
+                <code>semantic-release</code> sur le dépôt distant, en gardant
+                l'esprit Conventional Commits. Livrable : une release de test ou
+                un dry-run documenté, avec comparaison claire face à
+                <code>commit-and-tag-version</code>.
+              </p>
+            </article>
+
+            <article class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <h3 class="text-xl font-semibold text-slate-950">
+                6. Ajouter une observabilité minimale
+              </h3>
+              <p class="mt-3 text-lg leading-8 text-slate-700">
+                Objectif : ajouter un signal exploitable après déploiement :
+                endpoint <code>/metrics</code>, logs structurés, Prometheus +
+                Grafana, ou un tableau de santé plus simple. Livrable : une
+                preuve visuelle ou textuelle permettant de répondre à
+                « quelle version tourne et est-elle en bonne santé ? ».
+              </p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="../assets/js/mermaid-loader.js"></script>
+  </body>
+</html>

@@ -4,7 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      Cours 04 · De l'artefact à la production — Continuous Delivery et Continuous Deployment
+      Cours 04 · De l'artefact à la production — Continuous Delivery et
+      Continuous Deployment
     </title>
     <meta
       name="description"
@@ -108,25 +109,77 @@
         <p class="mt-6 max-w-4xl text-lg leading-9 text-slate-700">
           Le cours-03 a posé les flows de développement et les bases d'une CI
           lisible, fail-fast et exécutable localement. Cette séance répond à la
-          question suivante : quand le code est validé, comment le transformer en
-          livrable versionné, publié et prêt à partir vers un environnement ?
+          question suivante : quand le code est validé, comment le transformer
+          en livrable versionné, publié et prêt à partir vers un environnement ?
         </p>
       </header>
 
       <nav class="py-8">
         <h2 class="text-xl font-semibold text-slate-950">Parcours du cours</h2>
         <ul class="mt-4 space-y-3 text-lg leading-8">
-          <li><a href="#qcm" class="text-sky-700 hover:text-sky-800">QCM de reprise</a></li>
-          <li><a href="#ci-vers-cd" class="text-sky-700 hover:text-sky-800">CI vers CD</a></li>
-          <li><a href="#continuous-delivery" class="text-sky-700 hover:text-sky-800">CD as Continuous Delivery</a></li>
-          <li><a href="#tp-cd-delivery" class="text-sky-700 hover:text-sky-800">TP Delivery</a></li>
-          <li><a href="#tp-cd-delivery-retour" class="text-sky-700 hover:text-sky-800">Retour sur le TP CD</a></li>
-          <li><a href="#release-tooling" class="text-sky-700 hover:text-sky-800">Outillage de release</a></li>
-          <li><a href="#continuous-deployment" class="text-sky-700 hover:text-sky-800">CD as Continuous Deployment</a></li>
-          <li><a href="#tp-cd-deployment" class="text-sky-700 hover:text-sky-800">TP Deployment</a></li>
-          <li><a href="#tp-cd-deployment-retour" class="text-sky-700 hover:text-sky-800">Retour sur le déploiement</a></li>
-          <li><a href="#dora-metrics" class="text-sky-700 hover:text-sky-800">Métriques DORA</a></li>
-          <li><a href="#synthese" class="text-sky-700 hover:text-sky-800">Synthèse finale</a></li>
+          <li>
+            <a href="#qcm" class="text-sky-700 hover:text-sky-800"
+              >QCM de reprise</a
+            >
+          </li>
+          <li>
+            <a href="#ci-vers-cd" class="text-sky-700 hover:text-sky-800"
+              >CI vers CD</a
+            >
+          </li>
+          <li>
+            <a
+              href="#continuous-delivery"
+              class="text-sky-700 hover:text-sky-800"
+              >CD as Continuous Delivery</a
+            >
+          </li>
+          <li>
+            <a href="#tp-cd-delivery" class="text-sky-700 hover:text-sky-800"
+              >TP Delivery</a
+            >
+          </li>
+          <li>
+            <a
+              href="#tp-cd-delivery-retour"
+              class="text-sky-700 hover:text-sky-800"
+              >Retour sur le TP CD</a
+            >
+          </li>
+          <li>
+            <a href="#release-tooling" class="text-sky-700 hover:text-sky-800"
+              >Outillage de release</a
+            >
+          </li>
+          <li>
+            <a
+              href="#continuous-deployment"
+              class="text-sky-700 hover:text-sky-800"
+              >CD as Continuous Deployment</a
+            >
+          </li>
+          <li>
+            <a href="#tp-cd-deployment" class="text-sky-700 hover:text-sky-800"
+              >TP Deployment</a
+            >
+          </li>
+          <li>
+            <a
+              href="#tp-cd-deployment-retour"
+              class="text-sky-700 hover:text-sky-800"
+              >Retour sur le déploiement</a
+            >
+          </li>
+          <li>
+            <a href="#dora-metrics" class="text-sky-700 hover:text-sky-800"
+              >Métriques DORA</a
+            >
+          </li>
+          <li>
+            <a href="#synthese" class="text-sky-700 hover:text-sky-800"
+              >Synthèse finale</a
+            >
+          </li>
         </ul>
       </nav>
 
@@ -139,8 +192,8 @@
             QCM de reprise du cours-03
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            La séance commence par 20 minutes de QCM sur papier ; posez le
-            stylo quand le temps est écoulé.
+            La séance commence par 20 minutes de QCM sur papier ; posez le stylo
+            quand le temps est écoulé.
           </p>
         </section>
 
@@ -154,8 +207,8 @@
           <p class="text-lg leading-8 text-slate-700">
             La CI répond à « est-ce que ce changement reste sain ? ». La CD
             commence quand la question devient : « quel livrable exact doit être
-            transmis à la suite ? ». Le passage critique est donc l'artefact : une sortie
-            de pipeline versionnée, traçable et réutilisable.
+            transmis à la suite ? ». Le passage critique est donc l'artefact :
+            une sortie de pipeline versionnée, traçable et réutilisable.
           </p>
 
           <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-3">
@@ -166,14 +219,18 @@
               </p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <h3 class="text-xl font-semibold text-slate-950">Continuous Delivery</h3>
+              <h3 class="text-xl font-semibold text-slate-950">
+                Continuous Delivery
+              </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Prépare et publie un livrable prêt à déployer. Le dernier choix
                 reste humain.
               </p>
             </div>
             <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <h3 class="text-xl font-semibold text-slate-950">Continuous Deployment</h3>
+              <h3 class="text-xl font-semibold text-slate-950">
+                Continuous Deployment
+              </h3>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Déploie automatiquement chaque changement validé sur la branche
                 principale.
@@ -181,7 +238,9 @@
             </div>
           </div>
 
-          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
+          <p
+            class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700"
+          >
             <span class="font-semibold text-slate-900">Repère :</span>
             la Delivery n'est pas un Deployment incomplet. C'est un niveau de
             maturité utile quand l'équipe veut des livrables fiables tout en
@@ -197,8 +256,8 @@
             CD as Continuous Delivery
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            La Continuous Delivery est étudiée avec un GitHub
-            Flow concret : branche courte, Pull Request, CI, rebase sur
+            La Continuous Delivery est étudiée avec un GitHub Flow concret :
+            branche courte, Pull Request, CI, rebase sur
             <code>main</code>, intégration fast-forward, versioning, puis
             publication d'artefacts. La chaîne s'arrête volontairement après la
             publication : tout est prêt, mais rien n'est automatiquement envoyé
@@ -214,9 +273,13 @@
             </div>
           </div>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+          <div
+            class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
             <p>
-              <span class="font-semibold text-slate-900">Build once, publish many :</span>
+              <span class="font-semibold text-slate-900"
+                >Build once, publish many :</span
+              >
               la pipeline compile une seule fois le code validé, conserve le
               résultat comme artefact, puis réutilise exactement ce même contenu
               pour produire plusieurs livrables. L'intérêt est double : si un
@@ -235,29 +298,46 @@
             </p>
           </div>
 
-          <h3 class="text-xl font-semibold text-slate-950">Les cibles de publication :</h3>
+          <h3 class="text-xl font-semibold text-slate-950">
+            Les cibles de publication :
+          </h3>
           <div class="grid gap-4 md:grid-cols-3">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
-              <h4 class="text-xl font-semibold text-slate-950">Packages d'écosystème</h4>
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
+              <h4 class="text-xl font-semibold text-slate-950">
+                Packages d'écosystème
+              </h4>
               <p class="mt-3">
                 Un package npm, Maven, NuGet ou une Python wheel distribue une
-                bibliothèque ou une application dans l'écosystème de son langage.
-                Il est consommé par d'autres projets, par un serveur interne, ou
-                par une étape de livraison qui sait installer ce format.
+                bibliothèque ou une application dans l'écosystème de son
+                langage. Il est consommé par d'autres projets, par un serveur
+                interne, ou par une étape de livraison qui sait installer ce
+                format.
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
-              <h4 class="text-xl font-semibold text-slate-950">Images de conteneurs compatibles OCI</h4>
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
+              <h4 class="text-xl font-semibold text-slate-950">
+                Images de conteneurs compatibles OCI
+              </h4>
               <p class="mt-3">
-                OCI signifie <span class="font-semibold text-slate-900">Open Container Initiative</span>.
-                C'est un ensemble de spécifications ouvertes qui décrit le format
-                des images de conteneurs et leur distribution via des registres.
-                Une image compatible OCI peut être produite avec Docker et
-                exécutée ou stockée par des outils compatibles.
+                OCI signifie
+                <span class="font-semibold text-slate-900"
+                  >Open Container Initiative</span
+                >. C'est un ensemble de spécifications ouvertes qui décrit le
+                format des images de conteneurs et leur distribution via des
+                registres. Une image compatible OCI peut être produite avec
+                Docker et exécutée ou stockée par des outils compatibles.
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
-              <h4 class="text-xl font-semibold text-slate-950">Binaires et paquets système</h4>
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
+              <h4 class="text-xl font-semibold text-slate-950">
+                Binaires et paquets système
+              </h4>
               <p class="mt-3">
                 Un exécutable, une archive, un paquet <code>.deb</code> ou
                 <code>.rpm</code> reste utile pour les machines virtuelles, les
@@ -269,7 +349,9 @@
           </div>
 
           <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-2">
-            <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">Verdaccio</h3>
               <p class="mt-3">
                 Dans le TP, Verdaccio simule un registre npm privé local. Il
@@ -277,7 +359,9 @@
                 pipeline.
               </p>
             </div>
-            <div class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">registry:2</h3>
               <p class="mt-3">
                 Le registre Docker officiel local reçoit l'image
@@ -303,30 +387,54 @@
             >. Comme pour les TP précédents, le dépôt doit d'abord être
             <span class="font-semibold text-slate-900">forké sur GitHub</span>,
             puis cloné localement. La Delivery vient d'être expliquée avec
-            l'exemple du GitHub Flow, mais ce TP
-            n'a plus pour objectif de faire pratiquer un workflow précis : il
-            isole la livraison d'artefacts. La base reprend le dépôt CI,
-            l'allège avec SQLite, puis ajoute deux registres locaux pour publier
-            un package npm et une image Docker.
+            l'exemple du GitHub Flow, mais ce TP n'a plus pour objectif de faire
+            pratiquer un workflow précis : il isole la livraison d'artefacts. La
+            base reprend le dépôt CI, l'allège avec SQLite, puis ajoute deux
+            registres locaux pour publier un package npm et une image Docker.
           </p>
 
-          <ol class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700">
-            <li>Sur <code>main</code>, compléter progressivement le job <code>release</code> avec <code>commit-and-tag-version</code>.</li>
-            <li>Ajouter <code>publish-npm</code> pour publier le build dans Verdaccio, sans recompiler.</li>
-            <li>Ajouter <code>publish-docker</code> pour pousser l'image vers <code>localhost:5000</code>.</li>
-            <li>Tester chaque étape avec <code>act</code>, et nettoyer les registres locaux si une version déjà publiée bloque un nouvel essai.</li>
-            <li>Lancer ensuite <code>npx commit-and-tag-version</code> localement, puis vérifier qu'un nouveau changement applicatif peut repartir d'un dépôt aligné.</li>
+          <ol
+            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              Sur <code>main</code>, compléter progressivement le job
+              <code>release</code> avec <code>commit-and-tag-version</code>.
+            </li>
+            <li>
+              Ajouter <code>publish-npm</code> pour publier le build dans
+              Verdaccio, sans recompiler.
+            </li>
+            <li>
+              Ajouter <code>publish-docker</code> pour pousser l'image vers
+              <code>localhost:5000</code>.
+            </li>
+            <li>
+              Tester chaque étape avec <code>act</code>, et nettoyer les
+              registres locaux si une version déjà publiée bloque un nouvel
+              essai.
+            </li>
+            <li>
+              Lancer ensuite <code>npx commit-and-tag-version</code> localement,
+              puis vérifier qu'un nouveau changement applicatif peut repartir
+              d'un dépôt aligné.
+            </li>
           </ol>
 
-          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>curl http://localhost:4873/-/ping
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>curl http://localhost:4873/-/ping
 curl http://localhost:5000/v2/
 act -j security
 act -j release
 act -j publish-npm
 act -j publish-docker</code></pre>
 
-          <p class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Point de vigilance :</span>
+          <p
+            class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700"
+          >
+            <span class="font-semibold text-slate-900"
+              >Point de vigilance :</span
+            >
             avec <code>act</code>, les runners sont éphémères. Un tag ou un
             commit de release créé par <code>npx commit-and-tag-version</code>
             sert à comprendre la mécanique, mais il ne remonte pas
@@ -348,12 +456,14 @@ act -j publish-docker</code></pre>
           <p class="text-lg leading-8 text-slate-700">
             Une fois le TP réalisé, la pipeline est relue comme une chaîne de
             livraison. La CI prouve que le changement est sain ; les jobs CD
-            donnent une identité au livrable, puis le publient dans des registres
-            locaux.
+            donnent une identité au livrable, puis le publient dans des
+            registres locaux.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">release</h3>
               <p class="mt-3">
                 Le job dépend de <code>security</code> avec <code>needs</code> :
@@ -361,22 +471,28 @@ act -j publish-docker</code></pre>
                 limité à <code>main</code> avec
                 <code>if: github.ref == 'refs/heads/main'</code>, récupère
                 l'historique Git complet, puis laisse
-                <code>commit-and-tag-version</code> calculer la version, mettre à
-                jour les fichiers de release et créer le tag.
+                <code>commit-and-tag-version</code> calculer la version, mettre
+                à jour les fichiers de release et créer le tag.
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">publish-npm</h3>
               <p class="mt-3">
                 Le job récupère l'artefact <code>build-dist</code> produit par
                 <code>build</code>. Il publie donc le résultat déjà compilé dans
                 Verdaccio. Verdaccio refuse une deuxième publication de la même
-                version, ce qui rend visible l'immutabilité attendue d'un package
-                publié.
+                version, ce qui rend visible l'immutabilité attendue d'un
+                package publié.
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
-              <h3 class="text-xl font-semibold text-slate-950">publish-docker</h3>
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
+              <h3 class="text-xl font-semibold text-slate-950">
+                publish-docker
+              </h3>
               <p class="mt-3">
                 Le job réutilise le même <code>build-dist</code>, construit une
                 image et la pousse dans <code>registry:2</code>. Un tag Docker
@@ -386,8 +502,12 @@ act -j publish-docker</code></pre>
             </div>
           </div>
 
-          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Limite de la simulation :</span>
+          <p
+            class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700"
+          >
+            <span class="font-semibold text-slate-900"
+              >Limite de la simulation :</span
+            >
             <code>act</code> lance les jobs dans des conteneurs locaux
             éphémères. C'est excellent pour comprendre et tester la pipeline,
             mais un commit de release créé dans le runner n'est pas recopié dans
@@ -395,8 +515,8 @@ act -j publish-docker</code></pre>
             demande ensuite un <code>npx commit-and-tag-version</code> local.
             Dans un dépôt GitHub réel, ce problème est justement pris en charge
             par des outils plus intégrés : Release Please prépare une Pull
-            Request de release, tandis que Semantic Release automatise la release
-            directement depuis la pipeline.
+            Request de release, tandis que Semantic Release automatise la
+            release directement depuis la pipeline.
           </p>
         </section>
 
@@ -412,7 +532,9 @@ act -j publish-docker</code></pre>
             sont utilisés ici comme entrée lisible par des outils de release.
           </p>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+          <div
+            class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
             <p>
               <span class="font-semibold text-slate-900">Release Please</span>
               analyse l'historique Git, prépare le changelog, propose le bump de
@@ -441,8 +563,11 @@ act -j publish-docker</code></pre>
           </div>
           <div class="space-y-4 border-t border-slate-200 pt-6">
             <details>
-              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-                Quel outil convient à un GitHub Flow qui garde une validation humaine avant release ?
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
+                Quel outil convient à un GitHub Flow qui garde une validation
+                humaine avant release ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Release Please colle bien à ce besoin : les commits alimentent
@@ -451,8 +576,11 @@ act -j publish-docker</code></pre>
               </p>
             </details>
             <details class="border-t border-slate-200 pt-4">
-              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-                Quel outil correspond le mieux à un Trunk-Based Workflow très automatisé ?
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
+                Quel outil correspond le mieux à un Trunk-Based Workflow très
+                automatisé ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Semantic Release est plus naturel quand <code>main</code> est
@@ -487,7 +615,9 @@ act -j publish-docker</code></pre>
             </div>
           </div>
 
-          <div class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700">
+          <div
+            class="space-y-4 border-t border-slate-200 pt-6 text-lg leading-8 text-slate-700"
+          >
             <p>
               <span class="font-semibold text-slate-900">Feature flags :</span>
               ils permettent de déployer du code sans rendre la fonctionnalité
@@ -495,7 +625,9 @@ act -j publish-docker</code></pre>
               disposition utilisateur deviennent deux décisions distinctes.
             </p>
             <p>
-              <span class="font-semibold text-slate-900">SSH comme mécanisme de déploiement :</span>
+              <span class="font-semibold text-slate-900"
+                >SSH comme mécanisme de déploiement :</span
+              >
               pour comprendre le principe, un serveur cible accessible en SSH
               suffit : copier ou installer l'artefact, redémarrer le service,
               lancer un smoke test, puis revenir en arrière si le test échoue.
@@ -508,10 +640,12 @@ act -j publish-docker</code></pre>
             </p>
           </div>
 
-          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
-            Le point de bascule est simple à formuler et difficile à tenir :
-            si <code>main</code> part automatiquement vers un environnement,
-            alors <code>main</code> doit rester petit, fréquent, observable et
+          <p
+            class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700"
+          >
+            Le point de bascule est simple à formuler et difficile à tenir : si
+            <code>main</code> part automatiquement vers un environnement, alors
+            <code>main</code> doit rester petit, fréquent, observable et
             réversible. C'est exactement le terrain du Trunk-Based Development.
           </p>
         </section>
@@ -521,7 +655,8 @@ act -j publish-docker</code></pre>
           class="space-y-6 rounded-3xl border border-sky-200 bg-sky-50 p-8 shadow-sm"
         >
           <h2 class="text-3xl font-semibold text-slate-950">
-            Dépôt CD pédagogique II : Continuous Deployment avec le Trunk-Based Development
+            Dépôt CD pédagogique II : Continuous Deployment avec le Trunk-Based
+            Development
           </h2>
           <p class="text-lg leading-8 text-slate-700">
             Dépôt support :
@@ -531,20 +666,42 @@ act -j publish-docker</code></pre>
               >GVI2026/tp-cd-deployment</a
             >. Le dépôt doit être
             <span class="font-semibold text-slate-900">forké</span>
-            avant le travail. Cette fois, la pipeline de Continuous Delivery
-            est déjà en place : release, publication npm et publication Docker.
-            L'objectif est d'ajouter la dernière étape, le Continuous Deployment.
+            avant le travail. Cette fois, la pipeline de Continuous Delivery est
+            déjà en place : release, publication npm et publication Docker.
+            L'objectif est d'ajouter la dernière étape, le Continuous
+            Deployment.
           </p>
 
-          <ol class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700">
-            <li>Ajouter <code>deploy-npm</code> pour installer le package depuis Verdaccio sur une cible SSH et le redémarrer avec pm2.</li>
-            <li>Ajouter <code>deploy-docker</code> pour récupérer l'image publiée dans <code>registry:2</code> et la lancer dans un second environnement Docker accessible en SSH.</li>
-            <li>Terminer par <code>healthcheck-deployment</code>, qui vérifie le serveur Node déployé et le conteneur Docker déployé.</li>
-            <li>Ajouter une petite fonctionnalité <code>GET /tasks/summary</code> protégée par un feature flag volontairement en dur dans le code.</li>
-            <li>Ajouter enfin un rollback automatique simple si la vérification de déploiement échoue.</li>
+          <ol
+            class="list-decimal space-y-5 border-t border-sky-200 pl-5 pt-6 text-lg leading-8 text-slate-700"
+          >
+            <li>
+              Ajouter <code>deploy-npm</code> pour installer le package depuis
+              Verdaccio sur une cible SSH et le redémarrer avec pm2.
+            </li>
+            <li>
+              Ajouter <code>deploy-docker</code> pour récupérer l'image publiée
+              dans <code>registry:2</code> et la lancer dans un second
+              environnement Docker accessible en SSH.
+            </li>
+            <li>
+              Terminer par <code>healthcheck-deployment</code>, qui vérifie le
+              serveur Node déployé et le conteneur Docker déployé.
+            </li>
+            <li>
+              Ajouter une petite fonctionnalité
+              <code>GET /tasks/summary</code> protégée par un feature flag
+              volontairement en dur dans le code.
+            </li>
+            <li>
+              Ajouter enfin un rollback automatique simple si la vérification de
+              déploiement échoue.
+            </li>
           </ol>
 
-          <pre class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"><code>curl http://localhost:4873/-/ping
+          <pre
+            class="overflow-x-auto rounded-2xl bg-slate-950 p-5 text-base text-slate-100"
+          ><code>curl http://localhost:4873/-/ping
 curl http://localhost:5000/v2/
 ssh -p 2222 deployer@localhost "echo ok"
 ssh -p 2223 deployer@localhost "echo ok"
@@ -552,7 +709,9 @@ act -j publish-npm
 act -j publish-docker
 act -j healthcheck-deployment</code></pre>
 
-          <p class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700">
+          <p
+            class="rounded-2xl border border-white/70 bg-white/70 p-5 text-lg leading-8 text-slate-700"
+          >
             <span class="font-semibold text-slate-900">Repère :</span>
             les deux artefacts sont volontairement déployés dans deux cibles
             séparées. Le TP montre qu'une même version peut exister comme
@@ -576,7 +735,9 @@ act -j healthcheck-deployment</code></pre>
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">deploy-npm</h3>
               <p class="mt-3">
                 Le job consomme le package publié dans Verdaccio, l'installe sur
@@ -585,16 +746,24 @@ act -j healthcheck-deployment</code></pre>
                 déployée telle quelle.
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
-              <h3 class="text-xl font-semibold text-slate-950">deploy-docker</h3>
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
+              <h3 class="text-xl font-semibold text-slate-950">
+                deploy-docker
+              </h3>
               <p class="mt-3">
                 Le job consomme l'image publiée dans <code>registry:2</code>,
                 remplace le conteneur applicatif sur une seconde cible SSH et
                 garde le format conteneur de bout en bout.
               </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
-              <h3 class="text-xl font-semibold text-slate-950">healthcheck-deployment</h3>
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
+              <h3 class="text-xl font-semibold text-slate-950">
+                healthcheck-deployment
+              </h3>
               <p class="mt-3">
                 Le job dépend des deux déploiements et vérifie les endpoints
                 <code>/health</code>. Il matérialise le contrat minimal du
@@ -605,17 +774,20 @@ act -j healthcheck-deployment</code></pre>
           </div>
 
           <details class="rounded-2xl border border-amber-200 bg-amber-50 p-5">
-            <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+            <summary
+              class="cursor-pointer text-lg font-semibold text-slate-950"
+            >
               Quelles étapes peuvent compléter la vérification du déploiement ?
             </summary>
             <p class="mt-3 text-lg leading-8 text-slate-700">
               Après un healthcheck réussi, la pipeline peut envoyer un message
               dans un canal de discussion ou par mail pour rendre le déploiement
-              visible. Elle peut aussi clôturer une demande de changement dans un
-              outil ITSM, mettre à jour une documentation de version, publier des
-              notes de release ou enrichir un journal d'audit. Le healthcheck dit
-              « le service répond » ; ces étapes disent « l'organisation sait ce
-              qui vient de partir et peut en garder la trace ».
+              visible. Elle peut aussi clôturer une demande de changement dans
+              un outil ITSM, mettre à jour une documentation de version, publier
+              des notes de release ou enrichir un journal d'audit. Le
+              healthcheck dit « le service répond » ; ces étapes disent «
+              l'organisation sait ce qui vient de partir et peut en garder la
+              trace ».
             </p>
           </details>
         </section>
@@ -628,38 +800,74 @@ act -j healthcheck-deployment</code></pre>
             Mesurer pour progresser : les métriques DORA
           </h2>
           <p class="text-lg leading-8 text-slate-700">
-            Après avoir parcouru les concepts, les flows et les outils nécessaires
-            à une pipeline CI/CD, il reste une question de pilotage : comment
-            mesurer l'impact réel de cette chaîne et justifier les prochains
-            chantiers d'amélioration ? DORA signifie
-            <span class="font-semibold text-slate-900">DevOps Research and Assessment</span>,
-            un programme de recherche qui a popularisé des indicateurs de
+            Après avoir parcouru les concepts, les flows et les outils
+            nécessaires à une pipeline CI/CD, il reste une question de pilotage
+            : comment mesurer l'impact réel de cette chaîne et justifier les
+            prochains chantiers d'amélioration ? DORA signifie
+            <span class="font-semibold text-slate-900"
+              >DevOps Research and Assessment</span
+            >, un programme de recherche qui a popularisé des indicateurs de
             performance de livraison logicielle.
           </p>
 
           <div class="grid gap-4 border-t border-slate-200 pt-6 md:grid-cols-2">
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">Débit</h3>
-              <p class="mt-3"><span class="font-semibold text-slate-900">Change Lead Time :</span> temps entre commit et production.</p>
-              <p class="mt-3"><span class="font-semibold text-slate-900">Deployment Frequency :</span> fréquence des déploiements.</p>
-              <p class="mt-3"><span class="font-semibold text-slate-900">Failed Deployment Recovery Time :</span> temps de retour à un état stable après déploiement raté.</p>
+              <p class="mt-3">
+                <span class="font-semibold text-slate-900"
+                  >Change Lead Time :</span
+                >
+                temps entre commit et production.
+              </p>
+              <p class="mt-3">
+                <span class="font-semibold text-slate-900"
+                  >Deployment Frequency :</span
+                >
+                fréquence des déploiements.
+              </p>
+              <p class="mt-3">
+                <span class="font-semibold text-slate-900"
+                  >Failed Deployment Recovery Time :</span
+                >
+                temps de retour à un état stable après déploiement raté.
+              </p>
             </div>
-            <div class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700">
+            <div
+              class="rounded-2xl border border-slate-200 bg-slate-50 p-5 text-lg leading-8 text-slate-700"
+            >
               <h3 class="text-xl font-semibold text-slate-950">Instabilité</h3>
-              <p class="mt-3"><span class="font-semibold text-slate-900">Change Fail Rate :</span> part des déploiements nécessitant rollback, hotfix ou intervention immédiate.</p>
-              <p class="mt-3"><span class="font-semibold text-slate-900">Deployment Rework Rate :</span> part des déploiements non planifiés causés par un incident de production.</p>
+              <p class="mt-3">
+                <span class="font-semibold text-slate-900"
+                  >Change Fail Rate :</span
+                >
+                part des déploiements nécessitant rollback, hotfix ou
+                intervention immédiate.
+              </p>
+              <p class="mt-3">
+                <span class="font-semibold text-slate-900"
+                  >Deployment Rework Rate :</span
+                >
+                part des déploiements non planifiés causés par un incident de
+                production.
+              </p>
             </div>
           </div>
 
-          <p class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700">
-            Les métriques DORA ne servent pas à mettre les équipes en compétition.
-            Elles servent à formuler des hypothèses, trouver le goulot actuel,
-            agir, puis vérifier si la situation s'améliore.
+          <p
+            class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-lg leading-8 text-slate-700"
+          >
+            Les métriques DORA ne servent pas à mettre les équipes en
+            compétition. Elles servent à formuler des hypothèses, trouver le
+            goulot actuel, agir, puis vérifier si la situation s'améliore.
           </p>
 
           <div class="space-y-4 border-t border-slate-200 pt-6">
             <details>
-              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
                 Lead Time haut + Change Fail Rate haut : que conclure ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
@@ -669,7 +877,9 @@ act -j healthcheck-deployment</code></pre>
               </p>
             </details>
             <details class="border-t border-slate-200 pt-4">
-              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
                 Deployment Frequency bas + Change Fail Rate bas : que conclure ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
@@ -679,30 +889,41 @@ act -j healthcheck-deployment</code></pre>
               </p>
             </details>
             <details class="border-t border-slate-200 pt-4">
-              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-                Failed Deployment Recovery Time haut + Change Fail Rate bas : que conclure ?
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
+                Failed Deployment Recovery Time haut + Change Fail Rate bas :
+                que conclure ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 Les incidents sont rares, mais l'équipe récupère mal. Il faut
-                travailler rollback, runbooks, smoke tests, alerting et accès aux
-                logs plutôt que seulement ajouter des tests avant déploiement.
+                travailler rollback, runbooks, smoke tests, alerting et accès
+                aux logs plutôt que seulement ajouter des tests avant
+                déploiement.
               </p>
             </details>
             <details class="border-t border-slate-200 pt-4">
-              <summary class="cursor-pointer text-lg font-semibold text-slate-950">
-                Deployment Rework Rate haut + Deployment Frequency haut : que conclure ?
+              <summary
+                class="cursor-pointer text-lg font-semibold text-slate-950"
+              >
+                Deployment Rework Rate haut + Deployment Frequency haut : que
+                conclure ?
               </summary>
               <p class="mt-3 text-lg leading-8 text-slate-700">
                 La cadence est là, mais beaucoup de livraisons corrigent des
-                incidents non planifiés. Il faut améliorer l'analyse d'incidents,
-                durcir les contrôles pré-production et suivre les causes de
-                hotfix.
+                incidents non planifiés. Il faut améliorer l'analyse
+                d'incidents, durcir les contrôles pré-production et suivre les
+                causes de hotfix.
               </p>
             </details>
           </div>
 
-          <p class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700">
-            <span class="font-semibold text-slate-900">Pour aller plus loin :</span>
+          <p
+            class="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-lg leading-8 text-slate-700"
+          >
+            <span class="font-semibold text-slate-900"
+              >Pour aller plus loin :</span
+            >
             <a
               href="https://dora.dev/guides/dora-metrics/"
               class="font-medium text-sky-700 underline decoration-sky-300 underline-offset-4 hover:text-sky-800"
@@ -715,9 +936,7 @@ act -j healthcheck-deployment</code></pre>
           id="synthese"
           class="space-y-6 rounded-3xl border border-slate-200 bg-white p-8 shadow-sm"
         >
-          <h2 class="text-3xl font-semibold text-slate-950">
-            Synthèse finale
-          </h2>
+          <h2 class="text-3xl font-semibold text-slate-950">Synthèse finale</h2>
           <div class="space-y-3 text-lg leading-8 text-slate-700">
             <p>
               Le module a suivi une progression volontairement continue :
@@ -728,7 +947,8 @@ act -j healthcheck-deployment</code></pre>
             <p>
               À la fin de cette progression, un changement de code peut devenir
               une version identifiable, testée, publiée dans des registres,
-              déployée sur des environnements cibles et vérifiée automatiquement.
+              déployée sur des environnements cibles et vérifiée
+              automatiquement.
             </p>
           </div>
 
@@ -737,7 +957,9 @@ act -j healthcheck-deployment</code></pre>
               data-mermaid-src="../mermaid/cours-04-final-cd-pipeline.md"
               class="mermaid-host overflow-x-auto rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 md:p-8"
             >
-              <p class="text-base text-slate-500">Chargement de la pipeline finale…</p>
+              <p class="text-base text-slate-500">
+                Chargement de la pipeline finale…
+              </p>
             </div>
           </div>
         </section>

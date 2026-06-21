@@ -208,13 +208,25 @@
   // Réutilise l'identité Git de la machine locale dans le DevContainer.
 
   "features": {
+    // Les features sont des briques prêtes à l'emploi ajoutées à l'image de base.
+    // Elles évitent d'écrire un Dockerfile juste pour installer des outils courants.
     "ghcr.io/devcontainers/features/common-utils:2": {
+      // Ajoute des utilitaires système pratiques dans le conteneur de travail.
       "configureZshAsDefaultShell": true,
+      // Configure zsh comme shell par défaut pour le confort dans le terminal VS Code.
       "upgradePackages": false
+      // Évite de mettre à jour tous les paquets système à la création du conteneur.
+      // Le démarrage reste plus rapide et l'image de base reste plus prévisible.
     },
     "ghcr.io/devcontainers/features/git:1": {},
+    // Installe/configure Git dans le DevContainer.
+    // Le dépôt peut donc être manipulé depuis le terminal du conteneur.
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      // Installe le client Docker dans le DevContainer et le branche sur le moteur Docker hôte.
+      // Le DevContainer peut lancer docker ps, docker compose, docker build, act, etc.
       "moby": false
+      // Ne réinstalle pas un moteur Docker complet dans le DevContainer.
+      // On utilise le moteur Docker déjà disponible sur la machine hôte.
     }
   }
   // Ajoute Git, des utilitaires, et surtout un client Docker qui parle au moteur hôte.
